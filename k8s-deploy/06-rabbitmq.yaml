@@ -1,0 +1,132 @@
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: rabbitmq1
+  namespace: $NAMESPACE
+  labels:
+    name: rabbitmq1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: rabbitmq1
+  template:
+    metadata:
+      labels:
+        name: rabbitmq1
+    spec:
+      containers:
+        - name: rabbitmq1
+          image: 'rabbitmq:3.6.15-management'
+          ports:
+            - name: mq
+              containerPort: 5672
+              protocol: TCP
+            - name: web
+              containerPort: 15672
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: rabbitmq1
+  namespace: $NAMESPACE
+  labels:
+    name: rabbitmq1
+spec:
+  ports:
+    - name: aignii
+      protocol: TCP
+      port: 5672
+      targetPort: 5672
+    - name: pz25ff
+      protocol: TCP
+      port: 15672
+      targetPort: 15672
+  selector:
+    name: rabbitmq1
+  type: ClusterIP
+  sessionAffinity: None
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster
+
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: rabbitmq2
+  namespace: $NAMESPACE
+  labels:
+    name: rabbitmq2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: rabbitmq2
+  template:
+    metadata:
+      labels:
+        name: rabbitmq2
+    spec:
+      containers:
+        - name: rabbitmq2
+          image: 'rabbitmq:3.6.15-management'
+          ports:
+            - name: mq
+              containerPort: 5672
+              protocol: TCP
+            - name: web
+              containerPort: 15672
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: rabbitmq2
+  namespace: $NAMESPACE
+  labels:
+    name: rabbitmq2
+spec:
+  ports:
+    - name: aigniq
+      protocol: TCP
+      port: 5672
+      targetPort: 5672
+    - name: pz25fs
+      protocol: TCP
+      port: 15672
+      targetPort: 15672
+  selector:
+    name: rabbitmq2
+  type: ClusterIP
+  sessionAffinity: None
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster
+

@@ -1,0 +1,143 @@
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: primihubnode
+  namespace: $NAMESPACE
+  labels:
+    name: primihubnode
+  annotations:
+    displayName: primihubnode
+    workload: primihubnode
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: primihubnode
+  template:
+    metadata:
+      labels:
+        name: primihubnode
+    spec:
+      volumes:
+        - name: volume-fsnm3
+          nfs: 
+            server: $NFS_IP
+            path: $NFS_PATH/application
+      initContainers:
+        - name: initcontainer
+          image: busybox
+          command:
+            - /bin/sh
+          args:
+            - /data/update_pod_ip.sh
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
+          resources: {}
+          volumeMounts:
+            - name: volume-fsnm3
+              mountPath: /data
+          imagePullPolicy: IfNotPresent
+      containers:
+        - name: bootstrap-node
+          image: 'primihub/simple-bootstrap-node:1.0'
+          ports:
+            - containerPort: 4001
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+        - name: node0
+          image: '$PRIMIHUBNODE_IMAGE'
+          command:
+            - ./primihub-node
+          args:
+            - '--node_id=node0'
+            - '--service_port=50050'
+            - '--config=/data/primihub_node0.yaml'
+          ports:
+            - name: node0
+              containerPort: 50050
+              protocol: TCP
+          volumeMounts:
+            - name: volume-fsnm3
+              mountPath: /data
+          imagePullPolicy: IfNotPresent
+        - name: node1
+          image: '$PRIMIHUBNODE_IMAGE'
+          command:
+            - ./primihub-node
+          args:
+            - '--node_id=node1'
+            - '--service_port=50051'
+            - '--config=/data/primihub_node1.yaml'
+          ports:
+            - name: node1
+              containerPort: 50051
+              protocol: TCP
+          volumeMounts:
+            - name: volume-fsnm3
+              mountPath: /data
+          imagePullPolicy: IfNotPresent
+        - name: node2
+          image: '$PRIMIHUBNODE_IMAGE'
+          command:
+            - ./primihub-node
+          args:
+            - '--node_id=node2'
+            - '--service_port=50052'
+            - '--config=/data/primihub_node2.yaml'
+          ports:
+            - name: node2
+              containerPort: 50052
+              protocol: TCP
+          volumeMounts:
+            - name: volume-fsnm3
+              mountPath: /data
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 50%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 20
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: primihubnode
+  namespace: $NAMESPACE
+  labels:
+    name: primihubnode
+spec:
+  ports:
+    - name: kfnzba
+      protocol: TCP
+      port: 50050
+      targetPort: 50050
+    - name: ffzxzh
+      protocol: TCP
+      port: 50051
+      targetPort: 50051
+    - name: egn7z3
+      protocol: TCP
+      port: 50052
+      targetPort: 50052
+  selector:
+    name: primihubnode
+  type: ClusterIP
+  sessionAffinity: None
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster

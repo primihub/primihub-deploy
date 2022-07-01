@@ -1,0 +1,98 @@
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nacos
+  namespace: $NAMESPACE
+  labels:
+    name: nacos
+  annotations: {}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: nacos
+  template:
+    metadata:
+      labels:
+        name: nacos
+    spec:
+      containers:
+        - name: nacos
+          image: 'nacos/nacos-server:v2.0.4'
+          ports:
+            - name: tcp1
+              containerPort: 8848
+              protocol: TCP
+            - name: tcp2
+              containerPort: 9848
+              protocol: TCP
+            - name: tcp3
+              containerPort: 9849
+              protocol: TCP
+          env:
+            - name: PREFER_HOST_MODE
+              value: hostname
+            - name: MODE
+              value: standalone
+            - name: SPRING_DATASOURCE_PLATFORM
+              value: mysql
+            - name: MYSQL_SERVICE_HOST
+              value: mysql.$NAMESPACE.svc.cluster.local
+            - name: MYSQL_SERVICE_DB_NAME
+              value: nacos_config
+            - name: MYSQL_SERVICE_PORT
+              value: '3306'
+            - name: MYSQL_SERVICE_USER
+              value: $MYSQL_USER
+            - name: MYSQL_SERVICE_PASSWORD
+              value: $MYSQL_PASS
+            - name: MYSQL_SERVICE_DB_PARAM
+              value: >-
+                characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false
+          resources: {}
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nacos
+  namespace: $NAMESPACE
+  labels:
+    name: nacos
+spec:
+  ports:
+    - name: ppyxam
+      protocol: TCP
+      port: 8848
+      targetPort: 8848
+    - name: xtbs4a
+      protocol: TCP
+      port: 9848
+      targetPort: 9848
+    - name: ichft4
+      protocol: TCP
+      port: 9849
+      targetPort: 9849
+  selector:
+    name: nacos
+  type: ClusterIP
+  sessionAffinity: None
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster
