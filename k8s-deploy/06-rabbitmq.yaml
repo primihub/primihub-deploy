@@ -130,3 +130,68 @@ spec:
   ipFamilyPolicy: SingleStack
   internalTrafficPolicy: Cluster
 
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: rabbitmq3
+  namespace: $NAMESPACE
+  labels:
+    name: rabbitmq3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: rabbitmq3
+  template:
+    metadata:
+      labels:
+        name: rabbitmq3
+    spec:
+      containers:
+        - name: rabbitmq3
+          image: 'rabbitmq:3.6.15-management'
+          ports:
+            - name: mq3
+              containerPort: 5672
+              protocol: TCP
+            - name: web3
+              containerPort: 15672
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: rabbitmq3
+  namespace: $NAMESPACE
+  labels:
+    name: rabbitmq3
+spec:
+  ports:
+    - name: aigniq
+      protocol: TCP
+      port: 5672
+      targetPort: 5672
+    - name: pz25fe
+      protocol: TCP
+      port: 15672
+      targetPort: 15672
+  selector:
+    name: rabbitmq3
+  type: ClusterIP
+  sessionAffinity: None
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster

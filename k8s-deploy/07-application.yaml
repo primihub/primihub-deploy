@@ -156,3 +156,83 @@ spec:
     - IPv4
   ipFamilyPolicy: SingleStack
   internalTrafficPolicy: Cluster
+
+
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: application3
+  namespace: $NAMESPACE
+  labels:
+    name: application3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: application3
+  template:
+    metadata:
+      labels:
+        name: application3
+    spec:
+      volumes:
+        - name: volume-app
+          nfs: 
+            server: $NFS_IP
+            path: $NFS_PATH/application
+      containers:
+        - name: application3
+          image: $PRIVACY_IMAGE
+          env:
+            - name: NAMESPACE
+              value: $NAMESPACE
+          command:
+            - java
+          args:
+            - '-jar'
+            - '-Dfile.encoding=UTF-8'
+            - /applications/application.jar
+            - '--spring.profiles.active=demo3'
+            - '--server.port=8080'
+          volumeMounts:
+            - name: volume-app
+              mountPath: /data
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 50%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 10
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: application3
+  namespace: $NAMESPACE
+  labels:
+    name: application3
+  annotations: {}
+spec:
+  ports:
+    - name: application3-web
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    name: application3
+  type: ClusterIP
+  sessionAffinity: None
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster

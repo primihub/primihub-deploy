@@ -132,3 +132,93 @@ spec:
   ipFamilyPolicy: SingleStack
   internalTrafficPolicy: Cluster
 
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: gateway3
+  namespace: $NAMESPACE
+  labels:
+    name: gateway3
+  annotations: {}
+spec:
+  ports:
+    - name: gateway3-web
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    name: gateway3
+  type: ClusterIP
+  sessionAffinity: None
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster
+
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: gateway3
+  namespace: $NAMESPACE
+  labels:
+    name: gateway3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: gateway3
+  template:
+    metadata:
+      labels:
+        name: gateway3
+    spec:
+      containers:
+        - name: gateway3
+          image: $PRIVACY_IMAGE
+          env:
+            - name: NAMESPACE
+              value: $NAMESPACE
+          command:
+            - java
+          args:
+            - '-jar'
+            - '-Dfile.encoding=UTF-8'
+            - /applications/gateway.jar
+            - '--spring.profiles.active=demo3'
+            - '--server.port=8080'
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 50%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 10
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: gateway3
+  namespace: $NAMESPACE
+  labels:
+    name: gateway3
+  annotations: {}
+spec:
+  ports:
+    - name: gateway3-web
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    name: gateway3
+  type: ClusterIP
+  sessionAffinity: None
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster

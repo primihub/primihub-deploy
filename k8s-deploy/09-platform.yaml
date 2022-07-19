@@ -163,3 +163,86 @@ metadata:
 data:
   default.conf: "server {\n    listen       80;\n    server_name  localhost;\n    #charset koi8-r;\n    #access_log  logs/host.access.log  main;\n    location / {\n        root   /usr/local/nginx/html;\n        index  index.html index.htm;\n        try_files $uri $uri/ /index.html;\n    }\n    \n    location  ^~ /prod-api/ {\n    \tproxy_pass http://gateway2.$NAMESPACE.svc.cluster.local:8080/;\n    }\n\n\terror_page   500 502 503 504  /50x.html;\n    location = /50x.html {\n        root   html;\n    }\n}\n"
 
+
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: platform3
+  namespace: $NAMESPACE
+  labels:
+    name: platform3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: platform3
+  template:
+    metadata:
+      labels:
+        name: platform3
+    spec:
+      volumes:
+        - name: volume-nginx3-conf
+          configMap:
+            name: nginx3-conf
+            items:
+              - key: default.conf
+                path: default.conf
+            defaultMode: 420
+      containers:
+        - name: platform3
+          image: $PLATFORM_IMAGE
+          ports:
+            - name: nginx3
+              containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: volume-nginx3-conf
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 100%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 20
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: platform3
+  namespace: $NAMESPACE
+  labels:
+    name: platform3
+spec:
+  ports:
+    - name: nginx3
+      protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30803
+  selector:
+    name: platform3
+  type: NodePort
+  sessionAffinity: None
+  externalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nginx3-conf
+  namespace: $NAMESPACE
+data:
+  default.conf: "server {\n    listen       80;\n    server_name  localhost;\n    #charset koi8-r;\n    #access_log  logs/host.access.log  main;\n    location / {\n        root   /usr/local/nginx/html;\n        index  index.html index.htm;\n        try_files $uri $uri/ /index.html;\n    }\n    \n    location  ^~ /prod-api/ {\n    \tproxy_pass http://gateway3.$NAMESPACE.svc.cluster.local:8080/;\n    }\n\n\terror_page   500 502 503 504  /50x.html;\n    location = /50x.html {\n        root   html;\n    }\n}\n"
+

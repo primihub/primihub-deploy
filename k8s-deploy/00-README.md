@@ -39,4 +39,5 @@ rabbitmq2-6c8d9bf6cc-s9vjc      1/1     Running   1 (22h ago)   2d18h
 redis-6b45bcdb46-ppnfp          1/1     Running   1 (22h ago)   2d20h
 ```
 
-#### d.部署完成后访问k8s集群任一节点ip:30801和30802，模拟两个平台，（此端口通过platform.yaml中nodePort定义）
+#### d.部署完成后访问k8s集群任一节点ip:30801/30802/30803，模拟三个机构，用户密码 admin / 123456（此端口通过platform.yaml中nodePort定义）
+#### 具体的联邦建模、隐私求交、匿踪查询等功能的操作步骤请等我们完善产品说明文档
