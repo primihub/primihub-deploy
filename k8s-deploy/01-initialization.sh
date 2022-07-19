@@ -22,12 +22,12 @@ echo "export IP_NFS_SERVER=$IP1"."$IP2"."$IP3".0/24"" >> /etc/profile.d/primihub
 echo "export NAMESPACE=primihub-demo" >> /etc/profile.d/primihub_k8s_deploy.sh
 
 # 镜像版本
-VERSION=1.1
+VERSION=1.1.5
 
 # 镜像地址
 echo "export PRIVACY_IMAGE=primihub/primihub-platform:$VERSION" >> /etc/profile.d/primihub_k8s_deploy.sh
 echo "export PLATFORM_IMAGE=primihub/primihub-web:$VERSION" >> /etc/profile.d/primihub_k8s_deploy.sh
-echo "export PRIMIHUBNODE_IMAGE=primihub/primihub-node:1.1.0" >> /etc/profile.d/primihub_k8s_deploy.sh
+echo "export PRIMIHUBNODE_IMAGE=primihub/primihub-node:$VERSION" >> /etc/profile.d/primihub_k8s_deploy.sh
 echo "export FUSION_IMAGE=primihub/primihub-fusion:$VERSION" >> /etc/profile.d/primihub_k8s_deploy.sh
 
 
@@ -94,8 +94,8 @@ if [ ! -d "$NFS_PATH" ]; then
 fi
 
 # 下载mysql数据
-wget https://primihub.oss-cn-beijing.aliyuncs.com/demo/mysql_data_620.tar.gz
-tar xf mysql_data_615.tar.gz -C $NFS_PATH
+wget https://primihub.oss-cn-beijing.aliyuncs.com/demo/mysql_data_715.tar.gz
+tar xf mysql_data_715.tar.gz -C $NFS_PATH
 
 # 下载配置文件
 # wget -O $NFS_PATH/application/primihub_node0.yaml https://raw.githubusercontent.com/primihub/primihub/master/config/primihub_node0.yaml

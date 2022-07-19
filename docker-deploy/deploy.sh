@@ -64,9 +64,9 @@ fi
 
 
 # 2.下载nacos配置和MySQL数据
-wget https://primihub.oss-cn-beijing.aliyuncs.com/demo/nacos.tar.gz
+wget https://primihub.oss-cn-beijing.aliyuncs.com/demo/nacos_1.1.5.tar.gz
 # 解压
-tar xf nacos.tar.gz 
+tar xf nacos_1.1.5.tar.gz 
 
 # 3.启动应用
 docker-compose up -d

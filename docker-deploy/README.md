@@ -2,7 +2,10 @@
 
 ### docker-compose部署
 
-#### 执行deploy.sh脚本，完成docker-compose部署
+#### 执行deploy.sh脚本，完成部署
+```bash
+bash deploy.sh
+```
 
 #### 查看部署结果
 ```
