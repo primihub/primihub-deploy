@@ -1,0 +1,39 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: fusion
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    name: fusion
+  annotations:
+    workload: fusion
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: fusion
+  template:
+    metadata:
+      labels:
+        name: fusion
+    spec:
+      containers:
+        - name: fusion
+          image: {{ $.Values.fusion.image }}
+          command:
+            - java
+          args:
+            - '-jar'
+            - '-Dfile.encoding=UTF-8'
+            - /applications/fusion.jar
+            - '--spring.profiles.active=demo'
+            - '--server.port=8080'
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 50%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 10

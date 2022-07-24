@@ -1,0 +1,3 @@
+mq:
+  num: 3
+  image: rabbitmq:3.6.15-management

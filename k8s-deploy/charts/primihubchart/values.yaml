@@ -1,0 +1,6 @@
+
+bootstrap:
+  image: primihub/simple-bootstrap-node
+
+primihub:
+  image: primihub/primihub-node # 

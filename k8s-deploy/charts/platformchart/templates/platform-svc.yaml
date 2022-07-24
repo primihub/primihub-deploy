@@ -1,0 +1,36 @@
+{{- range $tmpindex, $platform := until ( int $.Values.platform.num )}} 
+{{- $index := add $tmpindex 1 -}}
+{{- $port := add 30801 $tmpindex -}}
+kind: Service
+apiVersion: v1
+metadata:
+  name: platform{{ $index }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    name: platform{{ $index }}
+spec:
+  ports:
+    - name: nginx{{ $index }}
+      protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: {{ $port }}
+  selector:
+    name: platform{{ $index }}
+  type: NodePort
+  # sessionAffinity: None
+  # externalTrafficPolicy: Cluster
+  # ipFamilies:
+  #   - IPv4
+  # ipFamilyPolicy: SingleStack
+  # internalTrafficPolicy: Cluster
+---
+
+{{- end }}
+
+
+  # sessionAffinity: None
+  # ipFamilies:
+  #   - IPv4
+  # ipFamilyPolicy: SingleStack
+  # internalTrafficPolicy: Cluster

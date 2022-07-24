@@ -1,0 +1,50 @@
+{{- range $tmpindex, $platform := until ( int $.Values.platform.num )}} 
+{{- $index := add $tmpindex 1 -}}
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: platform{{ $index }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    name: platform{{ $index }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: platform{{ $index }}
+  template:
+    metadata:
+      labels:
+        name: platform{{ $index }}
+    spec:
+      volumes:
+        - name: volume-nginx{{ $index }}-conf
+          configMap:
+            name: nginx{{ $index }}-conf
+            items:
+              - key: default.conf
+                path: default.conf
+            defaultMode: 420
+      containers:
+        - name: platform{{ $index }}
+          image: {{ $.Values.platform.image }}
+          ports:
+            - name: nginx1
+              containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: volume-nginx{{ $index }}-conf
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 100%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 20
+---
+{{- end }}
+

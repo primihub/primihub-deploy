@@ -1,0 +1,78 @@
+
+---
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: mysql
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: mysql
+  template:
+    metadata:
+      labels:
+        name: mysql
+    spec:
+      volumes:
+        - name: mysql-config
+          configMap:
+            name: my.cnf
+            defaultMode: 420
+        # - name: mysql
+        #   nfs: 
+        #     server: $NFS_IP
+        #     path: $NFS_PATH/mysql
+      containers:
+        - name: mysql
+          image: 'mysql:5.7'
+          ports:
+            - name: tcp
+              containerPort: 3306
+              protocol: TCP
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: primihub@123  # todo 改为从secret中读取
+            - name: MYSQL_DATABASE
+              value: nacos_config
+            - name: MYSQL_USER
+              value: primihub
+            - name: MYSQL_PASSWORD
+              value: primihub@123
+            
+          resources: {}
+          volumeMounts:
+            - name: mysql-config
+              mountPath: /etc/my.cnf
+            - name: mysql-pvc
+              mountPath: /var/lib/mysql
+          livenessProbe:
+            tcpSocket:
+              port: 3306
+            timeoutSeconds: 5
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 5
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      enableServiceLinks: false
+  serviceName: mysql-headless
+  podManagementPolicy: OrderedReady
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0
+  revisionHistoryLimit: 10
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-pvc
+        namespace: {{ $.Release.Namespace }}
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "managed-nfs-storage"
+        resources:
+          requests:
+            storage: 10Gi

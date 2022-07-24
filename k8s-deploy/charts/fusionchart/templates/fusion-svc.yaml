@@ -1,0 +1,25 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: fusion
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    name: fusion
+  annotations:
+    workload: fusion
+spec:
+  ports:
+    - name: fusion
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30804
+  selector:
+    name: fusion
+  type: NodePort
+  # sessionAffinity: None
+  # externalTrafficPolicy: Cluster
+  # ipFamilies:
+  #   - IPv4
+  # ipFamilyPolicy: SingleStack
+  # internalTrafficPolicy: Cluster

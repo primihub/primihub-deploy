@@ -1,0 +1,16 @@
+{{- range $tmpindex, $app := until ( int $.Values.app.num )}} 
+{{- $index := add $tmpindex 1 -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: application-volume-{{ $index }}
+  labels:
+    name: application{{ $index }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+{{- end }}

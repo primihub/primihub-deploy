@@ -1,0 +1,45 @@
+{{- range $tmpindex, $gateway := until ( int $.Values.gateway.num )}} 
+{{- $index := add $tmpindex 1 -}}
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: gateway{{ $index }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    name: gateway{{ $index }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: gateway{{ $index }}
+  template:
+    metadata:
+      labels:
+        name: gateway{{ $index }}
+    spec:
+      containers:
+        - name: gateway{{ $index }}
+          image: {{ $.Values.gateway.image }}
+          env:
+            - name: NAMESPACE
+              value: {{ $.Release.Namespace }}
+          command:
+            - java
+          args:
+            - '-jar'
+            - '-Dfile.encoding=UTF-8'
+            - /applications/gateway.jar
+            - '--spring.profiles.active=demo{{ $index }}'
+            - '--server.port=8080'
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 50%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 10
+---
+{{- end }}
+

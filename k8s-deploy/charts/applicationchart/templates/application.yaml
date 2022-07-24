@@ -1,0 +1,68 @@
+{{- range $tmpindex, $app := until ( int $.Values.app.num )}} 
+{{- $index := add $tmpindex 1 -}}
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: application{{ $index }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    name: application{{ $index }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: application{{ $index }}
+  template:
+    metadata:
+      labels:
+        name: application{{ $index }}
+    spec:
+      volumes:
+        - name: application-pvc-{{ $index }}
+          persistentVolumeClaim:
+            claimName: application-volume-{{ $index }}
+      containers:
+        - name: application{{ $index }}
+          image: {{ $.Values.app.image }}
+          env:
+            - name: NAMESPACE
+              value: {{ $.Release.Namespace }}
+          command:
+            - java
+          args:
+            - '-jar'
+            - '-Dfile.encoding=UTF-8'
+            - /applications/application.jar
+            - '--spring.profiles.active=demo{{ $index }}'
+            - '--server.port=8080'
+          volumeMounts:
+            - name: application-pvc-{{ $index }}
+              mountPath: /data
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 50%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 10
+  # serviceName: application-headless
+  # volumeClaimTemplates:
+  #   - metadata:
+  #       name: application-pvc-{{ $index }}
+  #       namespace: {{ $.Release.Namespace }}
+  #     spec:
+  #       accessModes: ["ReadWriteOnce"]
+  #       storageClassName: "managed-nfs-storage"
+  #       resources:
+  #         requests:
+  #           storage: 10Gi
+
+---
+{{- end }}
+

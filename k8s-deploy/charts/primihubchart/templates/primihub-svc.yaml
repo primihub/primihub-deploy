@@ -1,0 +1,29 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: primihubnode
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    name: primihubnode
+spec:
+  ports:
+    - name: kfnzba
+      protocol: TCP
+      port: 50050
+      targetPort: 50050
+    - name: ffzxzh
+      protocol: TCP
+      port: 50051
+      targetPort: 50051
+    - name: egn7z3
+      protocol: TCP
+      port: 50052
+      targetPort: 50052
+  selector:
+    name: primihubnode
+  type: ClusterIP
+  # sessionAffinity: None
+  # ipFamilies:
+  #   - IPv4
+  # ipFamilyPolicy: SingleStack
+  # internalTrafficPolicy: Cluster
