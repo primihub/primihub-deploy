@@ -42,4 +42,3 @@ spec:
   progressDeadlineSeconds: 10
 ---
 {{- end }}
-

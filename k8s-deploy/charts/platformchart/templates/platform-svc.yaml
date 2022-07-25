@@ -27,10 +27,3 @@ spec:
 ---
 
 {{- end }}
-
-
-  # sessionAffinity: None
-  # ipFamilies:
-  #   - IPv4
-  # ipFamilyPolicy: SingleStack
-  # internalTrafficPolicy: Cluster
