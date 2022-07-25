@@ -22,16 +22,25 @@ spec:
         - name: primihub-pvc
           persistentVolumeClaim:
             claimName: primihub-volume
-          # nfs: 
-          #   server: $NFS_IP
-          #   path: $NFS_PATH/application
+        - name: update-pod
+          configMap:
+            name: update-pod-config
+        - name: node-config
+          configMap:
+            name: node-configmap
       initContainers:
         - name: initcontainer
           image: busybox
           command:
             - /bin/sh
           args:
-            - /data/update_pod_ip.sh
+            - "-c"
+            - |
+                cp -f /root/node/* /data
+                chmod +x /data/update_pod_ip.sh
+                echo "chmod done!"
+                /data/update_pod_ip.sh
+                echo "update pod ip done!!!!"
           env:
             - name: POD_IP
               valueFrom:
@@ -42,6 +51,18 @@ spec:
           volumeMounts:
             - name: primihub-pvc
               mountPath: /data
+            - name: update-pod
+              mountPath: /root/node/update_pod_ip.sh
+              subPath: update_pod_ip.sh
+            - name: node-config
+              mountPath: /root/node/primihub_node0.yaml
+              subPath: primihub_node0.yaml
+            - name: node-config
+              mountPath: /root/node/primihub_node1.yaml
+              subPath: primihub_node1.yaml
+            - name: node-config
+              mountPath: /root/node/primihub_node2.yaml
+              subPath: primihub_node2.yaml
           imagePullPolicy: IfNotPresent
       containers:
         - name: bootstrap-node

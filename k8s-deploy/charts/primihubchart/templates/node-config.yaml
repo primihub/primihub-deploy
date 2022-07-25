@@ -1,0 +1,115 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-configmap
+  namespace: {{ .Release.Namespace }}
+data:
+  primihub_node0.yaml: |-
+    version: 1.0
+    node: "node0"
+    location: "172.28.1.10"
+    grpc_port: 50050
+
+    datasets:
+      - description: "test_party_0_self"
+        model: "csv"
+        source: "/tmp/falcon/dataset/MNIST/input_0" 
+      - description: "test_party_0_next"
+        model: "csv"
+        source: "/tmp/falcon/dataset/MNIST/input_1" 
+      - description: "train_party_0"
+        model: "csv"
+        source: "/tmp/train_party_0.csv" 
+      - description: "test_party_0"
+        model: "csv"
+        source: "/tmp/test_party_0.csv"
+
+    localkv: 
+      model: "leveldb"
+      path: "./localdb"
+
+    p2p:
+      bootstrap_nodes:
+        - "/ip4/172.28.1.13/tcp/4001/ipfs/QmP2C45o2vZfy1JXWFZDUEzrQCigMtd4r3nesvArV8dFKd"
+        - "/ip4/172.28.1.13/tcp/4001/ipfs/QmdSyhb8eR9dDSR5jjnRoTDBwpBCSAjT7WueKJ9cQArYoA"
+      multi_addr: "/ip4/172.28.1.10/tcp/8880"
+      dht_get_value_timeout:  60
+
+  primihub_node1.yaml: |-
+    version: 1.0
+    node: "node1"
+    location: "172.28.1.11"
+    grpc_port: 50050
+
+    datasets:
+      - description: "test_party_1_self"
+        model: "csv"
+        source: "/tmp/falcon/dataset/MNIST/input_1" 
+      - description: "test_party_1_next"
+        model: "csv"
+        source: "/tmp/falcon/dataset/MNIST/input_2" 
+      - description: "train_party_1"
+        model: "csv"
+        source: "/tmp/train_party_1.csv" 
+      - description: "test_party_1"
+        model: "csv"
+        source: "/tmp/test_party_1.csv"
+      - description: "pir_server_data"
+        model: "csv"
+        source: "/tmp/pir_server.csv" 
+      - description: "psi_server_data"
+        model: "csv"
+        source: "/tmp/server_e.csv" 
+      - description: "label_dataset"
+        model: "csv"
+        source: "/tmp/FL/wisconsin_host.data"   
+      - description: "test_dataset"
+        model: "csv"
+        source: "/tmp/FL/wisconsin_test.data"
+
+    localkv: 
+      model: "leveldb"
+      path: "./localdb"
+
+    p2p:
+      bootstrap_nodes:
+        - "/ip4/172.28.1.13/tcp/4001/ipfs/QmP2C45o2vZfy1JXWFZDUEzrQCigMtd4r3nesvArV8dFKd"
+        - "/ip4/172.28.1.13/tcp/4001/ipfs/QmdSyhb8eR9dDSR5jjnRoTDBwpBCSAjT7WueKJ9cQArYoA"
+      multi_addr: "/ip4/172.28.1.11/tcp/8881"
+      dht_get_value_timeout:  60
+  primihub_node2.yaml: |-
+    version: 1.0
+    node: "node2"
+    location: "172.28.1.12"
+    grpc_port: 50050
+    datasets:
+      - description: "test_party_2_self"
+        model: "csv"
+        source: "/tmp/falcon/dataset/MNIST/input_2" 
+      - description: "test_party_2_next"
+        model: "csv"
+        source: "/tmp/falcon/dataset/MNIST/input_0" 
+      - description: "train_party_2"
+        model: "csv"
+        source: "/tmp/train_party_2.csv" 
+      - description: "test_party_2"
+        model: "csv"
+        source: "/tmp/test_party_2.csv"
+      - description: "psi_client_data"
+        model: "csv"
+        source: "/tmp/client_e.csv"
+      - description: "guest_dataset"
+        model: "csv"
+        source: "/tmp/FL/wisconsin_guest.data" 
+
+
+    localkv: 
+      model: "leveldb"
+      path: "./localdb"
+
+    p2p:
+      bootstrap_nodes:
+        - "/ip4/172.28.1.13/tcp/4001/ipfs/QmP2C45o2vZfy1JXWFZDUEzrQCigMtd4r3nesvArV8dFKd"
+        - "/ip4/172.28.1.13/tcp/4001/ipfs/QmdSyhb8eR9dDSR5jjnRoTDBwpBCSAjT7WueKJ9cQArYoA"
+      multi_addr: "/ip4/172.28.1.12/tcp/8882"
+      dht_get_value_timeout:  60
