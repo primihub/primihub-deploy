@@ -8,6 +8,8 @@ bash 01-initialization.sh
 ```
 #### b.按顺序执行k8s资源清单文件
 ```bash
+source /etc/profile.d/primihub_k8s_deploy.sh
+
 envsubst < 02-namespace.yaml | kubectl apply -f -
 envsubst < 03-mysql.yaml | kubectl apply -f -
 envsubst < 04-redis.yaml | kubectl apply -f -
