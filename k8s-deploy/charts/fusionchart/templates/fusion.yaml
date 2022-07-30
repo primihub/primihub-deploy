@@ -26,8 +26,12 @@ spec:
             - '-jar'
             - '-Dfile.encoding=UTF-8'
             - /applications/fusion.jar
-            - '--spring.profiles.active=demo'
+            # - '--spring.profiles.active=demo'
             - '--server.port=8080'
+            - '--spring.datasource.druid.username=root'
+            - '--spring.datasource.druid.password=primihub@123'
+            - >-
+              --spring.datasource.druid.url=jdbc:mysql://mysql.{{ $.Release.Namespace }}:3306/fusion_demo?characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL&allowMultiQueries=true&serverTimezone=Asia/Shanghai&useSSL=false
           imagePullPolicy: IfNotPresent
       restartPolicy: Always
   strategy:

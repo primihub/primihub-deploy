@@ -39,18 +39,19 @@ spec:
             - name: SPRING_DATASOURCE_PLATFORM
               value: mysql
             - name: MYSQL_SERVICE_HOST
-              value: mysql.{{ $.Release.Namespace }}.svc.cluster.local
+              value: mysql
             - name: MYSQL_SERVICE_DB_NAME
               value: nacos_config
             - name: MYSQL_SERVICE_PORT
               value: '3306'
             - name: MYSQL_SERVICE_USER
               value: primihub
-            - name: MYSQL_SERVICE_PASSWORD  # TODO
+            - name: MYSQL_SERVICE_PASSWORD
               value: primihub@123
             - name: MYSQL_SERVICE_DB_PARAM
               value: >-
                 characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false
+            
           resources: {}
           imagePullPolicy: IfNotPresent
       restartPolicy: Always

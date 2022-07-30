@@ -22,6 +22,18 @@ spec:
           configMap:
             name: my.cnf
             defaultMode: 420
+        - name: sql-privacy1
+          configMap:
+            name: sql-privacy1-configmap
+        - name: sql-privacy2
+          configMap:
+            name: sql-privacy2-configmap
+        - name: sql-privacy3
+          configMap:
+            name: sql-privacy3-configmap
+        - name: sql-others
+          configMap:
+            name: sql-others-configmap
         # - name: mysql
         #   nfs: 
         #     server: $NFS_IP
@@ -49,6 +61,18 @@ spec:
               mountPath: /etc/my.cnf
             - name: mysql-pvc
               mountPath: /var/lib/mysql
+            - name: sql-others
+              mountPath: /docker-entrypoint-initdb.d/others.sql
+              subPath: others.sql
+            - name: sql-privacy1
+              mountPath: /docker-entrypoint-initdb.d/privacy1.sql
+              subPath: privacy1.sql
+            - name: sql-privacy2
+              mountPath: /docker-entrypoint-initdb.d/privacy2.sql
+              subPath: privacy2.sql
+            - name: sql-privacy3
+              mountPath: /docker-entrypoint-initdb.d/privacy3.sql
+              subPath: privacy3.sql
           livenessProbe:
             tcpSocket:
               port: 3306
