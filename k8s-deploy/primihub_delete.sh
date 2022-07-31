@@ -19,6 +19,7 @@ helm uninstall nacos -n ${NAMESPACE}
 helm uninstall storage -n ${NAMESPACE} 
 
 
+kubectl delete pvc -n ${NAMESPACE} mysql-pvc-mysql-0
 
 
 
