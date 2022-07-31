@@ -26,7 +26,7 @@ data:
 
     localkv: 
       model: "leveldb"
-      path: "./localdb"
+      path: "/data/localdb0"
 
     p2p:
       bootstrap_nodes:
@@ -39,7 +39,7 @@ data:
     version: 1.0
     node: "node1"
     location: "172.28.1.11"
-    grpc_port: 50050
+    grpc_port: 50051
 
     datasets:
       - description: "test_party_1_self"
@@ -69,7 +69,7 @@ data:
 
     localkv: 
       model: "leveldb"
-      path: "./localdb"
+      path: "/data/localdb1"
 
     p2p:
       bootstrap_nodes:
@@ -81,7 +81,7 @@ data:
     version: 1.0
     node: "node2"
     location: "172.28.1.12"
-    grpc_port: 50050
+    grpc_port: 50052
     datasets:
       - description: "test_party_2_self"
         model: "csv"
@@ -105,7 +105,7 @@ data:
 
     localkv: 
       model: "leveldb"
-      path: "./localdb"
+      path: "/data/localdb2"
 
     p2p:
       bootstrap_nodes:

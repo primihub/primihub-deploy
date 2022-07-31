@@ -96,7 +96,6 @@ spec:
         namespace: {{ $.Release.Namespace }}
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: "managed-nfs-storage"
         resources:
           requests:
             storage: 10Gi
