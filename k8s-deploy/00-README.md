@@ -1,12 +1,5 @@
 # README
 
-
-### 获取方式
-
-```
-    git  clone git@github.com:primihub/primihub-deploy.git -b helm_deploy 
-```
-
 ### 执行之前
 ```
     0、拥有一个k8s集群
@@ -17,7 +10,7 @@
 
 ### 安装
 ```
-    cd primihub-deploy/k8s-deploy
+    cd k8s-deploy
     export NAMESPACE=<namespace>
     ./primihub_deploy.sh
     已经将所需服务进行了封装，执行上述命令将安装storage（mysql、redis）、nacos、rabbitmq、application、gateway、platform、fusion、primihubnode这些服务
