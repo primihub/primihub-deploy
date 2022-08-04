@@ -1,0 +1,3 @@
+gateway:
+  num: 3
+  image: registry.hub.docker.com/primihub/primihub-platform:1.1.5

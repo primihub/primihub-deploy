@@ -1,0 +1,15 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: my.cnf
+  namespace: {{ $.Release.Namespace }}
+data:
+  my.cnf: |-
+    [mysqld]
+    user=mysql
+    default-storage-engine=INNODB
+    character-set-server=utf8
+    [client]
+    default-character-set=utf8
+    [mysql]
+    default-character-set=utf8

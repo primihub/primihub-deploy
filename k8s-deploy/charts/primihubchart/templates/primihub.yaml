@@ -1,10 +1,8 @@
-
----
 kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: primihubnode
-  namespace: $NAMESPACE
+  namespace: {{ $.Release.Namespace }}
   labels:
     name: primihubnode
   annotations:
@@ -21,17 +19,28 @@ spec:
         name: primihubnode
     spec:
       volumes:
-        - name: volume-fsnm3
-          nfs: 
-            server: $NFS_IP
-            path: $NFS_PATH/application
+        - name: primihub-pvc
+          persistentVolumeClaim:
+            claimName: primihub-volume
+        - name: update-pod
+          configMap:
+            name: update-pod-config
+        - name: node-config
+          configMap:
+            name: node-configmap
       initContainers:
         - name: initcontainer
           image: busybox
           command:
             - /bin/sh
           args:
-            - /data/update_pod_ip.sh
+            - "-c"
+            - |
+                cp -f /root/node/* /data
+                chmod +x /data/update_pod_ip.sh
+                echo "chmod done!"
+                /data/update_pod_ip.sh
+                echo "update pod ip done!!!!"
           env:
             - name: POD_IP
               valueFrom:
@@ -40,18 +49,30 @@ spec:
                   fieldPath: status.podIP
           resources: {}
           volumeMounts:
-            - name: volume-fsnm3
+            - name: primihub-pvc
               mountPath: /data
+            - name: update-pod
+              mountPath: /root/node/update_pod_ip.sh
+              subPath: update_pod_ip.sh
+            - name: node-config
+              mountPath: /root/node/primihub_node0.yaml
+              subPath: primihub_node0.yaml
+            - name: node-config
+              mountPath: /root/node/primihub_node1.yaml
+              subPath: primihub_node1.yaml
+            - name: node-config
+              mountPath: /root/node/primihub_node2.yaml
+              subPath: primihub_node2.yaml
           imagePullPolicy: IfNotPresent
       containers:
         - name: bootstrap-node
-          image: 'primihub/simple-bootstrap-node:1.0'
+          image: {{ $.Values.bootstrap.image }}
           ports:
             - containerPort: 4001
               protocol: TCP
           imagePullPolicy: IfNotPresent
         - name: node0
-          image: '$PRIMIHUBNODE_IMAGE'
+          image: {{ $.Values.primihub.image }}
           command:
             - ./primihub-node
           args:
@@ -63,11 +84,11 @@ spec:
               containerPort: 50050
               protocol: TCP
           volumeMounts:
-            - name: volume-fsnm3
+            - name: primihub-pvc
               mountPath: /data
           imagePullPolicy: IfNotPresent
         - name: node1
-          image: '$PRIMIHUBNODE_IMAGE'
+          image: {{ $.Values.primihub.image }}
           command:
             - ./primihub-node
           args:
@@ -79,11 +100,11 @@ spec:
               containerPort: 50051
               protocol: TCP
           volumeMounts:
-            - name: volume-fsnm3
+            - name: primihub-pvc
               mountPath: /data
           imagePullPolicy: IfNotPresent
         - name: node2
-          image: '$PRIMIHUBNODE_IMAGE'
+          image: {{ $.Values.primihub.image }}
           command:
             - ./primihub-node
           args:
@@ -95,7 +116,7 @@ spec:
               containerPort: 50052
               protocol: TCP
           volumeMounts:
-            - name: volume-fsnm3
+            - name: primihub-pvc
               mountPath: /data
           imagePullPolicy: IfNotPresent
       restartPolicy: Always
@@ -110,34 +131,13 @@ spec:
       maxSurge: 50%
   revisionHistoryLimit: 10
   progressDeadlineSeconds: 20
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: primihubnode
-  namespace: $NAMESPACE
-  labels:
-    name: primihubnode
-spec:
-  ports:
-    - name: kfnzba
-      protocol: TCP
-      port: 50050
-      targetPort: 50050
-    - name: ffzxzh
-      protocol: TCP
-      port: 50051
-      targetPort: 50051
-    - name: egn7z3
-      protocol: TCP
-      port: 50052
-      targetPort: 50052
-  selector:
-    name: primihubnode
-  type: ClusterIP
-  sessionAffinity: None
-  ipFamilies:
-    - IPv4
-  ipFamilyPolicy: SingleStack
-  internalTrafficPolicy: Cluster
+  # volumeClaimTemplates:
+  #   - metadata:
+  #       name: primihub-pvc
+  #       namespace: {{ $.Release.Namespace }}
+  #     spec:
+  #       accessModes: ["ReadWriteOnce"]
+  #       storageClassName: "managed-nfs-storage"
+  #       resources:
+  #         requests:
+  #           storage: 10Gi

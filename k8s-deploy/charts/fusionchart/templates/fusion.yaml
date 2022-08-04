@@ -1,10 +1,8 @@
-
----
 kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: fusion
-  namespace: $NAMESPACE
+  namespace: {{ $.Release.Namespace }}
   labels:
     name: fusion
   annotations:
@@ -21,15 +19,19 @@ spec:
     spec:
       containers:
         - name: fusion
-          image: '$FUSION_IMAGE'
+          image: {{ $.Values.fusion.image }}
           command:
             - java
           args:
             - '-jar'
             - '-Dfile.encoding=UTF-8'
             - /applications/fusion.jar
-            - '--spring.profiles.active=demo'
+            # - '--spring.profiles.active=demo'
             - '--server.port=8080'
+            - '--spring.datasource.druid.username=root'
+            - '--spring.datasource.druid.password=primihub@123'
+            - >-
+              --spring.datasource.druid.url=jdbc:mysql://mysql.{{ $.Release.Namespace }}:3306/fusion_demo?characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL&allowMultiQueries=true&serverTimezone=Asia/Shanghai&useSSL=false
           imagePullPolicy: IfNotPresent
       restartPolicy: Always
   strategy:
@@ -39,31 +41,3 @@ spec:
       maxSurge: 50%
   revisionHistoryLimit: 10
   progressDeadlineSeconds: 10
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: fusion
-  namespace: $NAMESPACE
-  labels:
-    name: fusion
-  annotations:
-    workload: fusion
-spec:
-  ports:
-    - name: fusion
-      protocol: TCP
-      port: 8080
-      targetPort: 8080
-      nodePort: 30804
-  selector:
-    name: fusion
-  type: NodePort
-  sessionAffinity: None
-  externalTrafficPolicy: Cluster
-  ipFamilies:
-    - IPv4
-  ipFamilyPolicy: SingleStack
-  internalTrafficPolicy: Cluster
-

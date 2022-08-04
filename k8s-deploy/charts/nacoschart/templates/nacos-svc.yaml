@@ -1,0 +1,24 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nacos
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    name: nacos
+spec:
+  ports:
+    - name: ppyxam
+      protocol: TCP
+      port: 8848
+      targetPort: 8848
+    - name: xtbs4a
+      protocol: TCP
+      port: 9848
+      targetPort: 9848
+    - name: ichft4
+      protocol: TCP
+      port: 9849
+      targetPort: 9849
+  selector:
+    name: nacos
+  type: ClusterIP

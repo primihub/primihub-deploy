@@ -4,7 +4,7 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: redis
-  namespace: $NAMESPACE
+  namespace: {{ $.Release.Namespace }}
   labels:
     name: redis
   annotations: {}
@@ -40,6 +40,7 @@ spec:
               subPath: redis.conf
           imagePullPolicy: IfNotPresent
       restartPolicy: Always
+      enableServiceLinks: false
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       securityContext: {}
@@ -51,43 +52,3 @@ spec:
       maxSurge: 25%
   revisionHistoryLimit: 10
   progressDeadlineSeconds: 600
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: redis
-  namespace: $NAMESPACE
-  labels:
-    name: redis
-spec:
-  ports:
-    - name: qxgwm2
-      protocol: TCP
-      port: 6379
-      targetPort: 6379
-  selector:
-    name: redis
-  type: ClusterIP
-  sessionAffinity: None
-  ipFamilies:
-    - IPv4
-  ipFamilyPolicy: SingleStack
-  internalTrafficPolicy: Cluster
-
----
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: redis-config
-  namespace: $NAMESPACE
-data:
-  redis.conf: |-
-    daemonize no
-    pidfile /data/redis.pid
-    port 6379
-    bind 0.0.0.0
-    timeout 0
-    requirepass primihub
-    dbfilename dump.rdb
-    dir /data

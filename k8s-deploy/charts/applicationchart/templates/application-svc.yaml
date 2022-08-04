@@ -1,0 +1,35 @@
+{{- range $tmpindex, $app := until ( int $.Values.app.num )}} 
+{{- $index := add $tmpindex 1 -}}
+kind: Service
+apiVersion: v1
+metadata:
+  name: application{{ $index }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    name: application1
+  annotations: {}
+spec:
+  ports:
+    - name: application{{ $index }}-web
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    name: application{{ $index }}
+  type: ClusterIP
+  # sessionAffinity: None
+  # ipFamilies:
+  #   - IPv4
+  # ipFamilyPolicy: SingleStack
+  # internalTrafficPolicy: Cluster
+---
+
+{{- end }}
+
+
+  # sessionAffinity: None
+  # ipFamilies:
+  #   - IPv4
+  # ipFamilyPolicy: SingleStack
+  # internalTrafficPolicy: Cluster
+  

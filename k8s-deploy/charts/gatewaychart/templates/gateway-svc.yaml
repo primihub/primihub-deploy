@@ -1,0 +1,22 @@
+{{- range $tmpindex, $app := until ( int $.Values.gateway.num )}} 
+{{- $index := add $tmpindex 1 -}}
+kind: Service
+apiVersion: v1
+metadata:
+  name: gateway{{ $index }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    name: gateway{{ $index }}
+  annotations: {}
+spec:
+  ports:
+    - name: gateway{{ $index }}-web
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    name: gateway{{ $index }}
+  type: ClusterIP
+---
+
+{{- end }}

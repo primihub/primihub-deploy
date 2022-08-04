@@ -4,7 +4,7 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: nacos
-  namespace: $NAMESPACE
+  namespace: {{ $.Release.Namespace }}
   labels:
     name: nacos
   annotations: {}
@@ -39,18 +39,19 @@ spec:
             - name: SPRING_DATASOURCE_PLATFORM
               value: mysql
             - name: MYSQL_SERVICE_HOST
-              value: mysql.$NAMESPACE.svc.cluster.local
+              value: mysql
             - name: MYSQL_SERVICE_DB_NAME
               value: nacos_config
             - name: MYSQL_SERVICE_PORT
               value: '3306'
             - name: MYSQL_SERVICE_USER
-              value: $MYSQL_USER
+              value: primihub
             - name: MYSQL_SERVICE_PASSWORD
-              value: $MYSQL_PASS
+              value: primihub@123
             - name: MYSQL_SERVICE_DB_PARAM
               value: >-
                 characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false
+            
           resources: {}
           imagePullPolicy: IfNotPresent
       restartPolicy: Always
@@ -65,34 +66,3 @@ spec:
       maxSurge: 25%
   revisionHistoryLimit: 10
   progressDeadlineSeconds: 600
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: nacos
-  namespace: $NAMESPACE
-  labels:
-    name: nacos
-spec:
-  ports:
-    - name: ppyxam
-      protocol: TCP
-      port: 8848
-      targetPort: 8848
-    - name: xtbs4a
-      protocol: TCP
-      port: 9848
-      targetPort: 9848
-    - name: ichft4
-      protocol: TCP
-      port: 9849
-      targetPort: 9849
-  selector:
-    name: nacos
-  type: ClusterIP
-  sessionAffinity: None
-  ipFamilies:
-    - IPv4
-  ipFamilyPolicy: SingleStack
-  internalTrafficPolicy: Cluster
