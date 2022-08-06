@@ -18,6 +18,10 @@ spec:
       labels:
         name: nacos
     spec:
+      initContainers:
+        - name: init
+          image: busybox
+          command: ['sh', '-c', 'until telnet mysql 3306; do echo waiting for mysql; sleep 1; done;']
       containers:
         - name: nacos
           image: 'nacos/nacos-server:v2.0.4'

@@ -1,4 +1,4 @@
-{{- range $tmpindex, $app := until ( int $.Values.app.num )}} 
+{{- range $tmpindex, $app := until ( int $.Values.application.num )}} 
 {{- $index := add $tmpindex 1 -}}
 kind: Service
 apiVersion: v1

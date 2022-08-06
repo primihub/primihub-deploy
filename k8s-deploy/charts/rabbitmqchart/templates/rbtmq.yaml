@@ -1,4 +1,4 @@
-{{- range $tmpindex, $rbtmq := until ( int $.Values.mq.num )}} 
+{{- range $tmpindex, $rbtmq := until ( int $.Values.rabbitmq.num )}} 
 {{- $index := add $tmpindex 1 -}}
 kind: Deployment
 apiVersion: apps/v1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: rabbitmq{{ $index }}
-          image: {{ $.Values.mq.image }}
+          image: {{ $.Values.rabbitmq.image }}
           ports:
             - name: mq
               containerPort: 5672

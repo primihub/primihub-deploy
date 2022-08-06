@@ -1,4 +1,4 @@
-{{- range $tmpindex, $rbtmq := until ( int $.Values.mq.num )}} 
+{{- range $tmpindex, $rbtmq := until ( int $.Values.rabbitmq.num )}} 
 {{- $index := add $tmpindex 1 -}}
 kind: Service
 apiVersion: v1
