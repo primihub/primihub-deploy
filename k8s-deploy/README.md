@@ -7,7 +7,7 @@
     2、本地已安装helm，版本3.1以上(mac上可以使用brew install helm命令进行安装或通过https://github.com/helm/helm/releases下载对应版本)
     3、集群管理员需确认集群存在默认的storageclass（执行kubectl get sc 获取的结果中，结果中含有'（default）'配置）
     4、本地安装Python3，且安装requirements里的所需模块
-    5、修改images.yaml中的镜像，已指定默认镜像
+    5、修改images.yaml中的镜像（已指定默认镜像）
 ```
 
 ### 安装
