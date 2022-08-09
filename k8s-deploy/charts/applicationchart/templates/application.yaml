@@ -1,4 +1,4 @@
-{{- range $tmpindex, $app := until ( int $.Values.app.num )}} 
+{{- range $tmpindex, $app := until ( int $.Values.application.num )}} 
 {{- $index := add $tmpindex 1 -}}
 kind: Deployment
 apiVersion: apps/v1
@@ -23,7 +23,7 @@ spec:
             claimName: application-volume-{{ $index }}
       containers:
         - name: application{{ $index }}
-          image: {{ $.Values.app.image }}
+          image: {{ $.Values.application.image }}
           env:
             - name: NAMESPACE
               value: {{ $.Release.Namespace }}

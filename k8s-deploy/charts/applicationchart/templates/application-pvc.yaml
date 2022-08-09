@@ -1,4 +1,4 @@
-{{- range $tmpindex, $app := until ( int $.Values.app.num )}} 
+{{- range $tmpindex, $app := until ( int $.Values.application.num )}} 
 {{- $index := add $tmpindex 1 -}}
 apiVersion: v1
 kind: PersistentVolumeClaim

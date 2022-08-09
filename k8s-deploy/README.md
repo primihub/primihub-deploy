@@ -6,13 +6,15 @@
     1、本地安装kubectl，并确认拥有操作集群对应namespace的权限，测试方式：kubectl get all -n <namespace>
     2、本地已安装helm，版本3.1以上(mac上可以使用brew install helm命令进行安装或通过https://github.com/helm/helm/releases下载对应版本)
     3、集群管理员需确认集群存在默认的storageclass（执行kubectl get sc 获取的结果中，结果中含有'（default）'配置）
+    4、本地安装Python3，且安装requirements里的所需模块
+    5、修改images.yaml中的镜像（已指定默认镜像）
 ```
 
 ### 安装
 ```
     cd k8s-deploy
     export NAMESPACE=<namespace>
-    ./primihub_deploy.sh
+    ./primihub_deploy.sh （或执行python3 deploy.py）
     已经将所需服务进行了封装，执行上述命令将安装storage（mysql、redis）、nacos、rabbitmq、application、gateway、platform、fusion、primihubnode这些服务
     注意：目前脚本中指定了platform的nodeport端口，所以一个集群只能安装一套（多租户场景将再进行优化处理）
 ```

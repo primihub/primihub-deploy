@@ -1,1091 +1,674 @@
--- MySQL dump 10.13  Distrib 5.7.36, for Linux (x86_64)
---
--- Host: localhost    Database: privacy_demo3
--- ------------------------------------------------------
--- Server version	5.7.36
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Current Database: `privacy_demo3`
---
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `privacy_demo3` /*!40100 DEFAULT CHARACTER SET utf8 */;
-
-USE `privacy_demo3`;
-
---
--- Table structure for table `data_component`
---
-
-DROP TABLE IF EXISTS `data_component`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `data_component` (
-  `component_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '组件id',
-  `front_component_id` varchar(255) DEFAULT NULL COMMENT '前端组件id',
-  `model_id` bigint(20) DEFAULT NULL COMMENT '模型id',
-  `component_code` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '组件code',
-  `component_name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '组件名称',
-  `shape` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '形状',
-  `width` int(11) DEFAULT '0' COMMENT '宽度',
-  `height` int(11) DEFAULT '0' COMMENT '高度',
-  `coordinate_y` int(11) DEFAULT '0' COMMENT '坐标y',
-  `coordinate_x` int(11) DEFAULT '0' COMMENT '坐标x',
-  `data_json` blob COMMENT '组件参数json',
-  `start_time` bigint(20) DEFAULT '0' COMMENT '开始时间戳',
-  `end_time` bigint(20) DEFAULT '0' COMMENT '结束时间戳',
-  `component_state` tinyint(4) DEFAULT '0' COMMENT '组件运行状态 0初始 1成功 2运行中 3失败',
-  `input_file_path` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '输入文件路径',
-  `output_file_path` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '输出文件路径',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`component_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='组件表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `data_component`
---
-
-LOCK TABLES `data_component` WRITE;
-/*!40000 ALTER TABLE `data_component` DISABLE KEYS */;
-INSERT INTO `data_component` VALUES (1,'751fd4db-978f-4265-bf3f-601ac1fc5d18',1,'dataAlignment','选择数据集','dag-node',180,50,-300,-200,_binary '[{\"key\":\"selectData\",\"val\":\"[{\\\"organId\\\":\\\"eb734dd0-773e-411b-ba29-794e41ba0e63\\\",\\\"resourceId\\\":\\\"794e41ba0e63-74d57b0e-d3d4-40d9-931e-2fa48f8bdeaf\\\",\\\"resourceName\\\":\\\"demo04\\\",\\\"resourceRowsCount\\\":9,\\\"resourceColumnCount\\\":13,\\\"resourceContainsY\\\":1,\\\"auditStatus\\\":1,\\\"participationIdentity\\\":1,\\\"organName\\\":\\\"Primihub03\\\"},{\\\"organId\\\":\\\"3abfcb2a-8335-4bcc-b6f9-704a92e392fd\\\",\\\"resourceId\\\":\\\"704a92e392fd-54f3fe5d-3fb3-489c-9e9e-c5e2a867273f\\\",\\\"resourceName\\\":\\\"pir测试\\\",\\\"resourceRowsCount\\\":569,\\\"resourceColumnCount\\\":13,\\\"resourceContainsY\\\":1,\\\"auditStatus\\\":1,\\\"participationIdentity\\\":2,\\\"organName\\\":\\\"Primihub02\\\"}]\"}]',0,0,0,NULL,NULL,0,'2022-07-19 08:53:26.000','2022-07-19 08:53:26.000'),(2,'1e279182-bc88-492d-ad80-efe5417a57e7',1,'sample','样本抽样设计','dag-node',180,50,-160,-250,_binary '[{\"key\":\"sample\",\"val\":\"1\"}]',0,0,0,NULL,NULL,0,'2022-07-19 08:53:26.000','2022-07-19 08:53:26.000'),(3,'f03a75af-b897-4680-86ce-63fe2d7edd6c',1,'exception','异常处理','dag-node',180,50,-40,-200,_binary '[{\"key\":\"exception\",\"val\":\"2\"}]',0,0,0,NULL,NULL,0,'2022-07-19 08:53:26.000','2022-07-19 08:53:26.000'),(4,'f59c17f5-6b2e-4d06-905d-292bec87074f',1,'model','模型选择','dag-node',180,50,80,-320,_binary '[{\"key\":\"modelType\",\"val\":\"2\"}]',0,0,0,NULL,NULL,0,'2022-07-19 08:53:26.000','2022-07-19 08:53:26.000');
-/*!40000 ALTER TABLE `data_component` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_file_field`
---
-
-DROP TABLE IF EXISTS `data_file_field`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `data_file_field` (
-  `field_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '字段id',
-  `file_id` bigint(20) DEFAULT NULL COMMENT '文件id',
-  `resource_id` bigint(20) DEFAULT NULL COMMENT '资源id',
-  `field_name` varchar(255) DEFAULT NULL COMMENT '字段名称',
-  `field_as` varchar(255) DEFAULT NULL COMMENT '字段别名',
-  `field_type` int(11) DEFAULT '0' COMMENT '字段类型 默认0 string',
-  `field_desc` varchar(255) DEFAULT NULL COMMENT '字段描述',
-  `relevance` int(11) DEFAULT '0' COMMENT '关键字 0否 1是',
-  `grouping` int(11) DEFAULT '0' COMMENT '分组 0否 1是',
-  `protection_status` int(11) DEFAULT '0' COMMENT '保护开关 0关闭 1开启',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`field_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='资源字段表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `data_file_field`
---
-
-LOCK TABLES `data_file_field` WRITE;
-/*!40000 ALTER TABLE `data_file_field` DISABLE KEYS */;
-INSERT INTO `data_file_field` VALUES (1,1161,1,'guaranteetype',NULL,0,NULL,0,0,0,0,'2022-06-30 06:25:35.000','2022-06-30 06:25:35.000'),(2,1162,2,'guaranteetype',NULL,0,NULL,0,0,0,0,'2022-06-30 11:12:59.000','2022-06-30 11:12:59.000'),(3,1163,3,'company',NULL,0,NULL,1,1,1,0,'2022-06-30 11:23:29.000','2022-06-30 11:23:29.000'),(4,1164,4,'guaranteetype',NULL,0,NULL,0,0,0,0,'2022-06-30 11:38:00.000','2022-06-30 11:38:00.000'),(5,1165,5,'guaranteetype',NULL,0,NULL,0,0,0,0,'2022-07-01 12:07:03.000','2022-07-01 12:07:03.000'),(6,1166,6,'guaranteetype',NULL,0,NULL,0,0,0,0,'2022-07-08 11:14:47.000','2022-07-08 11:14:47.000'),(7,1167,7,'seq',NULL,1,NULL,1,0,0,0,'2022-07-11 08:45:08.000','2022-07-11 08:45:08.000'),(8,1167,7,'marital',NULL,0,NULL,0,0,0,0,'2022-07-11 08:45:08.000','2022-07-11 08:45:08.000'),(9,1167,7,'race',NULL,0,NULL,0,0,0,0,'2022-07-11 08:45:08.000','2022-07-11 08:45:08.000'),(10,1167,7,'age',NULL,1,NULL,0,0,0,0,'2022-07-11 08:45:08.000','2022-07-11 08:45:08.000'),(11,1167,7,'histologic',NULL,0,NULL,0,0,0,0,'2022-07-11 08:45:08.000','2022-07-11 08:45:08.000'),(12,1167,7,'CT',NULL,0,NULL,0,0,0,0,'2022-07-11 08:45:08.000','2022-07-11 08:45:08.000'),(13,1167,7,'CN',NULL,0,NULL,0,0,0,0,'2022-07-11 08:45:08.000','2022-07-11 08:45:08.000'),(14,1167,7,'CM',NULL,0,NULL,0,0,0,0,'2022-07-11 08:45:08.000','2022-07-11 08:45:08.000'),(15,1167,7,'ER',NULL,0,NULL,0,0,0,0,'2022-07-11 08:45:08.000','2022-07-11 08:45:08.000'),(16,1167,7,'PR',NULL,0,NULL,0,0,0,0,'2022-07-11 08:45:08.000','2022-07-11 08:45:08.000'),(17,1167,7,'HER2',NULL,0,NULL,0,0,0,0,'2022-07-11 08:45:08.000','2022-07-11 08:45:08.000'),(18,1167,7,'RX',NULL,0,NULL,0,0,0,0,'2022-07-11 08:45:08.000','2022-07-11 08:45:08.000'),(19,1167,7,'y',NULL,1,NULL,0,0,0,0,'2022-07-11 08:45:08.000','2022-07-11 08:45:08.000'),(20,1168,8,'seq',NULL,1,NULL,1,0,0,0,'2022-07-11 11:59:53.000','2022-07-11 11:59:53.000'),(21,1168,8,'marital1',NULL,0,NULL,0,0,0,0,'2022-07-11 11:59:53.000','2022-07-11 11:59:53.000'),(22,1168,8,'race1',NULL,0,NULL,0,0,0,0,'2022-07-11 11:59:53.000','2022-07-11 11:59:53.000'),(23,1168,8,'age1',NULL,1,NULL,0,0,0,0,'2022-07-11 11:59:53.000','2022-07-11 11:59:53.000'),(24,1168,8,'histologic',NULL,0,NULL,0,0,0,0,'2022-07-11 11:59:53.000','2022-07-11 11:59:53.000'),(25,1168,8,'CT1',NULL,0,NULL,0,0,0,0,'2022-07-11 11:59:53.000','2022-07-11 11:59:53.000'),(26,1168,8,'CN1',NULL,0,NULL,0,0,0,0,'2022-07-11 11:59:53.000','2022-07-11 11:59:53.000'),(27,1168,8,'CM1',NULL,0,NULL,0,0,0,0,'2022-07-11 11:59:53.000','2022-07-11 11:59:53.000'),(28,1168,8,'ER1',NULL,0,NULL,0,0,0,0,'2022-07-11 11:59:53.000','2022-07-11 11:59:53.000'),(29,1168,8,'PR1',NULL,0,NULL,0,0,0,0,'2022-07-11 11:59:53.000','2022-07-11 11:59:53.000'),(30,1168,8,'HER21',NULL,0,NULL,0,0,0,0,'2022-07-11 11:59:53.000','2022-07-11 11:59:53.000'),(31,1168,8,'RX1',NULL,0,NULL,0,0,0,0,'2022-07-11 11:59:53.000','2022-07-11 11:59:53.000'),(32,1168,8,'y',NULL,1,NULL,0,0,0,0,'2022-07-11 11:59:53.000','2022-07-11 11:59:53.000');
-/*!40000 ALTER TABLE `data_file_field` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_fusion_copy_task`
---
-
-DROP TABLE IF EXISTS `data_fusion_copy_task`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `data_fusion_copy_task` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `task_type` tinyint(4) NOT NULL COMMENT '任务类型 1 批量 2 单条',
-  `current_offset` bigint(20) NOT NULL COMMENT '当前偏移量',
-  `target_offset` bigint(20) NOT NULL COMMENT '目标便宜量',
-  `task_table` varchar(64) NOT NULL COMMENT '复制任务表名',
-  `fusion_server_address` varchar(64) NOT NULL COMMENT '连接中心地址',
-  `latest_error_msg` varchar(1024) NOT NULL COMMENT '最近一次复制失败原因',
-  `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
-  `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `current_offset_ix` (`current_offset`) USING BTREE,
-  KEY `target_offset_ix` (`target_offset`) USING BTREE,
-  KEY `c_time_ix` (`c_time`) USING BTREE,
-  KEY `u_time_ix` (`u_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `data_fusion_copy_task`
---
-
-LOCK TABLES `data_fusion_copy_task` WRITE;
-/*!40000 ALTER TABLE `data_fusion_copy_task` DISABLE KEYS */;
-INSERT INTO `data_fusion_copy_task` VALUES (45,2,1,1,'data_resource','http://fusion.primihub-demo.svc.cluster.local:8080/','success',0,'2022-06-30 06:25:35.000','2022-06-30 06:30:00.090'),(46,2,1,1,'data_resource','http://fusion.primihub-demo.svc.cluster.local:8080/','success',0,'2022-06-30 07:33:38.000','2022-06-30 07:40:00.022'),(47,2,2,2,'data_resource','http://fusion.primihub-demo.svc.cluster.local:8080/','success',0,'2022-06-30 11:12:59.000','2022-06-30 11:20:00.042'),(48,2,3,3,'data_resource','http://fusion.primihub-demo.svc.cluster.local:8080/','success',0,'2022-06-30 11:23:29.000','2022-06-30 11:30:00.026'),(49,2,2,2,'data_resource','http://fusion.primihub-demo.svc.cluster.local:8080/','success',0,'2022-06-30 11:30:20.000','2022-06-30 11:40:00.043'),(50,2,2,2,'data_resource','http://fusion.primihub-demo.svc.cluster.local:8080/','success',0,'2022-06-30 11:32:42.000','2022-06-30 11:40:00.054'),(51,2,2,2,'data_resource','http://fusion.primihub-demo.svc.cluster.local:8080/','success',0,'2022-06-30 11:37:01.000','2022-06-30 11:50:00.030'),(52,2,4,4,'data_resource','http://fusion.primihub-demo.svc.cluster.local:8080/','success',0,'2022-06-30 11:38:00.000','2022-06-30 11:50:00.039'),(53,2,4,4,'data_resource','http://fusion.primihub-demo.svc.cluster.local:8080/','success',0,'2022-07-01 11:28:24.000','2022-07-01 11:40:00.038'),(54,2,5,5,'data_resource','http://fusion.primihub-demo.svc.cluster.local:8080/','success',0,'2022-07-01 12:07:03.000','2022-07-01 12:20:00.059'),(55,2,6,6,'data_resource','http://fusion.primihub-demo.svc.cluster.local:8080/','success',0,'2022-07-08 11:14:47.000','2022-07-08 11:40:01.212'),(56,2,7,7,'data_resource','http://fusion.primihub-demo.svc.cluster.local:8080/','success',0,'2022-07-11 08:45:08.000','2022-07-11 08:50:00.057'),(57,2,8,8,'data_resource','http://fusion.primihub-demo.svc.cluster.local:8080/','success',0,'2022-07-11 11:59:53.000','2022-07-11 12:10:00.016');
-/*!40000 ALTER TABLE `data_fusion_copy_task` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_model`
---
-
+use privacy_demo3;
+-- ----------------------------
+-- Table structure for data_model
+-- ----------------------------
 DROP TABLE IF EXISTS `data_model`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `data_model` (
-  `model_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '模型id',
-  `model_name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '模型名称',
-  `model_desc` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '模型描述',
-  `model_type` int(2) DEFAULT NULL COMMENT '模型模板',
-  `project_id` bigint(20) DEFAULT NULL COMMENT '项目id',
-  `resource_num` int(8) DEFAULT NULL COMMENT '资源个数',
-  `y_value_column` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT 'y值字段',
-  `component_speed` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '组件执行进度id',
-  `train_type` tinyint(4) DEFAULT '0' COMMENT '训练类型 0纵向 1横向 默认纵向',
-  `is_draft` tinyint(4) DEFAULT '0' COMMENT '是否草稿 0是 1不是 默认是',
-  `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
-  `organ_id` bigint(20) DEFAULT NULL COMMENT '机构id',
-  `component_json` blob COMMENT '组件json',
-  `latest_task_id` int(8) DEFAULT NULL COMMENT '最近运行一次任务id',
-  `latest_cost_time` datetime DEFAULT NULL COMMENT '最近一次运行时间',
-  `latest_task_status` int(2) DEFAULT NULL COMMENT '最近一次任务状态',
-  `latest_alignment_ratio` decimal(12,6) DEFAULT NULL COMMENT '数据对齐比例',
-  `latest_alignment_cost` int(10) DEFAULT NULL COMMENT '数据对齐耗时',
-  `latest_analyze_ratio` decimal(12,6) DEFAULT NULL COMMENT '统计分析比例',
-  `latest_analyze_cost` int(10) DEFAULT NULL COMMENT '统计分析耗时',
-  `latest_feature_ratio` decimal(12,6) DEFAULT NULL COMMENT '特征筛选比例',
-  `latest_feature_cost` int(10) DEFAULT NULL COMMENT '统计分析耗时',
-  `latest_sample_ratio` decimal(12,6) DEFAULT NULL COMMENT '样本抽样设计比例',
-  `latest_sample_cost` int(10) DEFAULT NULL COMMENT '样本抽样设计耗时',
-  `latest_train_ratio` decimal(12,6) DEFAULT NULL COMMENT '训练测试设计比例',
-  `latest_train_cost` int(10) DEFAULT NULL COMMENT '训练测试设计耗时',
-  `latest_lack_ratio` decimal(12,6) DEFAULT NULL COMMENT '缺失值处理比例',
-  `latest_lack_cost` int(10) DEFAULT NULL COMMENT '缺失值处理耗时',
-  `latest_exception_ratio` decimal(12,6) DEFAULT NULL COMMENT '异常值处理比例',
-  `latest_exception_cost` int(10) DEFAULT NULL COMMENT '异常值处理耗时',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`model_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='模型表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `data_model`
---
-
-LOCK TABLES `data_model` WRITE;
-/*!40000 ALTER TABLE `data_model` DISABLE KEYS */;
-INSERT INTO `data_model` VALUES (1,'222','222',2,48,2,NULL,NULL,1,1,1010,NULL,_binary '{\"isDraft\":1,\"modelComponents\":[{\"componentCode\":\"dataAlignment\",\"componentId\":\"1\",\"componentName\":\"选择数据集\",\"componentValues\":[{\"key\":\"selectData\",\"val\":\"[{\\\"organId\\\":\\\"eb734dd0-773e-411b-ba29-794e41ba0e63\\\",\\\"resourceId\\\":\\\"794e41ba0e63-74d57b0e-d3d4-40d9-931e-2fa48f8bdeaf\\\",\\\"resourceName\\\":\\\"demo04\\\",\\\"resourceRowsCount\\\":9,\\\"resourceColumnCount\\\":13,\\\"resourceContainsY\\\":1,\\\"auditStatus\\\":1,\\\"participationIdentity\\\":1,\\\"organName\\\":\\\"Primihub03\\\"},{\\\"organId\\\":\\\"3abfcb2a-8335-4bcc-b6f9-704a92e392fd\\\",\\\"resourceId\\\":\\\"704a92e392fd-54f3fe5d-3fb3-489c-9e9e-c5e2a867273f\\\",\\\"resourceName\\\":\\\"pir测试\\\",\\\"resourceRowsCount\\\":569,\\\"resourceColumnCount\\\":13,\\\"resourceContainsY\\\":1,\\\"auditStatus\\\":1,\\\"participationIdentity\\\":2,\\\"organName\\\":\\\"Primihub02\\\"}]\"}],\"coordinateX\":-200,\"coordinateY\":-300,\"frontComponentId\":\"751fd4db-978f-4265-bf3f-601ac1fc5d18\",\"height\":50,\"input\":[],\"output\":[{\"componentCode\":\"sample\",\"componentId\":\"2\",\"pointJson\":\"\",\"pointType\":\"edge\",\"portId\":\"port1\"}],\"shape\":\"dag-node\",\"width\":180},{\"componentCode\":\"sample\",\"componentId\":\"2\",\"componentName\":\"样本抽样设计\",\"componentValues\":[{\"key\":\"sample\",\"val\":\"1\"}],\"coordinateX\":-250,\"coordinateY\":-160,\"frontComponentId\":\"1e279182-bc88-492d-ad80-efe5417a57e7\",\"height\":50,\"input\":[{\"componentCode\":\"dataAlignment\",\"componentId\":\"1\",\"pointJson\":\"\",\"pointType\":\"edge\",\"portId\":\"port2\"}],\"output\":[{\"componentCode\":\"exception\",\"componentId\":\"3\",\"pointJson\":\"\",\"pointType\":\"edge\",\"portId\":\"port1\"}],\"shape\":\"dag-node\",\"width\":180},{\"componentCode\":\"exception\",\"componentId\":\"3\",\"componentName\":\"异常处理\",\"componentValues\":[{\"key\":\"exception\",\"val\":\"2\"}],\"coordinateX\":-200,\"coordinateY\":-40,\"frontComponentId\":\"f03a75af-b897-4680-86ce-63fe2d7edd6c\",\"height\":50,\"input\":[{\"componentCode\":\"sample\",\"componentId\":\"2\",\"pointJson\":\"\",\"pointType\":\"edge\",\"portId\":\"port2\"}],\"output\":[{\"componentCode\":\"model\",\"componentId\":\"4\",\"pointJson\":\"\",\"pointType\":\"edge\"}],\"shape\":\"dag-node\",\"width\":180},{\"componentCode\":\"model\",\"componentId\":\"4\",\"componentName\":\"模型选择\",\"componentValues\":[{\"key\":\"modelType\",\"val\":\"2\"}],\"coordinateX\":-320,\"coordinateY\":80,\"frontComponentId\":\"f59c17f5-6b2e-4d06-905d-292bec87074f\",\"height\":50,\"input\":[{\"componentCode\":\"exception\",\"componentId\":\"3\",\"pointJson\":\"\",\"pointType\":\"edge\",\"portId\":\"port2\"}],\"output\":[],\"shape\":\"dag-node\",\"width\":180}],\"modelDesc\":\"222\",\"modelId\":\"1\",\"modelName\":\"222\",\"modelPointComponents\":[{\"frontComponentId\":\"46effa50-23f5-4835-ab98-61e33b05f78b\",\"input\":{\"cell\":\"751fd4db-978f-4265-bf3f-601ac1fc5d18\",\"port\":\"port2\"},\"output\":{\"cell\":\"1e279182-bc88-492d-ad80-efe5417a57e7\",\"port\":\"port1\"},\"shape\":\"edge\"},{\"frontComponentId\":\"d136bbf3-4a2a-4ab5-84e2-9fed9a38da3d\",\"input\":{\"cell\":\"1e279182-bc88-492d-ad80-efe5417a57e7\",\"port\":\"port2\"},\"output\":{\"cell\":\"f03a75af-b897-4680-86ce-63fe2d7edd6c\"},\"shape\":\"edge\"},{\"frontComponentId\":\"9335146a-2fe2-4325-8eab-d0125c9a0673\",\"input\":{\"cell\":\"f03a75af-b897-4680-86ce-63fe2d7edd6c\",\"port\":\"port2\"},\"output\":{\"cell\":\"f59c17f5-6b2e-4d06-905d-292bec87074f\",\"port\":\"port1\"},\"shape\":\"edge\"}],\"projectId\":48,\"trainType\":1}',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,'2022-07-19 08:52:52.000','2022-07-19 08:53:26.000');
-/*!40000 ALTER TABLE `data_model` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_model_component`
---
-
+                              `model_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '模型id',
+                              `model_name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '模型名称',
+                              `model_desc` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '模型描述',
+                              `model_type` int(2) DEFAULT NULL COMMENT '模型模板',
+                              `project_id` bigint(20) DEFAULT NULL COMMENT '项目id',
+                              `resource_num` int(8) DEFAULT NULL COMMENT '资源个数',
+                              `y_value_column` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT 'y值字段',
+                              `component_speed` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '组件执行进度id',
+                              `train_type` tinyint(4) DEFAULT '0' COMMENT '训练类型 0纵向 1横向 默认纵向',
+                              `is_draft` tinyint(4) DEFAULT '0' COMMENT '是否草稿 0是 1不是 默认是',
+                              `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
+                              `organ_id` bigint(20) DEFAULT NULL COMMENT '机构id',
+                              `component_json` blob COMMENT '组件json',
+                              `latest_task_id` int(8) DEFAULT NULL COMMENT '最近运行一次任务id',
+                              `latest_cost_time` datetime DEFAULT NULL COMMENT '最近一次运行时间',
+                              `latest_task_status` int(2) DEFAULT NULL COMMENT '最近一次任务状态',
+                              `latest_alignment_ratio` decimal(12,6) DEFAULT NULL COMMENT '数据对齐比例',
+                              `latest_alignment_cost` int(10) DEFAULT NULL COMMENT '数据对齐耗时',
+                              `latest_analyze_ratio` decimal(12,6) DEFAULT NULL COMMENT '统计分析比例',
+                              `latest_analyze_cost` int(10) DEFAULT NULL COMMENT '统计分析耗时',
+                              `latest_feature_ratio` decimal(12,6) DEFAULT NULL COMMENT '特征筛选比例',
+                              `latest_feature_cost` int(10) DEFAULT NULL COMMENT '统计分析耗时',
+                              `latest_sample_ratio` decimal(12,6) DEFAULT NULL COMMENT '样本抽样设计比例',
+                              `latest_sample_cost` int(10) DEFAULT NULL COMMENT '样本抽样设计耗时',
+                              `latest_train_ratio` decimal(12,6) DEFAULT NULL COMMENT '训练测试设计比例',
+                              `latest_train_cost` int(10) DEFAULT NULL COMMENT '训练测试设计耗时',
+                              `latest_lack_ratio` decimal(12,6) DEFAULT NULL COMMENT '缺失值处理比例',
+                              `latest_lack_cost` int(10) DEFAULT NULL COMMENT '缺失值处理耗时',
+                              `latest_exception_ratio` decimal(12,6) DEFAULT NULL COMMENT '异常值处理比例',
+                              `latest_exception_cost` int(10) DEFAULT NULL COMMENT '异常值处理耗时',
+                              `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                              `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                              `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                              PRIMARY KEY (`model_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='模型表';
+-- ----------------------------
+-- Table structure for data_model_component
+-- ----------------------------
 DROP TABLE IF EXISTS `data_model_component`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `data_model_component` (
-  `mc_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '关系id',
-  `model_id` bigint(20) DEFAULT NULL COMMENT '模型id',
-  `input_component_id` bigint(20) DEFAULT NULL COMMENT '输入组件id',
-  `output_component_id` bigint(20) DEFAULT NULL COMMENT '输出组件id',
-  `point_type` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '指向类型(直线、曲线图等等)',
-  `point_json` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '指向json数据',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`mc_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='组件模型关系表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+                                        `mc_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '关系id',
+                                        `model_id` bigint(20) DEFAULT NULL COMMENT '模型id',
+                                        `input_component_id` bigint(20) DEFAULT NULL COMMENT '输入组件id',
+                                        `output_component_id` bigint(20) DEFAULT NULL COMMENT '输出组件id',
+                                        `point_type` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '指向类型(直线、曲线图等等)',
+                                        `point_json` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '指向json数据',
+                                        `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                                        `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                        `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                                        PRIMARY KEY (`mc_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='组件模型关系表';
+-- ----------------------------
+-- Table structure for data_component
+-- ----------------------------
+DROP TABLE IF EXISTS `data_component`;
+CREATE TABLE `data_component` (
+                                  `component_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '组件id',
+                                  `front_component_id` varchar(255) DEFAULT NULL COMMENT '前端组件id',
+                                  `model_id` bigint(20) DEFAULT NULL COMMENT '模型id',
+                                  `component_code` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '组件code',
+                                  `component_name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '组件名称',
+                                  `shape` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '形状',
+                                  `width` int(11) DEFAULT '0' COMMENT '宽度',
+                                  `height` int(11) DEFAULT '0' COMMENT '高度',
+                                  `coordinate_y` int(11) DEFAULT '0' COMMENT '坐标y',
+                                  `coordinate_x` int(11) DEFAULT '0' COMMENT '坐标x',
+                                  `data_json` blob COMMENT '组件参数json',
+                                  `start_time` bigint(20) DEFAULT '0' COMMENT '开始时间戳',
+                                  `end_time` bigint(20) DEFAULT '0' COMMENT '结束时间戳',
+                                  `component_state` tinyint(4) DEFAULT '0' COMMENT '组件运行状态 0初始 1成功 2运行中 3失败',
+                                  `input_file_path` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '输入文件路径',
+                                  `output_file_path` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '输出文件路径',
+                                  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                                  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                                  PRIMARY KEY (`component_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='组件表';
 
---
--- Dumping data for table `data_model_component`
---
-
-LOCK TABLES `data_model_component` WRITE;
-/*!40000 ALTER TABLE `data_model_component` DISABLE KEYS */;
-INSERT INTO `data_model_component` VALUES (1,1,NULL,2,'edge','',0,'2022-07-19 08:53:26.000','2022-07-19 08:53:26.000'),(2,1,1,3,'edge','',0,'2022-07-19 08:53:26.000','2022-07-19 08:53:26.000'),(3,1,2,4,'edge','',0,'2022-07-19 08:53:26.000','2022-07-19 08:53:26.000'),(4,1,3,NULL,'edge','',0,'2022-07-19 08:53:26.000','2022-07-19 08:53:26.000');
-/*!40000 ALTER TABLE `data_model_component` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_model_quota`
---
-
+-- ----------------------------
+-- Table structure for data_model_quota
+-- ----------------------------
 DROP TABLE IF EXISTS `data_model_quota`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `data_model_quota` (
-  `quota_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '指标id',
-  `quota_type` int(2) DEFAULT NULL COMMENT '样本集类型（训练样本集，测试样本集）',
-  `quota_images` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '样本集图片',
-  `model_id` bigint(20) DEFAULT NULL COMMENT '模型id',
-  `component_id` bigint(20) DEFAULT NULL COMMENT '组件id',
-  `auc` decimal(12,6) DEFAULT NULL COMMENT 'auc',
-  `ks` decimal(12,6) DEFAULT NULL COMMENT 'ks',
-  `gini` decimal(12,6) DEFAULT NULL COMMENT 'gini',
-  `precision` decimal(12,6) DEFAULT NULL COMMENT 'precision',
-  `recall` decimal(12,6) DEFAULT NULL COMMENT 'recall',
-  `f1_score` decimal(12,6) DEFAULT NULL COMMENT 'f1_score',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`quota_id`) USING BTREE
+                                    `quota_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '指标id',
+                                    `quota_type` int(2) DEFAULT NULL COMMENT '样本集类型（训练样本集，测试样本集）',
+                                    `quota_images` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '样本集图片',
+                                    `model_id` bigint(20) DEFAULT NULL COMMENT '模型id',
+                                    `component_id` bigint(20) DEFAULT NULL COMMENT '组件id',
+                                    `auc` decimal(12,6) DEFAULT NULL COMMENT 'auc',
+                                    `ks` decimal(12,6) DEFAULT NULL COMMENT 'ks',
+                                    `gini` decimal(12,6) DEFAULT NULL COMMENT 'gini',
+                                    `precision` decimal(12,6) DEFAULT NULL COMMENT 'precision',
+                                    `recall` decimal(12,6) DEFAULT NULL COMMENT 'recall',
+                                    `f1_score` decimal(12,6) DEFAULT NULL COMMENT 'f1_score',
+                                    `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                                    `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                    `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                                    PRIMARY KEY (`quota_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='模板指标入参';
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `data_model_quota`
---
 
-LOCK TABLES `data_model_quota` WRITE;
-/*!40000 ALTER TABLE `data_model_quota` DISABLE KEYS */;
-/*!40000 ALTER TABLE `data_model_quota` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_model_task`
---
-
+-- ----------------------------
+-- Table structure for data_model_task
+-- ----------------------------
 DROP TABLE IF EXISTS `data_model_task`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `data_model_task` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
-  `model_id` bigint(20) DEFAULT NULL COMMENT '模型id',
-  `task_id` bigint(20) DEFAULT NULL COMMENT '任务id',
-  `predict_file` varchar(255) DEFAULT NULL COMMENT '预测文件路径',
-  `predict_content` blob COMMENT '预测文件内容',
-  `component_json` blob COMMENT '模型运行组件列表json',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='模型任务表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `data_model_task`
---
-
-LOCK TABLES `data_model_task` WRITE;
-/*!40000 ALTER TABLE `data_model_task` DISABLE KEYS */;
-INSERT INTO `data_model_task` VALUES (1,1,1,'/data/result/2022071908/c2b57c46-3a46-4e91-8f48-afc4c3ad84b6.json',NULL,_binary '[{\"componentCode\":\"dataAlignment\",\"componentId\":1,\"componentName\":\"选择数据集\",\"componentState\":1,\"coordinateY\":-300,\"dataJson\":\"[{\\\"key\\\":\\\"selectData\\\",\\\"val\\\":\\\"[{\\\\\\\"organId\\\\\\\":\\\\\\\"eb734dd0-773e-411b-ba29-794e41ba0e63\\\\\\\",\\\\\\\"resourceId\\\\\\\":\\\\\\\"794e41ba0e63-74d57b0e-d3d4-40d9-931e-2fa48f8bdeaf\\\\\\\",\\\\\\\"resourceName\\\\\\\":\\\\\\\"demo04\\\\\\\",\\\\\\\"resourceRowsCount\\\\\\\":9,\\\\\\\"resourceColumnCount\\\\\\\":13,\\\\\\\"resourceContainsY\\\\\\\":1,\\\\\\\"auditStatus\\\\\\\":1,\\\\\\\"participationIdentity\\\\\\\":1,\\\\\\\"organName\\\\\\\":\\\\\\\"Primihub03\\\\\\\"},{\\\\\\\"organId\\\\\\\":\\\\\\\"3abfcb2a-8335-4bcc-b6f9-704a92e392fd\\\\\\\",\\\\\\\"resourceId\\\\\\\":\\\\\\\"704a92e392fd-54f3fe5d-3fb3-489c-9e9e-c5e2a867273f\\\\\\\",\\\\\\\"resourceName\\\\\\\":\\\\\\\"pir测试\\\\\\\",\\\\\\\"resourceRowsCount\\\\\\\":569,\\\\\\\"resourceColumnCount\\\\\\\":13,\\\\\\\"resourceContainsY\\\\\\\":1,\\\\\\\"auditStatus\\\\\\\":1,\\\\\\\"participationIdentity\\\\\\\":2,\\\\\\\"organName\\\\\\\":\\\\\\\"Primihub02\\\\\\\"}]\\\"}]\",\"endTime\":1658220818103,\"height\":50,\"modelId\":1,\"shape\":\"dag-node\",\"startTime\":1658220818100,\"timeConsuming\":0,\"width\":180},{\"componentCode\":\"sample\",\"componentId\":2,\"componentName\":\"样本抽样设计\",\"componentState\":1,\"coordinateY\":-160,\"dataJson\":\"[{\\\"key\\\":\\\"sample\\\",\\\"val\\\":\\\"1\\\"}]\",\"endTime\":1658220818108,\"height\":50,\"modelId\":1,\"shape\":\"dag-node\",\"startTime\":1658220818105,\"timeConsuming\":0,\"width\":180},{\"componentCode\":\"exception\",\"componentId\":3,\"componentName\":\"异常处理\",\"componentState\":1,\"coordinateY\":-40,\"dataJson\":\"[{\\\"key\\\":\\\"exception\\\",\\\"val\\\":\\\"2\\\"}]\",\"endTime\":1658220818112,\"height\":50,\"modelId\":1,\"shape\":\"dag-node\",\"startTime\":1658220818110,\"timeConsuming\":0,\"width\":180},{\"componentCode\":\"model\",\"componentId\":4,\"componentName\":\"模型选择\",\"componentState\":3,\"coordinateY\":80,\"dataJson\":\"[{\\\"key\\\":\\\"modelType\\\",\\\"val\\\":\\\"2\\\"}]\",\"endTime\":1658228710799,\"height\":50,\"modelId\":1,\"shape\":\"dag-node\",\"startTime\":1658220818115,\"timeConsuming\":7892,\"width\":180}]',0,'2022-07-19 08:53:38.000','2022-07-19 11:05:10.000');
-/*!40000 ALTER TABLE `data_model_task` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_mpc_task`
---
-
-DROP TABLE IF EXISTS `data_mpc_task`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `data_mpc_task` (
-  `task_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务id',
-  `task_id_name` varchar(255) DEFAULT NULL COMMENT '任务id对外展示',
-  `script_id` bigint(20) DEFAULT NULL COMMENT '脚本id',
-  `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
-  `task_status` int(11) DEFAULT '0' COMMENT '任务状态 0未运行 1成功 2运行中 3失败',
-  `task_desc` varchar(255) DEFAULT NULL COMMENT '任务备注',
-  `log_data` blob COMMENT '日志信息',
-  `result_file_path` varchar(255) DEFAULT NULL COMMENT '结果文件地址',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`task_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='mpc任务表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `data_mpc_task`
---
-
-LOCK TABLES `data_mpc_task` WRITE;
-/*!40000 ALTER TABLE `data_mpc_task` DISABLE KEYS */;
-/*!40000 ALTER TABLE `data_mpc_task` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_mr`
---
-
+                                   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+                                   `model_id` bigint DEFAULT NULL COMMENT '模型id',
+                                   `task_id` bigint DEFAULT NULL COMMENT '任务id',
+                                   `predict_file` varchar(255) DEFAULT NULL COMMENT '预测文件路径',
+                                   `predict_content` blob COMMENT '预测文件内容',
+                                   `component_json` blob COMMENT '模型运行组件列表json',
+                                   `is_del` tinyint DEFAULT '0' COMMENT '是否删除',
+                                   `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                   `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                                   PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='模型任务表';
+-- ----------------------------
+-- Table structure for data_mr
+-- ----------------------------
 DROP TABLE IF EXISTS `data_mr`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `data_mr` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '资源id',
-  `model_id` bigint(20) DEFAULT NULL COMMENT '模型id',
-  `resource_id` varchar(255) NOT NULL COMMENT '资源id',
-  `task_id` bigint(20) DEFAULT NULL COMMENT '任务ID',
-  `alignment_num` int(8) DEFAULT NULL COMMENT '对齐后记录数量',
-  `primitive_param_num` int(8) DEFAULT NULL COMMENT '原始变量数量',
-  `modelParam_num` int(8) DEFAULT NULL COMMENT '入模变量数量',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='模型资源表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `data_mr`
---
-
-LOCK TABLES `data_mr` WRITE;
-/*!40000 ALTER TABLE `data_mr` DISABLE KEYS */;
-INSERT INTO `data_mr` VALUES (1,1,'794e41ba0e63-74d57b0e-d3d4-40d9-931e-2fa48f8bdeaf',1,4441,33,14,0,'2022-07-19 08:53:38.000','2022-07-19 08:53:38.000'),(2,1,'704a92e392fd-54f3fe5d-3fb3-489c-9e9e-c5e2a867273f',1,8222,90,62,0,'2022-07-19 08:53:38.000','2022-07-19 08:53:38.000');
-/*!40000 ALTER TABLE `data_mr` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_pr`
---
-
-DROP TABLE IF EXISTS `data_pr`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `data_pr` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `project_id` bigint(20) DEFAULT NULL COMMENT '项目id',
-  `resource_id` bigint(20) DEFAULT NULL COMMENT '资源id',
-  `is_authed` int(2) DEFAULT NULL COMMENT '是否授权',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='项目资源关系表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `data_pr`
---
-
-LOCK TABLES `data_pr` WRITE;
-/*!40000 ALTER TABLE `data_pr` DISABLE KEYS */;
-INSERT INTO `data_pr` VALUES (1,1,8,1,0,'2022-06-22 04:03:13.000','2022-06-22 04:03:13.000'),(2,1,9,1,0,'2022-06-22 04:03:13.000','2022-06-22 04:03:13.000');
-/*!40000 ALTER TABLE `data_pr` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_project`
---
+CREATE TABLE `data_mr`  (
+                            `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '资源id',
+                            `model_id` bigint(20) DEFAULT NULL COMMENT '模型id',
+                            `resource_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '资源id',
+                            `task_id` bigint DEFAULT NULL COMMENT '任务ID',
+                            `alignment_num` int(8) DEFAULT NULL COMMENT '对齐后记录数量',
+                            `primitive_param_num` int(8) DEFAULT NULL COMMENT '原始变量数量',
+                            `modelParam_num` int(8) DEFAULT NULL COMMENT '入模变量数量',
+                            `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                            `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                            `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                            PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '模型资源表' ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `data_project`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `data_project` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
-  `project_id` varchar(141) NOT NULL COMMENT '项目ID 机构后12位+UUID',
-  `project_name` varchar(255) NOT NULL COMMENT '项目名称',
-  `project_desc` varchar(255) NOT NULL COMMENT '项目描述',
-  `created_organ_id` varchar(64) DEFAULT NULL COMMENT '机构id',
-  `created_organ_name` varchar(255) DEFAULT NULL COMMENT '机构名称',
-  `created_username` varchar(255) DEFAULT NULL COMMENT '创建者名称',
-  `resource_num` int(11) DEFAULT '0' COMMENT '资源数',
-  `provider_organ_names` varchar(255) DEFAULT NULL COMMENT '协作方机构名称 保存三个',
-  `server_address` varchar(255) DEFAULT NULL COMMENT '中心节点地址',
-  `status` tinyint(4) DEFAULT '0' COMMENT '项目状态 0审核中 1可用 2关闭',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `project_id_ix` (`project_id`) USING BTREE,
-  KEY `created_organ_id_ix` (`created_organ_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='项目表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `data_project`
---
-
-LOCK TABLES `data_project` WRITE;
-/*!40000 ALTER TABLE `data_project` DISABLE KEYS */;
-INSERT INTO `data_project` VALUES (1,'ea5fd5f5f9f0-d72d9682-8d6a-440a-b98e-8bae1192a40e','000','000','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','北京原语科技','admin',11,'北京隐数科技有限公司,机构三','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-06-29 11:29:30.000','2022-06-29 12:29:28.000'),(2,'704a92e392fd-6ba69b33-bf0c-42bc-b89b-f49eae61b9b6','三个机构没水喝','哈哈哈哈哈','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','北京隐数科技有限公司','admin',2,'北京原语科技,机构三','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-06-29 11:35:15.000','2022-06-29 11:48:42.000'),(3,'ea5fd5f5f9f0-075107ad-91c2-48fa-94ff-0a2b2709d06f','先一再一个','222211111','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','北京原语科技','admin',1,'机构三,北京隐数科技有限公司','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-06-29 11:36:24.000','2022-06-29 11:51:59.000'),(4,'ea5fd5f5f9f0-9b777669-b728-48f7-b694-b0b5cad5a710','444','444','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','北京原语科技','admin',3,'北京隐数科技有限公司,机构三','http://fusion.primihub-demo.svc.cluster.local:8080/',0,0,'2022-06-29 11:54:06.000','2022-06-29 11:54:06.000'),(5,'794e41ba0e63-bcab7a5c-321b-49af-ad11-ba1dae5ab45d','哈哈哈','哈哈哈','eb734dd0-773e-411b-ba29-794e41ba0e63','机构三','admin',0,'北京隐数科技有限公司,北京原语科技','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-06-29 12:12:10.000','2022-06-29 12:12:19.000'),(6,'794e41ba0e63-a83e0329-33bd-43f0-a4ee-6e3ce2f6511d','2家1','222','eb734dd0-773e-411b-ba29-794e41ba0e63','机构三','admin',0,'北京原语科技,北京隐数科技有限公司','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-06-29 12:14:28.000','2022-06-29 12:15:03.000'),(7,'794e41ba0e63-76a38b8a-d84c-4121-a7dc-c11f2190b71d','三个急急急','三个','eb734dd0-773e-411b-ba29-794e41ba0e63','机构三','admin',0,'北京原语科技,北京隐数科技有限公司','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-06-29 12:22:07.000','2022-06-29 12:24:18.000'),(8,'794e41ba0e63-5e098963-0f4f-4bea-b188-ec5c41ac5917','4444','44','eb734dd0-773e-411b-ba29-794e41ba0e63','机构三','admin',0,'北京原语科技,北京隐数科技有限公司','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-06-29 12:22:25.000','2022-06-29 12:22:25.000'),(9,'ea5fd5f5f9f0-58a6d4f6-bd78-455d-80bd-03e75cd16547','快拒绝我','快拒绝我','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','北京原语科技','admin',2,'北京隐数科技有限公司,机构三','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-06-29 12:37:44.000','2022-06-29 12:38:22.000'),(10,'794e41ba0e63-bfcf4274-5391-47cf-b4ff-b253ef9707b7','都要拒绝我','444','eb734dd0-773e-411b-ba29-794e41ba0e63','机构三','admin',0,'北京原语科技,北京隐数科技有限公司','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-06-29 12:39:05.000','2022-06-29 12:39:05.000'),(11,'704a92e392fd-28a03479-9559-43a6-a36b-83cf4f5b6188','5555','555','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','北京隐数科技有限公司','admin',32,'北京原语科技,机构三','http://fusion.primihub-demo.svc.cluster.local:8080/',0,0,'2022-06-29 12:59:45.000','2022-06-29 14:01:46.000'),(12,'ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','测试项目','测试项目','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','北京原语科技','admin',14,'北京隐数科技有限公司,机构三','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-06-29 13:08:18.000','2022-06-29 13:43:10.000'),(13,'794e41ba0e63-f2755fd2-b18d-4edb-a721-2d662b0ae620','201','201','eb734dd0-773e-411b-ba29-794e41ba0e63','机构三','admin',0,'北京原语科技,北京隐数科技有限公司','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-06-29 14:09:14.000','2022-06-29 14:09:39.000'),(14,'794e41ba0e63-648565ed-3502-4810-954e-f6e277523d29','999','999','eb734dd0-773e-411b-ba29-794e41ba0e63','机构三','admin',0,'北京原语科技,北京隐数科技有限公司','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-06-29 14:10:36.000','2022-06-29 14:10:41.000'),(15,'794e41ba0e63-e54e0406-a2da-41c3-9290-abf5b7078693','邀请一个在一个','邀请一个在一个','eb734dd0-773e-411b-ba29-794e41ba0e63','机构三','admin',4,'信联科技,用户2','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-06-30 06:26:18.000','2022-06-30 06:29:16.000'),(16,'704a92e392fd-28b4ad3e-7671-442a-bb90-0f439e50832c','审核我','审判我哈哈哈哈','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','用户2','admin',5,'信联科技,机构三','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-06-30 07:22:31.000','2022-06-30 07:25:32.000'),(17,'704a92e392fd-c955bd25-3c62-4cb7-a32f-f947a2a73851','测试项目','测试项目描述','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','用户2','admin',8,'信联科技,机构三','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-06-30 07:37:05.000','2022-06-30 08:05:09.000'),(18,'704a92e392fd-543ddca1-c72b-47c8-8bf2-c81ededb2165','hhh','eee','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','用户2','admin',2,'信联科技,机构三','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-06-30 13:02:03.000','2022-06-30 13:02:14.000'),(19,'794e41ba0e63-6033dbbc-fbd5-4e70-b3ce-a08453b893a0','666','666','eb734dd0-773e-411b-ba29-794e41ba0e63','原语科技Primihub03','admin',1,'原语科技Primihub01','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-01 11:36:29.000','2022-07-01 11:36:29.000'),(20,'704a92e392fd-ad1d7f73-3928-4a84-a8d9-6c3d01af411b','test111','1111','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','原语科技Primihub02','admin',9,'原语科技Primihub01,原语科技Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-01 11:46:41.000','2022-07-01 11:50:54.000'),(21,'ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','666','666','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','原语科技Primihub01','admin',13,'原语科技Primihub02,原语科技Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-01 12:24:39.000','2022-07-01 12:25:30.000'),(22,'704a92e392fd-6ed99f5e-591a-4a62-8b87-3b5777334f6d','和我一起玩吧','和我一起玩吧','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','原语科技Primihub02','admin',3,'原语科技Primihub01,原语科技Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-01 13:57:20.000','2022-07-01 13:58:29.000'),(23,'794e41ba0e63-096071e6-4ad1-432a-a97c-613c1d0b80d0','7777','777','eb734dd0-773e-411b-ba29-794e41ba0e63','原语科技Primihub03','admin',1,'原语科技Primihub02,原语科技Primihub01','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-01 13:59:11.000','2022-07-01 13:59:11.000'),(24,'704a92e392fd-4d9c1d71-fb08-46e6-912c-fc1ebd864489','666','666','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','原语科技Primihub02','admin',1,'原语科技Primihub01,原语科技Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-01 13:59:39.000','2022-07-01 14:00:02.000'),(25,'704a92e392fd-ccf7d35c-f343-4a5e-9b10-4842047c73ae','我是新建的','11','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','原语科技Primihub03','admin',9,'原语科技Primihub03,Primihub01','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-04 03:15:39.000','2022-07-04 05:47:51.000'),(26,'704a92e392fd-f13bdf46-dada-4651-9bbb-65f9fbb3f979','new project ','new project ','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','原语科技Primihub03','admin',19,'原语科技Primihub01,原语科技Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',0,0,'2022-07-04 05:45:50.000','2022-07-04 05:45:50.000'),(27,'ea5fd5f5f9f0-e51c98a1-9f1c-404d-a34a-a57b8c0713f4','test111','1111','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','admin',0,'原语科技Primihub03,Primihub02','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-04 05:55:43.000','2022-07-04 06:43:02.000'),(28,'ea5fd5f5f9f0-74948866-ce37-41ac-bf61-ecc55d8eb6e3','test项目','test项目描述','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','admin',3,'Primihub02,Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',0,0,'2022-07-04 08:13:23.000','2022-07-04 08:13:23.000'),(29,'ea5fd5f5f9f0-26e823c6-320c-454b-ae13-2f3d201c3990','111','111','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','admin',5,'Primihub02,Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-04 08:37:25.000','2022-07-04 08:58:31.000'),(30,'ea5fd5f5f9f0-3dacc58c-ce29-46ab-8cd7-8af4d7b992d9','test1','111','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','admin',10,'Primihub02,Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-04 08:40:41.000','2022-07-04 08:58:07.000'),(31,'ea5fd5f5f9f0-01359f16-87e1-4d07-a271-9566ef037116','test111','111','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','admin',7,'Primihub02,Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-04 09:59:27.000','2022-07-04 10:03:39.000'),(32,'ea5fd5f5f9f0-34e375ea-7bc1-42c3-a523-ab8f93f504c9','test111','111','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','admin',4,'Primihub02,Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-04 10:29:39.000','2022-07-04 10:29:40.000'),(33,'ea5fd5f5f9f0-e8d7779d-5099-4582-b707-a429e10a4786','test11111','111111','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','admin',16,'Primihub02,Primihub03,Primihub01','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-04 11:08:36.000','2022-07-04 11:13:32.000'),(34,'ea5fd5f5f9f0-b51d2477-ca2c-4c17-b721-7d2cc7272705','特殊1','11','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','admin',10,'Primihub03,Primihub02','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-05 02:15:11.000','2022-07-05 02:15:38.000'),(35,'ea5fd5f5f9f0-422c5bbc-4b06-49ae-b5ae-f474902f05bc','123','1111','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','admin',7,'Primihub02,Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-05 02:16:50.000','2022-07-05 02:17:58.000'),(36,'704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','5555','55','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','Primihub02','admin',15,'Primihub01,Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-05 10:46:11.000','2022-07-06 02:24:49.000'),(37,'704a92e392fd-6eb348bf-5229-43c1-b57a-0048365b9dff','555','555','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','Primihub02','admin',2,'Primihub01,Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',0,0,'2022-07-08 17:03:08.000','2022-07-08 17:03:08.000'),(38,'794e41ba0e63-c0cea96b-108b-471e-b5cd-5ff3b784a916','测试样例','为了看看怎么添加项目，特进行测试','eb734dd0-773e-411b-ba29-794e41ba0e63','Primihub03','崔昌',4,'Primihub01,Primihub02','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-11 08:40:37.000','2022-07-11 12:05:35.000'),(39,'794e41ba0e63-97ef0324-a273-49cf-b7a8-b0788d556cd1','demo_yfan','demo_yfan','eb734dd0-773e-411b-ba29-794e41ba0e63','Primihub03','yfan',4,'Primihub01,Primihub02','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-11 12:07:01.000','2022-07-11 12:09:47.000'),(40,'ea5fd5f5f9f0-cd657924-2e44-4321-a8e4-968ef33050cc','yk_test','由楷的测试项目','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','由楷',3,'Primihub02,Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-12 02:43:22.000','2022-07-12 03:01:47.000'),(41,'ea5fd5f5f9f0-1c59bbf5-62f0-4ce2-b01d-44b432440ee4','test1','test1','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','zx',2,'Primihub02,Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-12 07:35:15.000','2022-07-12 07:39:26.000'),(42,'ea5fd5f5f9f0-0e0277d9-2d84-4b67-bec1-145ffa807cd7','测试1','测试1','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','admin',2,'Primihub02,Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',0,0,'2022-07-12 08:15:17.000','2022-07-12 08:15:17.000'),(43,'ea5fd5f5f9f0-acdb0c7d-5ce5-4559-9168-6e45bf10e665','测试用例','测试','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','Bob',2,'Primihub02,Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',0,0,'2022-07-12 10:55:18.000','2022-07-12 10:55:18.000'),(44,'ea5fd5f5f9f0-b03a29c2-3d09-4dcf-9c61-6f08021ef412','测试测','测试','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','ljrhw',2,'Primihub02,Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',0,0,'2022-07-15 06:42:28.000','2022-07-15 06:42:28.000'),(45,'ea5fd5f5f9f0-0882e86f-02cf-487c-b451-859518d6ff1f','test项目','test','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','leiyannan',0,'Primihub02,Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',0,0,'2022-07-15 06:56:05.000','2022-07-15 06:56:05.000'),(46,'ea5fd5f5f9f0-2ddb6425-b691-46c8-97f7-82794f9a5ebd','测试项目','看看怎么创建','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','ljrhw',1,'Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-15 07:06:48.000','2022-07-15 07:07:21.000'),(47,'ea5fd5f5f9f0-61825652-983f-40ec-a379-43f8b8cb7424','模型测试','模型测试','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','Primihub01','leiyannan',6,'Primihub02,Primihub03','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-19 08:26:14.000','2022-07-19 08:28:26.000'),(48,'794e41ba0e63-a5471022-7cf5-4af8-857c-c3e8bbb215a6','3-2','3-2','eb734dd0-773e-411b-ba29-794e41ba0e63','Primihub03','leiyannan',2,'Primihub02','http://fusion.primihub-demo.svc.cluster.local:8080/',1,0,'2022-07-19 08:52:35.000','2022-07-19 08:52:35.000');
-/*!40000 ALTER TABLE `data_project` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_project_organ`
---
+                                `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+                                `project_id` varchar(141) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '项目ID 机构后12位+UUID',
+                                `project_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '项目名称',
+                                `project_desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '项目描述',
+                                `created_organ_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '机构id',
+                                `created_organ_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '机构名称',
+                                `created_username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建者名称',
+                                `resource_num` int DEFAULT '0' COMMENT '资源数',
+                                `provider_organ_names` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '协作方机构名称 保存三个',
+                                `server_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '中心节点地址',
+                                `status` tinyint DEFAULT '0' COMMENT '项目状态 0审核中 1可用 2关闭',
+                                `is_del` tinyint DEFAULT '0' COMMENT '是否删除',
+                                `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                                PRIMARY KEY (`id`) USING BTREE,
+                                UNIQUE INDEX `project_id_ix`(`project_id`) USING BTREE,
+                                INDEX `created_organ_id_ix`(`created_organ_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci  COMMENT='项目表' ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `data_project_organ`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `data_project_organ` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `po_id` varchar(64) DEFAULT NULL COMMENT '项目机构关联ID UUID',
-  `project_id` varchar(64) DEFAULT NULL COMMENT '项目ID',
-  `organ_id` varchar(64) DEFAULT NULL COMMENT '机构ID',
-  `initiate_organ_id` varchar(255) DEFAULT NULL COMMENT '发起方机构ID',
-  `participation_identity` tinyint(4) DEFAULT NULL COMMENT '机构项目中参与身份 1发起者 2协作者',
-  `audit_status` tinyint(4) DEFAULT NULL COMMENT '审核状态 0审核中 1同意 2拒绝',
-  `audit_opinion` varchar(255) DEFAULT NULL COMMENT '审核意见',
-  `secretkey_id` varchar(64) DEFAULT NULL COMMENT '秘钥ID',
-  `server_address` varchar(255) DEFAULT NULL COMMENT '中心节点地址',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `project_id_ix` (`project_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='项目资源授权审核表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+                                      `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                      `po_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '项目机构关联ID UUID',
+                                      `project_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '项目ID',
+                                      `organ_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '机构ID',
+                                      `initiate_organ_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '发起方机构ID',
+                                      `participation_identity` tinyint DEFAULT NULL COMMENT '机构项目中参与身份 1发起者 2协作者',
+                                      `audit_status` tinyint DEFAULT NULL COMMENT '审核状态 0审核中 1同意 2拒绝',
+                                      `audit_opinion` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '审核意见',
+                                      `secretkey_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '秘钥ID',
+                                      `server_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '中心节点地址',
+                                      `is_del` tinyint DEFAULT '0' COMMENT '是否删除',
+                                      `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                      `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                                      PRIMARY KEY (`id`) USING BTREE,
+                                      INDEX `project_id_ix`(`project_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT='项目资源授权审核表' ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `data_project_organ`
---
-
-LOCK TABLES `data_project_organ` WRITE;
-/*!40000 ALTER TABLE `data_project_organ` DISABLE KEYS */;
-INSERT INTO `data_project_organ` VALUES (1,'163a3836-9742-42de-baa4-b2ccdf80ec4b','ea5fd5f5f9f0-d72d9682-8d6a-440a-b98e-8bae1192a40e','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'888',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 11:29:30.000','2022-06-30 02:04:35.000'),(2,'ef9e9349-bc4c-43b1-b5d6-97dbf644fce2','704a92e392fd-6ba69b33-bf0c-42bc-b89b-f49eae61b9b6','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 11:35:15.000','2022-06-29 11:35:15.000'),(3,'e895f4ea-7f99-49db-94c7-c7418666e5e7','704a92e392fd-6ba69b33-bf0c-42bc-b89b-f49eae61b9b6','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,1,'222',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 11:35:15.000','2022-06-29 11:49:22.000'),(4,'cffa9ae3-f13f-4f00-b472-37f2d2ce1209','704a92e392fd-6ba69b33-bf0c-42bc-b89b-f49eae61b9b6','eb734dd0-773e-411b-ba29-794e41ba0e63','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,1,'444',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 11:35:15.000','2022-06-29 11:48:42.000'),(5,'91a2054b-40e8-4d02-ae37-3d731ce88a04','ea5fd5f5f9f0-075107ad-91c2-48fa-94ff-0a2b2709d06f','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 11:36:24.000','2022-06-29 11:36:24.000'),(6,'ea2c7857-5288-45f3-91ce-1eccad17ca13','ea5fd5f5f9f0-075107ad-91c2-48fa-94ff-0a2b2709d06f','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'444',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 11:36:24.000','2022-06-29 11:51:59.000'),(7,'333b5ba6-c01d-450b-addc-70bff384dfeb','ea5fd5f5f9f0-075107ad-91c2-48fa-94ff-0a2b2709d06f','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'666',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 11:36:45.000','2022-06-29 11:53:02.000'),(8,'c36de4d6-b332-4973-bc79-4d2655233b2d','ea5fd5f5f9f0-9b777669-b728-48f7-b694-b0b5cad5a710','eb734dd0-773e-411b-ba29-794e41ba0e63','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 11:54:06.000','2022-06-29 11:54:06.000'),(9,'0804f93e-8b79-418c-8e75-6b311d00d49f','794e41ba0e63-bcab7a5c-321b-49af-ad11-ba1dae5ab45d','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:12:10.000','2022-06-29 12:12:10.000'),(10,'1e19d06b-3729-4398-9cf5-7dc206c24cad','794e41ba0e63-bcab7a5c-321b-49af-ad11-ba1dae5ab45d','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,1,'555',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:12:10.000','2022-06-29 12:12:51.000'),(11,'086f553f-38a9-4831-a187-4a28a0e01367','794e41ba0e63-bcab7a5c-321b-49af-ad11-ba1dae5ab45d','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:12:19.000','2022-06-29 12:12:19.000'),(12,'d0e62a67-8235-4ada-8de6-07fd043c583e','794e41ba0e63-a83e0329-33bd-43f0-a4ee-6e3ce2f6511d','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:14:28.000','2022-06-29 12:14:28.000'),(13,'a80bd06e-a63d-4332-b0c1-d36c6c9d5eba','794e41ba0e63-a83e0329-33bd-43f0-a4ee-6e3ce2f6511d','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,1,'666',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:14:28.000','2022-06-29 12:14:46.000'),(14,'6d35b9ed-4e70-49da-aa6d-94e44316a6ea','794e41ba0e63-a83e0329-33bd-43f0-a4ee-6e3ce2f6511d','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:15:03.000','2022-06-29 12:15:03.000'),(15,'035f0264-8f82-4b83-be8e-c34ee718edc0','794e41ba0e63-76a38b8a-d84c-4121-a7dc-c11f2190b71d','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:22:07.000','2022-06-29 12:22:07.000'),(16,'93acc936-8209-4c7f-a73d-ba507962a5ea','794e41ba0e63-76a38b8a-d84c-4121-a7dc-c11f2190b71d','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,1,'同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:22:07.000','2022-06-29 12:24:08.000'),(17,'553fa04c-03bc-450b-9805-67f4844c723f','794e41ba0e63-5e098963-0f4f-4bea-b188-ec5c41ac5917','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:22:25.000','2022-06-29 12:22:25.000'),(18,'bd735a23-5803-4d73-b6ae-ffe7aabdc047','794e41ba0e63-5e098963-0f4f-4bea-b188-ec5c41ac5917','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,1,'888',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:22:25.000','2022-06-29 12:22:58.000'),(19,'fc7e013f-a713-4142-add1-527d9886475a','794e41ba0e63-5e098963-0f4f-4bea-b188-ec5c41ac5917','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,1,'444',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:22:25.000','2022-06-29 12:22:41.000'),(20,'80cfe726-38f4-4b46-a5aa-2a3a3a624d20','794e41ba0e63-76a38b8a-d84c-4121-a7dc-c11f2190b71d','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:24:18.000','2022-06-29 12:24:18.000'),(21,'8bd491f1-711d-40e3-ba14-957609709722','ea5fd5f5f9f0-58a6d4f6-bd78-455d-80bd-03e75cd16547','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:37:44.000','2022-06-29 12:37:44.000'),(22,'47a4a482-99ae-4595-a6e1-f5d6eaef0836','ea5fd5f5f9f0-58a6d4f6-bd78-455d-80bd-03e75cd16547','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,2,'如你所愿哈哈哈哈哈',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:37:44.000','2022-06-29 12:38:03.000'),(23,'ad59e356-4cdc-4655-8152-a11139a61253','ea5fd5f5f9f0-58a6d4f6-bd78-455d-80bd-03e75cd16547','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'哈哈哈哈再补一刀',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:37:44.000','2022-06-29 12:38:22.000'),(24,'63e98060-07d3-495a-b576-d534fe982ed9','794e41ba0e63-bfcf4274-5391-47cf-b4ff-b253ef9707b7','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:39:05.000','2022-06-29 12:39:05.000'),(25,'1fcd0606-84f4-42a5-8520-aaa3e2c43ad8','794e41ba0e63-bfcf4274-5391-47cf-b4ff-b253ef9707b7','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,2,'666',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:39:05.000','2022-06-29 12:39:29.000'),(26,'4abf872f-c75c-40c3-9c02-bf1cd68e025f','794e41ba0e63-bfcf4274-5391-47cf-b4ff-b253ef9707b7','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,2,'555',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:39:05.000','2022-06-29 12:39:16.000'),(27,'a6c31f74-f4d2-47f8-a8de-e8c1f165bbd5','704a92e392fd-28a03479-9559-43a6-a36b-83cf4f5b6188','eb734dd0-773e-411b-ba29-794e41ba0e63','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 12:59:45.000','2022-06-29 12:59:45.000'),(28,'8832548f-395c-432f-b436-118cbf5671ae','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 13:08:18.000','2022-06-29 13:08:18.000'),(29,'e81c43c8-4f30-46a9-abc9-0a21c1491383','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'999',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 13:08:18.000','2022-06-29 13:08:43.000'),(30,'04626079-359f-4f74-9b10-929ace7c5e89','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'777',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 13:08:18.000','2022-06-29 13:43:10.000'),(31,'d4046a07-8996-494b-a30d-2e1a71dabde3','794e41ba0e63-f2755fd2-b18d-4edb-a721-2d662b0ae620','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 14:09:14.000','2022-06-29 14:10:05.000'),(32,'93cda478-74a9-4fc9-942b-ee1b6f058572','794e41ba0e63-f2755fd2-b18d-4edb-a721-2d662b0ae620','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,1,'555',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 14:09:14.000','2022-06-29 14:10:05.000'),(33,'dc8eb06d-2116-4511-a77c-1f9ea0015b4b','794e41ba0e63-f2755fd2-b18d-4edb-a721-2d662b0ae620','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,1,'999',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 14:09:39.000','2022-06-29 14:10:05.000'),(34,'5d520db3-f43d-4d48-8e22-c9ed7926a706','794e41ba0e63-648565ed-3502-4810-954e-f6e277523d29','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 14:10:36.000','2022-06-29 14:13:06.000'),(35,'2b4fe6cc-6b3e-464e-8d73-7838bf1cd59e','794e41ba0e63-648565ed-3502-4810-954e-f6e277523d29','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,1,'99',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 14:10:36.000','2022-06-29 14:13:06.000'),(36,'7389045d-ba1a-4ab1-b311-4f6f0620a6a5','794e41ba0e63-648565ed-3502-4810-954e-f6e277523d29','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,1,'999',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-29 14:10:41.000','2022-06-29 14:13:06.000'),(37,'9432418a-3765-4bd2-86c2-71e845a37943','ea5fd5f5f9f0-d72d9682-8d6a-440a-b98e-8bae1192a40e','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-30 02:04:35.000','2022-06-30 02:04:35.000'),(38,'2b719ee8-fbda-4b8f-aad8-fb008a28f808','ea5fd5f5f9f0-d72d9682-8d6a-440a-b98e-8bae1192a40e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'444',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-30 02:04:35.000','2022-06-30 02:04:35.000'),(39,'61204d0d-6aae-46e0-9a00-aa2abefd7370','794e41ba0e63-e54e0406-a2da-41c3-9290-abf5b7078693','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-30 06:26:18.000','2022-06-30 06:28:01.000'),(40,'459715d0-7a8a-4e11-befd-d4d8a159a718','794e41ba0e63-e54e0406-a2da-41c3-9290-abf5b7078693','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,1,'非常愉快的同意了',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-30 06:26:18.000','2022-06-30 06:28:01.000'),(41,'bf0e3fd0-2825-4004-bda0-5fcf710cc78a','794e41ba0e63-e54e0406-a2da-41c3-9290-abf5b7078693','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,2,'非常不爽的拒绝了',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-30 06:26:37.000','2022-06-30 06:28:01.000'),(42,'ef281541-8014-4efa-a40b-5724d2ec4576','704a92e392fd-28b4ad3e-7671-442a-bb90-0f439e50832c','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-30 07:22:31.000','2022-06-30 07:25:32.000'),(43,'472ab7ac-3029-42f2-be69-2abebd0c7bc1','704a92e392fd-28b4ad3e-7671-442a-bb90-0f439e50832c','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,2,'黑码',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-30 07:22:31.000','2022-06-30 07:25:32.000'),(44,'70bf3b9e-6625-4597-8ba5-3a9d5612c202','704a92e392fd-28b4ad3e-7671-442a-bb90-0f439e50832c','eb734dd0-773e-411b-ba29-794e41ba0e63','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,1,'哈哈',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-30 07:22:31.000','2022-06-30 07:25:32.000'),(45,'7018040d-305e-4e80-b3f7-43538fe5eaca','704a92e392fd-c955bd25-3c62-4cb7-a32f-f947a2a73851','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-30 07:37:05.000','2022-06-30 08:05:09.000'),(46,'81d7a4fe-b2b0-45f4-b8a3-db389d10a60c','704a92e392fd-c955bd25-3c62-4cb7-a32f-f947a2a73851','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,1,'5',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-30 07:37:05.000','2022-06-30 08:05:09.000'),(47,'52359479-cf0f-49ec-af95-47d23662b129','704a92e392fd-c955bd25-3c62-4cb7-a32f-f947a2a73851','eb734dd0-773e-411b-ba29-794e41ba0e63','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,1,'同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-30 07:37:05.000','2022-06-30 08:05:09.000'),(48,'885c4037-8067-4d18-885a-ec8eb1388528','704a92e392fd-543ddca1-c72b-47c8-8bf2-c81ededb2165','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-30 13:02:03.000','2022-06-30 13:02:03.000'),(49,'1bb9acde-77c4-4b46-b63b-d234c8448d57','704a92e392fd-543ddca1-c72b-47c8-8bf2-c81ededb2165','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,1,'999',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-30 13:02:03.000','2022-06-30 13:02:03.000'),(50,'1366dde1-dca3-4d0b-98f4-716531e8472e','704a92e392fd-543ddca1-c72b-47c8-8bf2-c81ededb2165','eb734dd0-773e-411b-ba29-794e41ba0e63','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,1,'999',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-06-30 13:02:03.000','2022-06-30 13:02:14.000'),(51,'2c716606-f858-489f-862a-753a02a81a41','794e41ba0e63-6033dbbc-fbd5-4e70-b3ce-a08453b893a0','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 11:36:29.000','2022-07-01 11:36:29.000'),(52,'5fe4eac1-829d-4850-b0d6-4bdb8282f6f8','794e41ba0e63-6033dbbc-fbd5-4e70-b3ce-a08453b893a0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 11:36:29.000','2022-07-01 11:36:29.000'),(53,'40e499ba-356c-4d3e-a4a7-f50f8b72d875','704a92e392fd-ad1d7f73-3928-4a84-a8d9-6c3d01af411b','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 11:46:41.000','2022-07-01 11:50:54.000'),(54,'d495288d-344d-4e17-b8d2-e393a6b7a504','704a92e392fd-ad1d7f73-3928-4a84-a8d9-6c3d01af411b','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 11:46:41.000','2022-07-01 11:50:54.000'),(55,'b5968176-9fc4-4d9c-bef8-1ea55f20d852','704a92e392fd-ad1d7f73-3928-4a84-a8d9-6c3d01af411b','eb734dd0-773e-411b-ba29-794e41ba0e63','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 11:46:41.000','2022-07-01 11:50:54.000'),(56,'bc40380c-6c8a-4ce5-92dd-896561deed4d','ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 12:24:39.000','2022-07-01 12:27:17.000'),(57,'a4f439df-a94a-48cc-9a5c-ac4a9cdb7ec8','ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'7',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 12:24:39.000','2022-07-01 12:27:17.000'),(58,'a3c6e8e7-e0aa-4842-91e1-0b4fc637f99e','ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'777',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 12:24:39.000','2022-07-01 12:27:17.000'),(59,'c094cb23-5952-43d7-bd59-6b9d5bfa97ee','704a92e392fd-6ed99f5e-591a-4a62-8b87-3b5777334f6d','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 13:57:20.000','2022-07-01 13:58:47.000'),(60,'7f6c2275-2cff-4eea-a641-ba29031ebca6','704a92e392fd-6ed99f5e-591a-4a62-8b87-3b5777334f6d','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,1,'444',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 13:57:20.000','2022-07-01 13:58:47.000'),(61,'7db74062-90c2-4c3a-8069-d56c4a43e247','704a92e392fd-6ed99f5e-591a-4a62-8b87-3b5777334f6d','eb734dd0-773e-411b-ba29-794e41ba0e63','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,1,'777',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 13:57:20.000','2022-07-01 13:58:47.000'),(62,'51b03f3b-8383-42de-90dd-9d43b2d2e940','794e41ba0e63-096071e6-4ad1-432a-a97c-613c1d0b80d0','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 13:59:11.000','2022-07-01 14:04:08.000'),(63,'b7da66ba-72b0-419e-9f05-540575129d48','794e41ba0e63-096071e6-4ad1-432a-a97c-613c1d0b80d0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,1,'111',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 13:59:11.000','2022-07-01 14:04:08.000'),(64,'1818ed80-5d80-400f-9773-b9427b7b5a30','794e41ba0e63-096071e6-4ad1-432a-a97c-613c1d0b80d0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,1,'888',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 13:59:11.000','2022-07-01 14:04:08.000'),(65,'c2cb241b-9f7e-48b1-8470-e8abc9bd09d5','704a92e392fd-4d9c1d71-fb08-46e6-912c-fc1ebd864489','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 13:59:39.000','2022-07-01 13:59:39.000'),(66,'c41a2186-ca7b-4919-812d-f611201e2521','704a92e392fd-4d9c1d71-fb08-46e6-912c-fc1ebd864489','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 13:59:39.000','2022-07-01 13:59:39.000'),(67,'fad81042-1bec-4909-8537-2ce9a5eb2e6a','704a92e392fd-4d9c1d71-fb08-46e6-912c-fc1ebd864489','eb734dd0-773e-411b-ba29-794e41ba0e63','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,2,'666',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 13:59:39.000','2022-07-01 14:00:02.000'),(68,'ae6101ac-0886-4f2a-921b-1c59ef018d68','704a92e392fd-4d9c1d71-fb08-46e6-912c-fc1ebd864489','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-01 13:59:39.000','2022-07-01 13:59:39.000'),(69,'27e0d713-5ff0-489c-b2c1-c4ed7ef906ab','704a92e392fd-ccf7d35c-f343-4a5e-9b10-4842047c73ae','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 03:15:39.000','2022-07-04 05:47:51.000'),(70,'eb0bc4eb-649b-4899-aa2a-d7f32b49f3d7','704a92e392fd-ccf7d35c-f343-4a5e-9b10-4842047c73ae','eb734dd0-773e-411b-ba29-794e41ba0e63','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 03:15:39.000','2022-07-04 05:47:51.000'),(71,'5a803dcb-3de3-4c1f-abc6-6c63bdbcf5be','704a92e392fd-f13bdf46-dada-4651-9bbb-65f9fbb3f979','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 05:45:50.000','2022-07-04 05:45:50.000'),(72,'db7ef0ad-b07a-4923-bee1-ad7edae94511','704a92e392fd-f13bdf46-dada-4651-9bbb-65f9fbb3f979','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 05:45:50.000','2022-07-04 05:45:50.000'),(73,'faca367b-221b-4a6c-85f3-e89734d627d2','704a92e392fd-f13bdf46-dada-4651-9bbb-65f9fbb3f979','eb734dd0-773e-411b-ba29-794e41ba0e63','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 05:45:50.000','2022-07-04 05:45:50.000'),(74,'7b614e36-dff1-4f8a-be2e-44e75062695f','704a92e392fd-ccf7d35c-f343-4a5e-9b10-4842047c73ae','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 05:47:51.000','2022-07-04 05:47:51.000'),(75,'eaea9549-55d2-4612-aded-22d30241e0d5','ea5fd5f5f9f0-e51c98a1-9f1c-404d-a34a-a57b8c0713f4','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 05:55:43.000','2022-07-04 06:43:02.000'),(76,'b8879462-fb8e-48a4-9691-c4489d727397','ea5fd5f5f9f0-e51c98a1-9f1c-404d-a34a-a57b8c0713f4','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 05:55:43.000','2022-07-04 06:43:02.000'),(77,'ffaa85b4-b100-453d-ad58-3691f9a79088','ea5fd5f5f9f0-e51c98a1-9f1c-404d-a34a-a57b8c0713f4','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 06:34:04.000','2022-07-04 06:43:02.000'),(78,'ee9b54d9-e6bb-4282-adc6-5f5b0022786e','ea5fd5f5f9f0-74948866-ce37-41ac-bf61-ecc55d8eb6e3','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 08:13:24.000','2022-07-04 08:13:24.000'),(79,'55cef026-35b3-47ef-adbd-61cc1b3e24b3','ea5fd5f5f9f0-74948866-ce37-41ac-bf61-ecc55d8eb6e3','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'同意参与',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 08:13:24.000','2022-07-04 08:13:24.000'),(80,'0520b0f4-d873-49e8-99da-8a737c3a0f49','ea5fd5f5f9f0-74948866-ce37-41ac-bf61-ecc55d8eb6e3','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 08:13:24.000','2022-07-04 08:13:24.000'),(81,'23860d0e-1c1e-4f2e-88ec-b326bd2cd94e','ea5fd5f5f9f0-26e823c6-320c-454b-ae13-2f3d201c3990','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 08:37:25.000','2022-07-04 08:58:35.000'),(82,'d6db23f6-5af1-43eb-bb6b-a9a61fb30362','ea5fd5f5f9f0-26e823c6-320c-454b-ae13-2f3d201c3990','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 08:37:25.000','2022-07-04 08:58:35.000'),(83,'299073a8-630a-40c1-bf2c-52ee595a4a99','ea5fd5f5f9f0-26e823c6-320c-454b-ae13-2f3d201c3990','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 08:37:25.000','2022-07-04 08:58:35.000'),(84,'f582c4d9-a596-4659-af83-2c91864bff1d','ea5fd5f5f9f0-3dacc58c-ce29-46ab-8cd7-8af4d7b992d9','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 08:40:41.000','2022-07-04 08:58:10.000'),(85,'335c8219-c9e4-4777-9b8d-8a2b161dc75f','ea5fd5f5f9f0-3dacc58c-ce29-46ab-8cd7-8af4d7b992d9','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 08:40:41.000','2022-07-04 08:58:10.000'),(86,'18f53e14-f468-46ae-91d1-842f78596d0b','ea5fd5f5f9f0-3dacc58c-ce29-46ab-8cd7-8af4d7b992d9','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 08:40:41.000','2022-07-04 08:58:10.000'),(87,'1d89b473-af04-4a2d-93c2-e642c53d6f29','ea5fd5f5f9f0-01359f16-87e1-4d07-a271-9566ef037116','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 09:59:27.000','2022-07-04 10:03:39.000'),(88,'f6324a85-294c-4040-968a-5f0cda566dac','ea5fd5f5f9f0-01359f16-87e1-4d07-a271-9566ef037116','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 09:59:27.000','2022-07-04 10:03:39.000'),(89,'9ac3a193-48ff-4d70-aaf4-aa27d3867238','ea5fd5f5f9f0-01359f16-87e1-4d07-a271-9566ef037116','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 09:59:27.000','2022-07-04 10:03:39.000'),(90,'2a3f4f27-5309-422f-8369-45ae81fad06d','ea5fd5f5f9f0-34e375ea-7bc1-42c3-a523-ab8f93f504c9','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 10:29:39.000','2022-07-04 10:29:39.000'),(91,'5ab69b41-0c63-4ce7-a1d1-173e86056cd1','ea5fd5f5f9f0-34e375ea-7bc1-42c3-a523-ab8f93f504c9','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 10:29:39.000','2022-07-04 10:29:39.000'),(92,'dd4eb707-8f0d-4586-be86-6d0125d06f17','ea5fd5f5f9f0-34e375ea-7bc1-42c3-a523-ab8f93f504c9','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 10:29:39.000','2022-07-04 10:29:39.000'),(93,'cf8ad5a7-abdd-4400-b588-10d868239147','ea5fd5f5f9f0-34e375ea-7bc1-42c3-a523-ab8f93f504c9','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 10:29:39.000','2022-07-04 10:29:39.000'),(94,'9251e718-d03d-4cf5-9dd2-575690c85bc4','ea5fd5f5f9f0-34e375ea-7bc1-42c3-a523-ab8f93f504c9','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 10:29:39.000','2022-07-04 10:29:39.000'),(95,'a25b2892-f29a-490a-9464-adb6c7f8d68f','ea5fd5f5f9f0-34e375ea-7bc1-42c3-a523-ab8f93f504c9','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 10:29:39.000','2022-07-04 10:29:39.000'),(96,'06a3cb3b-0c5e-409b-9b3a-95bdf5760e5e','ea5fd5f5f9f0-34e375ea-7bc1-42c3-a523-ab8f93f504c9','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 10:29:39.000','2022-07-04 10:29:39.000'),(97,'5ea168f4-7ab7-4ea3-a3a6-f33d1b83e61a','ea5fd5f5f9f0-34e375ea-7bc1-42c3-a523-ab8f93f504c9','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 10:29:39.000','2022-07-04 10:29:39.000'),(98,'ce16f7d0-fd46-4edf-af76-b41e97e80181','ea5fd5f5f9f0-34e375ea-7bc1-42c3-a523-ab8f93f504c9','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 10:29:39.000','2022-07-04 10:29:39.000'),(99,'0d2d3cfb-a8df-4e4d-9124-f96df693dea0','ea5fd5f5f9f0-34e375ea-7bc1-42c3-a523-ab8f93f504c9','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 10:29:39.000','2022-07-04 10:29:39.000'),(100,'8bbe4d42-e50f-4c5c-b125-0e8cd3a200ba','ea5fd5f5f9f0-34e375ea-7bc1-42c3-a523-ab8f93f504c9','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 10:29:39.000','2022-07-04 10:29:39.000'),(101,'c50dab69-47e6-4df2-a0b8-085237340696','ea5fd5f5f9f0-e8d7779d-5099-4582-b707-a429e10a4786','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 11:08:36.000','2022-07-04 11:40:57.000'),(102,'80d6819c-f6ec-4ea7-bd9f-001826e4e192','ea5fd5f5f9f0-e8d7779d-5099-4582-b707-a429e10a4786','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 11:08:36.000','2022-07-04 11:40:57.000'),(103,'842d4fbf-be23-4f7a-accf-d1eed94d86f3','ea5fd5f5f9f0-e8d7779d-5099-4582-b707-a429e10a4786','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-04 11:08:36.000','2022-07-04 11:40:57.000'),(104,'d48055db-b26e-487a-9145-c03388a557ba','ea5fd5f5f9f0-b51d2477-ca2c-4c17-b721-7d2cc7272705','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-05 02:15:11.000','2022-07-05 02:15:48.000'),(105,'36db6333-d6bd-4b80-a240-ff5b332abbaf','ea5fd5f5f9f0-b51d2477-ca2c-4c17-b721-7d2cc7272705','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-05 02:15:11.000','2022-07-05 02:15:48.000'),(106,'2cf491ff-e610-4619-8989-b27751d0e8ad','ea5fd5f5f9f0-b51d2477-ca2c-4c17-b721-7d2cc7272705','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-05 02:15:11.000','2022-07-05 02:15:48.000'),(107,'29e50d6d-87e7-423e-85ac-ddfab962a301','ea5fd5f5f9f0-422c5bbc-4b06-49ae-b5ae-f474902f05bc','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-05 02:16:50.000','2022-07-05 02:18:01.000'),(108,'4742840e-0192-41c1-b4e8-b2edb0b6280a','ea5fd5f5f9f0-422c5bbc-4b06-49ae-b5ae-f474902f05bc','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-05 02:16:50.000','2022-07-05 02:18:01.000'),(109,'8ac8dc95-61cd-46a5-a1a7-a5bb2a0c0ebe','ea5fd5f5f9f0-422c5bbc-4b06-49ae-b5ae-f474902f05bc','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-05 02:16:50.000','2022-07-05 02:18:01.000'),(110,'55a8ce4e-0f74-4192-ad21-fbb1355c5735','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-05 10:46:11.000','2022-07-06 02:24:49.000'),(111,'6525b73e-2ea0-45a8-829e-17438ab7226c','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-05 10:46:11.000','2022-07-06 02:24:49.000'),(112,'decf5b53-c37b-4165-8c9e-fcbd2a1e3718','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','eb734dd0-773e-411b-ba29-794e41ba0e63','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-05 10:46:11.000','2022-07-06 02:24:49.000'),(113,'f1b01950-b9a2-44bb-8fa5-1d395895932c','704a92e392fd-6eb348bf-5229-43c1-b57a-0048365b9dff','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-08 17:03:08.000','2022-07-08 17:03:08.000'),(114,'dc79711f-af27-4913-8240-ee2283070039','704a92e392fd-6eb348bf-5229-43c1-b57a-0048365b9dff','eb734dd0-773e-411b-ba29-794e41ba0e63','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-08 17:03:08.000','2022-07-08 17:03:08.000'),(115,'bc558217-9a81-4707-adc1-7f7d5f50f45c','704a92e392fd-6eb348bf-5229-43c1-b57a-0048365b9dff','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-08 17:03:08.000','2022-07-08 17:03:08.000'),(116,'55b2dba5-2cf4-4de4-82ec-00ef5c252399','794e41ba0e63-c0cea96b-108b-471e-b5cd-5ff3b784a916','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-11 08:40:37.000','2022-07-15 10:13:11.000'),(117,'6b0b9634-9f9f-4b6c-aa74-97f24cc41fbc','794e41ba0e63-c0cea96b-108b-471e-b5cd-5ff3b784a916','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-11 08:40:37.000','2022-07-15 10:13:11.000'),(118,'46c15723-d338-4132-9a42-252fca4da29f','794e41ba0e63-c0cea96b-108b-471e-b5cd-5ff3b784a916','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-11 12:02:16.000','2022-07-15 10:13:11.000'),(119,'e4602b51-8f84-4797-9767-130860157ebc','794e41ba0e63-97ef0324-a273-49cf-b7a8-b0788d556cd1','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-11 12:07:01.000','2022-07-11 12:07:01.000'),(120,'5525396a-e8b5-4dd6-9299-23e3a6dfcd63','794e41ba0e63-97ef0324-a273-49cf-b7a8-b0788d556cd1','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-11 12:07:01.000','2022-07-11 12:07:01.000'),(121,'b22e1bce-eef9-4902-951b-5196db785a04','794e41ba0e63-97ef0324-a273-49cf-b7a8-b0788d556cd1','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-11 12:07:01.000','2022-07-11 12:07:01.000'),(122,'699ac03d-18d9-4aec-8359-457161204af4','ea5fd5f5f9f0-cd657924-2e44-4321-a8e4-968ef33050cc','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-12 02:43:22.000','2022-07-12 03:01:47.000'),(123,'4f68d559-1ce1-4586-b381-0e8e7e32aef6','ea5fd5f5f9f0-cd657924-2e44-4321-a8e4-968ef33050cc','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-12 02:43:22.000','2022-07-12 03:01:47.000'),(124,'86464528-b014-4870-9c7e-a6464e206644','ea5fd5f5f9f0-cd657924-2e44-4321-a8e4-968ef33050cc','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-12 02:43:22.000','2022-07-12 03:01:47.000'),(125,'7fe18b4f-d179-41e0-bf8b-560d035cbf95','ea5fd5f5f9f0-1c59bbf5-62f0-4ce2-b01d-44b432440ee4','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-12 07:35:15.000','2022-07-12 07:39:26.000'),(126,'aae474a6-2ce7-4b70-936e-aec02c9f348f','ea5fd5f5f9f0-1c59bbf5-62f0-4ce2-b01d-44b432440ee4','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-12 07:35:15.000','2022-07-12 07:39:26.000'),(127,'4ea16799-efae-47e3-936b-0ae92afb27dc','ea5fd5f5f9f0-1c59bbf5-62f0-4ce2-b01d-44b432440ee4','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-12 07:35:15.000','2022-07-12 07:39:26.000'),(128,'cf2df7d2-d200-419e-8abc-82511340f9b5','ea5fd5f5f9f0-0e0277d9-2d84-4b67-bec1-145ffa807cd7','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-12 08:15:17.000','2022-07-12 08:15:17.000'),(129,'c33b3969-3d04-45f4-8fdb-f5ad30fcc238','ea5fd5f5f9f0-0e0277d9-2d84-4b67-bec1-145ffa807cd7','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-12 08:15:17.000','2022-07-12 08:15:17.000'),(130,'5e702dc7-80d6-4414-8177-59a17b5bd8ca','ea5fd5f5f9f0-0e0277d9-2d84-4b67-bec1-145ffa807cd7','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-12 08:15:17.000','2022-07-12 08:15:17.000'),(131,'b78bcb46-4f2c-4798-9da2-5638a90b3112','ea5fd5f5f9f0-acdb0c7d-5ce5-4559-9168-6e45bf10e665','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-12 10:55:18.000','2022-07-15 10:02:12.000'),(132,'2264e8c2-7087-412c-ac96-e11e171cd342','ea5fd5f5f9f0-acdb0c7d-5ce5-4559-9168-6e45bf10e665','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-12 10:55:18.000','2022-07-12 10:55:18.000'),(133,'c3a180e6-de75-466c-a297-7f1dcccccf8a','ea5fd5f5f9f0-acdb0c7d-5ce5-4559-9168-6e45bf10e665','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-12 10:55:18.000','2022-07-12 10:55:18.000'),(134,'3ff993cb-094b-4c86-b99b-49474c595ba0','ea5fd5f5f9f0-b03a29c2-3d09-4dcf-9c61-6f08021ef412','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-15 06:42:28.000','2022-07-15 06:42:28.000'),(135,'ab6dbd38-b69b-42e5-8035-b022f1eee823','ea5fd5f5f9f0-b03a29c2-3d09-4dcf-9c61-6f08021ef412','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-15 06:42:28.000','2022-07-15 06:42:28.000'),(136,'a297ad59-7c8c-44af-982f-1a34bd1255b0','ea5fd5f5f9f0-b03a29c2-3d09-4dcf-9c61-6f08021ef412','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-15 06:42:28.000','2022-07-15 06:42:28.000'),(137,'36bf003c-725b-4b16-b265-063a248a285e','ea5fd5f5f9f0-0882e86f-02cf-487c-b451-859518d6ff1f','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-15 06:56:05.000','2022-07-15 06:56:05.000'),(138,'4623a4ca-e932-4904-a7f8-8f30b6adaac0','ea5fd5f5f9f0-0882e86f-02cf-487c-b451-859518d6ff1f','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-15 06:56:05.000','2022-07-15 06:56:05.000'),(139,'d2ff2e59-0d4a-4545-b13c-f60ec8ac8f52','ea5fd5f5f9f0-0882e86f-02cf-487c-b451-859518d6ff1f','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-15 06:56:05.000','2022-07-15 06:56:05.000'),(140,'5d0640d4-f66a-422f-9be1-816896d609cc','ea5fd5f5f9f0-2ddb6425-b691-46c8-97f7-82794f9a5ebd','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-15 07:06:48.000','2022-07-15 07:07:21.000'),(141,'0fd7d7ca-66c7-4302-a0db-5733fa221de1','ea5fd5f5f9f0-2ddb6425-b691-46c8-97f7-82794f9a5ebd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-15 07:06:48.000','2022-07-15 07:07:21.000'),(142,'6f75f011-41b5-4536-9a56-16f3d84fdffb','ea5fd5f5f9f0-61825652-983f-40ec-a379-43f8b8cb7424','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'183',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-19 08:26:14.000','2022-07-19 08:36:18.000'),(143,'9cea9267-f80a-4d0c-8708-294151d76da0','ea5fd5f5f9f0-61825652-983f-40ec-a379-43f8b8cb7424','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-19 08:26:14.000','2022-07-19 08:36:18.000'),(144,'322dd67a-c8cc-4b01-be17-eab852471ba8','ea5fd5f5f9f0-61825652-983f-40ec-a379-43f8b8cb7424','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,1,'888',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-19 08:26:14.000','2022-07-19 08:36:18.000'),(145,'d85afc80-88b7-4488-a74c-0eb1a5b8f41b','794e41ba0e63-a5471022-7cf5-4af8-857c-c3e8bbb215a6','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-19 08:52:35.000','2022-07-19 08:52:46.000'),(146,'1c81a8f5-4c48-4fd5-9cdd-709f76d198c5','794e41ba0e63-a5471022-7cf5-4af8-857c-c3e8bbb215a6','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/',0,'2022-07-19 08:52:35.000','2022-07-19 08:52:46.000');
-/*!40000 ALTER TABLE `data_project_organ` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_project_resource`
---
 
 DROP TABLE IF EXISTS `data_project_resource`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `data_project_resource` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `pr_id` varchar(64) DEFAULT NULL COMMENT '项目资源ID  UUID',
-  `project_id` varchar(64) DEFAULT NULL COMMENT '项目id',
-  `initiate_organ_id` varchar(64) DEFAULT NULL COMMENT '发起方机构ID',
-  `organ_id` varchar(64) DEFAULT NULL COMMENT '机构ID',
-  `participation_identity` tinyint(1) DEFAULT NULL COMMENT '机构项目中参与身份 1发起者 2协作者',
-  `is_del` tinyint(1) DEFAULT '0' COMMENT '是否删除',
-  `resource_id` varchar(64) DEFAULT '0' COMMENT '资源ID',
-  `audit_status` tinyint(4) DEFAULT NULL COMMENT '审核状态 0审核中 1同意 2拒绝',
-  `audit_opinion` varchar(255) DEFAULT NULL COMMENT '审核意见',
-  `secretkey_id` varchar(64) DEFAULT NULL COMMENT '秘钥ID',
-  `server_address` varchar(255) DEFAULT NULL COMMENT '中心节点地址',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `project_id_ix` (`project_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=202 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='项目资源关系表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+                                         `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                         `pr_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '项目资源ID  UUID',
+                                         `project_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '项目id',
+                                         `initiate_organ_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '发起方机构ID',
+                                         `organ_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '机构ID',
+                                         `participation_identity` tinyint(1) DEFAULT NULL COMMENT '机构项目中参与身份 1发起者 2协作者',
+                                         `is_del` tinyint(1) DEFAULT '0' COMMENT '是否删除',
+                                         `resource_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '0' COMMENT '资源ID',
+                                         `audit_status` tinyint DEFAULT NULL COMMENT '审核状态 0审核中 1同意 2拒绝',
+                                         `audit_opinion` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '审核意见',
+                                         `secretkey_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '秘钥ID',
+                                         `server_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '中心节点地址',
+                                         `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                         `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                                         PRIMARY KEY (`id`) USING BTREE,
+                                         INDEX `project_id_ix`(`project_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT='项目资源关系表' ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `data_project_resource`
---
-
-LOCK TABLES `data_project_resource` WRITE;
-/*!40000 ALTER TABLE `data_project_resource` DISABLE KEYS */;
-INSERT INTO `data_project_resource` VALUES (1,'fc51b534-2f8a-4763-87eb-53b1e8ebf1fb','ea5fd5f5f9f0-d72d9682-8d6a-440a-b98e-8bae1192a40e','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-377a071e-c7ef-4426-b887-4b60d100e15c',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 11:31:18.000','2022-06-30 02:04:35.000'),(2,'14bfc26e-5095-4830-a486-ab36a24258a5','ea5fd5f5f9f0-d72d9682-8d6a-440a-b98e-8bae1192a40e','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-82003b16-2db3-4b3d-a03c-65635907d13b',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 11:33:25.000','2022-06-30 02:04:35.000'),(3,'ca11c637-8e4e-449b-90e8-92a7db7854c3','ea5fd5f5f9f0-d72d9682-8d6a-440a-b98e-8bae1192a40e','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-60be2ae2-3776-4716-a829-c37290074f7d',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 11:33:49.000','2022-06-30 02:04:35.000'),(4,'d227cada-c552-4bb1-af53-bb2d4c459d4d','704a92e392fd-6ba69b33-bf0c-42bc-b89b-f49eae61b9b6','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-377a071e-c7ef-4426-b887-4b60d100e15c',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 11:35:15.000','2022-06-29 11:35:15.000'),(5,'e5046100-ec7c-49ea-928e-bdb2387bffc6','704a92e392fd-6ba69b33-bf0c-42bc-b89b-f49eae61b9b6','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-60be2ae2-3776-4716-a829-c37290074f7d',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 11:35:15.000','2022-06-29 11:49:27.000'),(6,'187aec1d-347e-4c8c-9b66-bfc3ea63dd90','ea5fd5f5f9f0-075107ad-91c2-48fa-94ff-0a2b2709d06f','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-60be2ae2-3776-4716-a829-c37290074f7d',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 11:36:24.000','2022-06-29 11:36:24.000'),(7,'9325716f-164d-4362-8998-53abdaa17b99','ea5fd5f5f9f0-d72d9682-8d6a-440a-b98e-8bae1192a40e','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-9231e799-0a70-49e2-b050-8b4bae4421fa',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 11:51:27.000','2022-06-30 02:04:35.000'),(8,'e6bc9745-7db5-4d37-8960-47f581cb4019','ea5fd5f5f9f0-58a6d4f6-bd78-455d-80bd-03e75cd16547','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-60be2ae2-3776-4716-a829-c37290074f7d',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 12:37:44.000','2022-06-29 12:37:44.000'),(9,'37f66ba2-827c-42ea-9c95-eff03ef79829','ea5fd5f5f9f0-58a6d4f6-bd78-455d-80bd-03e75cd16547','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-87fbe004-2ecb-4953-8dc5-660ad37957b0',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 12:37:44.000','2022-06-29 12:37:44.000'),(11,'4cd89381-9059-4ccf-ae04-bdfad5991246','704a92e392fd-28a03479-9559-43a6-a36b-83cf4f5b6188','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-82003b16-2db3-4b3d-a03c-65635907d13b',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:06:26.000','2022-06-29 13:06:26.000'),(14,'e32ea2c3-caa3-4fc2-8287-212e3fac0463','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-8815021d-8b23-40e9-b5f3-057d1d8e5666',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:08:18.000','2022-06-29 13:08:18.000'),(15,'0ed72819-f60e-4e99-9537-d40eee0162db','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-177cad58-4ee2-4b3f-87ab-7ac6077c9c21',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:08:18.000','2022-06-29 13:08:18.000'),(16,'fcbe5267-2bf0-4a35-a8a9-87a890ca46bb','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-7a983261-e46a-4435-87f5-855272f52720',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:08:18.000','2022-06-29 13:08:18.000'),(17,'56cd7b9f-7e58-4f4a-b250-a9b3a92a04d0','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-7ca16f02-b07e-41da-94cc-926a50ce4a26',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:08:18.000','2022-06-29 13:08:18.000'),(18,'0f60ece2-cdeb-4e62-a638-5cd8bc3a1cb0','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-efdb6b65-841d-4a75-8159-d0f526e00b28',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:08:18.000','2022-06-29 13:08:18.000'),(19,'9dc4f80c-12cd-43c2-a12f-6bcf07ace572','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-368cf3e8-46b4-49b3-81d4-9ac3e366af16',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:08:18.000','2022-06-29 13:08:18.000'),(20,'0506da56-067b-4a3b-a07f-c88739d29cbb','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-185ba954-4939-4a88-954b-8a85f767a0a1',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:08:18.000','2022-06-29 13:08:18.000'),(21,'9def9d02-4363-4d54-90e5-c59b1aa54cd0','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-b1a2301e-0f00-4b7f-8bdf-bf8c15c42317',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:08:18.000','2022-06-29 13:08:18.000'),(22,'c9a73b27-304e-416a-841c-8dd81b3959c9','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-c345895a-86ea-4012-bdec-5d8d621f9574',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:08:18.000','2022-06-29 13:08:18.000'),(23,'64ab8f88-24fc-4a7c-8110-a9aa606b60b5','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-377a071e-c7ef-4426-b887-4b60d100e15c',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:08:18.000','2022-06-29 13:08:18.000'),(24,'a0eca0ab-c13a-4a27-aca3-a5fad8d68a42','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-87fbe004-2ecb-4953-8dc5-660ad37957b0',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:08:18.000','2022-06-29 13:08:18.000'),(25,'32a58cd6-8bfa-4d6d-b9aa-a62ad3a79424','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-82003b16-2db3-4b3d-a03c-65635907d13b',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:08:18.000','2022-06-29 13:08:18.000'),(26,'4deb2a57-3ee3-40ee-a2f1-a7c4cdcfa8f7','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-9231e799-0a70-49e2-b050-8b4bae4421fa',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:08:18.000','2022-06-29 13:08:18.000'),(27,'e20ed85b-4db4-4385-8ded-5d133404c4d3','ea5fd5f5f9f0-73fb86e3-9a76-4ff5-b509-73d75d7947c5','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-0e959113-6c18-442b-ac58-f95114c06185',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:08:18.000','2022-06-29 13:08:18.000'),(36,'40e24a70-a623-4411-a77d-1a44c091caf2','704a92e392fd-28a03479-9559-43a6-a36b-83cf4f5b6188','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-60be2ae2-3776-4716-a829-c37290074f7d',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:54:25.000','2022-06-29 13:54:25.000'),(39,'c0c2d86f-d1a9-4508-92fe-de17ece07ce9','704a92e392fd-28a03479-9559-43a6-a36b-83cf4f5b6188','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-9231e799-0a70-49e2-b050-8b4bae4421fa',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 13:56:57.000','2022-06-29 13:56:57.000'),(44,'44db9f12-2a02-4779-95be-f5bd3dbf689f','704a92e392fd-28a03479-9559-43a6-a36b-83cf4f5b6188','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-1c4a1cdc-48f8-48b3-ae30-a0025002897d',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-29 14:01:46.000','2022-06-29 14:01:46.000'),(45,'bb794f13-5c53-4d03-9fbe-66695613c406','ea5fd5f5f9f0-d72d9682-8d6a-440a-b98e-8bae1192a40e','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-8815021d-8b23-40e9-b5f3-057d1d8e5666',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-30 02:04:35.000','2022-06-30 02:04:35.000'),(46,'936f65ef-e35e-474e-8b1a-557f87bcc7b2','ea5fd5f5f9f0-d72d9682-8d6a-440a-b98e-8bae1192a40e','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-87fbe004-2ecb-4953-8dc5-660ad37957b0',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-30 02:04:35.000','2022-06-30 02:04:35.000'),(47,'746e1eb1-f430-47a3-aa44-e72883772af4','794e41ba0e63-e54e0406-a2da-41c3-9290-abf5b7078693','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,0,'794e41ba0e63-acb7bf93-ef24-4f6e-a14a-0d415248565e',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-30 06:26:18.000','2022-06-30 06:28:01.000'),(50,'cb9ea5f8-85ff-4db9-9068-4881b846f36b','794e41ba0e63-e54e0406-a2da-41c3-9290-abf5b7078693','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-1c4a1cdc-48f8-48b3-ae30-a0025002897d',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-30 06:29:16.000','2022-06-30 06:29:16.000'),(51,'106bf635-810f-480c-b67c-de69496f506e','704a92e392fd-28b4ad3e-7671-442a-bb90-0f439e50832c','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-59748b95-cd3f-44c3-9203-c6b48e24805a',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-30 07:22:31.000','2022-06-30 07:25:32.000'),(52,'3acb27bf-691b-4a31-a248-2ffb40595de6','704a92e392fd-28b4ad3e-7671-442a-bb90-0f439e50832c','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-d7b79c55-503a-4113-8ebd-e7dc7d19bdd3',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-30 07:22:31.000','2022-06-30 07:25:32.000'),(53,'0c3a4508-4244-45fc-9280-a5c2882cd91b','704a92e392fd-28b4ad3e-7671-442a-bb90-0f439e50832c','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-095c0355-61a5-40b7-8c74-189528688279',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-30 07:22:31.000','2022-06-30 07:25:32.000'),(54,'7e65f2c1-4c98-4386-940e-ed7175a218d5','704a92e392fd-28b4ad3e-7671-442a-bb90-0f439e50832c','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-acb7bf93-ef24-4f6e-a14a-0d415248565e',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-30 07:25:32.000','2022-06-30 07:26:01.000'),(55,'02ad0151-8320-4eb5-a1fa-4e1f50d23fb3','704a92e392fd-c955bd25-3c62-4cb7-a32f-f947a2a73851','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-d7b79c55-503a-4113-8ebd-e7dc7d19bdd3',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-30 07:37:05.000','2022-06-30 08:05:09.000'),(56,'4ceca147-a61a-4b10-8b03-06e157140475','704a92e392fd-c955bd25-3c62-4cb7-a32f-f947a2a73851','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-59748b95-cd3f-44c3-9203-c6b48e24805a',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-30 07:37:05.000','2022-06-30 08:05:09.000'),(57,'3631490a-69a6-44ca-b5bb-53ff54a8cbe1','704a92e392fd-c955bd25-3c62-4cb7-a32f-f947a2a73851','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-fe700425-3c39-4de6-b84b-dd35e291dac4',2,'拒绝',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-30 07:37:05.000','2022-06-30 08:05:09.000'),(58,'a38c3fb3-2bf3-490b-89e3-4c658cae89d5','704a92e392fd-c955bd25-3c62-4cb7-a32f-f947a2a73851','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-60be2ae2-3776-4716-a829-c37290074f7d',0,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-30 07:37:05.000','2022-06-30 08:05:09.000'),(59,'5491e25f-a550-4e06-b55c-93398d2b7958','704a92e392fd-c955bd25-3c62-4cb7-a32f-f947a2a73851','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-acb7bf93-ef24-4f6e-a14a-0d415248565e',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-30 07:37:05.000','2022-06-30 08:05:09.000'),(60,'2f6eb65b-019f-4f47-b193-5b451d4bb6ef','704a92e392fd-c955bd25-3c62-4cb7-a32f-f947a2a73851','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-8815021d-8b23-40e9-b5f3-057d1d8e5666',0,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-30 07:39:14.000','2022-06-30 08:05:09.000'),(61,'96a2714b-281e-4a90-8cb8-502091cf3982','704a92e392fd-543ddca1-c72b-47c8-8bf2-c81ededb2165','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-98ccad28-eccf-4cd1-9fd1-f3b95ac16be1',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-30 13:02:03.000','2022-06-30 13:02:03.000'),(62,'b5ed56e0-263b-4d85-860c-a8b25d8cf563','704a92e392fd-543ddca1-c72b-47c8-8bf2-c81ededb2165','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-59748b95-cd3f-44c3-9203-c6b48e24805a',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-06-30 13:02:03.000','2022-06-30 13:02:03.000'),(63,'a6864f43-7c09-4ec8-8eb3-2fd40b64ec0b','794e41ba0e63-6033dbbc-fbd5-4e70-b3ce-a08453b893a0','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,0,'794e41ba0e63-fb05ac21-4ff4-4c2b-975f-d908cee338ea',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 11:36:29.000','2022-07-01 11:36:29.000'),(64,'16fd3f5c-b399-4b52-ad6b-49861d61f5df','704a92e392fd-ad1d7f73-3928-4a84-a8d9-6c3d01af411b','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-98ccad28-eccf-4cd1-9fd1-f3b95ac16be1',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 11:46:41.000','2022-07-01 11:50:54.000'),(65,'ac3c9178-4e6a-42fa-ba66-ea828b081fbc','704a92e392fd-ad1d7f73-3928-4a84-a8d9-6c3d01af411b','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-d7b79c55-503a-4113-8ebd-e7dc7d19bdd3',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 11:46:41.000','2022-07-01 11:50:54.000'),(66,'d17c8259-ca2d-4b84-8b32-96dcf472e8ff','704a92e392fd-ad1d7f73-3928-4a84-a8d9-6c3d01af411b','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-e1600ee3-11bf-418d-875a-fc602879e2f4',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 11:46:41.000','2022-07-01 11:50:54.000'),(67,'28782c65-ce50-43ea-9e86-52483038d3db','704a92e392fd-ad1d7f73-3928-4a84-a8d9-6c3d01af411b','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-095c0355-61a5-40b7-8c74-189528688279',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 11:46:41.000','2022-07-01 11:50:54.000'),(68,'0bc9e4c5-8a93-4864-9e0f-33f6160ee71f','704a92e392fd-ad1d7f73-3928-4a84-a8d9-6c3d01af411b','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-c2ca9a07-db64-4e1e-b070-4e798e9234f3',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 11:50:29.000','2022-07-01 11:50:54.000'),(69,'5fb7d53c-1cf5-48f7-8e20-e8ab9a558e84','704a92e392fd-ad1d7f73-3928-4a84-a8d9-6c3d01af411b','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-fb05ac21-4ff4-4c2b-975f-d908cee338ea',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 11:50:29.000','2022-07-01 11:50:54.000'),(70,'bc19ccb9-875b-4a67-aead-e04ca0f0771a','ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-e1600ee3-11bf-418d-875a-fc602879e2f4',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 12:24:39.000','2022-07-01 12:27:17.000'),(71,'af007521-6e9c-43c6-a551-8de557dca513','ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-e6a95ed0-2ce9-4669-9a0f-74b6ed73a7e1',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 12:24:39.000','2022-07-01 12:27:17.000'),(72,'9f5b9d3f-3c61-4cb3-a9fa-443a93f614d6','ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-2866d0a5-9623-4af9-af19-d49bcdc2b783',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 12:24:39.000','2022-07-01 12:27:17.000'),(73,'c0ee0798-4c18-4664-b940-b38942d6d9af','ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-a33baaf9-bae4-440d-aae9-1bf75134389e',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 12:24:39.000','2022-07-01 12:27:17.000'),(74,'943ba847-b224-436d-9c23-bcda95f5e90e','ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-59748b95-cd3f-44c3-9203-c6b48e24805a',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 12:24:39.000','2022-07-01 12:27:17.000'),(75,'e6032023-bc68-4cab-a978-04fc2aab8375','ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-98ccad28-eccf-4cd1-9fd1-f3b95ac16be1',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 12:24:39.000','2022-07-01 12:25:36.000'),(76,'67e8a2c2-7e0a-45ef-9e14-3e2bd2a8ac66','ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-d7b79c55-503a-4113-8ebd-e7dc7d19bdd3',2,'88',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 12:24:39.000','2022-07-01 12:26:27.000'),(77,'fa1468e7-8bff-4cb9-a4cc-27d9ad3aeb64','ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-095c0355-61a5-40b7-8c74-189528688279',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 12:24:39.000','2022-07-01 12:27:17.000'),(78,'2f7b784f-9880-4e2f-9d36-0895cc7357d4','ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-377a071e-c7ef-4426-b887-4b60d100e15c',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 12:24:39.000','2022-07-01 12:27:17.000'),(79,'04e6b33b-f8b9-48f7-887d-10d55c34b12f','ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-87fbe004-2ecb-4953-8dc5-660ad37957b0',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 12:24:39.000','2022-07-01 12:27:17.000'),(80,'90320de0-1cbc-4a0b-bce6-8d3680b68da3','ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-43bde033-b5a5-4551-a8c3-75d957fee4e0',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 12:25:13.000','2022-07-01 12:27:17.000'),(81,'cbcd5917-b56f-4353-aaa1-b72a1a384c00','ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-c2ca9a07-db64-4e1e-b070-4e798e9234f3',2,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 12:25:13.000','2022-07-01 12:26:30.000'),(82,'d8bc4f6a-e625-4ee2-87b8-094bd38737bb','ea5fd5f5f9f0-fec1b17a-d236-4214-b84b-cc75b904b9b8','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-04d65c6b-3f90-4df5-96cb-637b9275668b',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 12:25:30.000','2022-07-01 12:27:17.000'),(83,'b1f95be5-988d-4249-b43e-db100f7235cb','704a92e392fd-6ed99f5e-591a-4a62-8b87-3b5777334f6d','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-98ccad28-eccf-4cd1-9fd1-f3b95ac16be1',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 13:57:20.000','2022-07-01 13:58:47.000'),(84,'44e56dfc-4031-4c49-893e-bc469632bf35','704a92e392fd-6ed99f5e-591a-4a62-8b87-3b5777334f6d','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-e1600ee3-11bf-418d-875a-fc602879e2f4',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 13:58:24.000','2022-07-01 13:58:47.000'),(85,'cd8dbd05-430a-48b3-aa5b-fd21824ca66f','704a92e392fd-6ed99f5e-591a-4a62-8b87-3b5777334f6d','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-43bde033-b5a5-4551-a8c3-75d957fee4e0',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 13:58:29.000','2022-07-01 13:58:54.000'),(86,'e9a9246b-1e14-4ee1-ad40-055ecadfe1b7','794e41ba0e63-096071e6-4ad1-432a-a97c-613c1d0b80d0','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,0,'794e41ba0e63-04d65c6b-3f90-4df5-96cb-637b9275668b',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 13:59:11.000','2022-07-01 14:04:08.000'),(87,'cb8f4330-d092-46ce-b660-164b73677061','704a92e392fd-4d9c1d71-fb08-46e6-912c-fc1ebd864489','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-98ccad28-eccf-4cd1-9fd1-f3b95ac16be1',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-01 13:59:40.000','2022-07-01 13:59:40.000'),(88,'276ba5db-f304-489b-98ed-7b6ec3392209','704a92e392fd-ccf7d35c-f343-4a5e-9b10-4842047c73ae','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-35af0d95-9b8c-45ee-baf1-d1e61003fa60',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 03:15:39.000','2022-07-04 05:47:51.000'),(89,'ed8c5ae3-ccca-4435-8d32-5c38780554d5','704a92e392fd-ccf7d35c-f343-4a5e-9b10-4842047c73ae','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-e1bd0dbe-e782-4036-b741-b9cec0d7a91f',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 03:15:39.000','2022-07-04 05:47:51.000'),(90,'e94e6871-71c4-4108-9d0d-755a86c62cb3','704a92e392fd-ccf7d35c-f343-4a5e-9b10-4842047c73ae','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-43bde033-b5a5-4551-a8c3-75d957fee4e0',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 03:15:39.000','2022-07-04 05:47:51.000'),(91,'acd9fce8-1213-4200-a86f-401e4b473795','704a92e392fd-ccf7d35c-f343-4a5e-9b10-4842047c73ae','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-98ccad28-eccf-4cd1-9fd1-f3b95ac16be1',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 03:15:50.000','2022-07-04 03:22:08.000'),(92,'5dc901e5-6eb4-4b09-bae1-7cb72232e286','704a92e392fd-f13bdf46-dada-4651-9bbb-65f9fbb3f979','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-35af0d95-9b8c-45ee-baf1-d1e61003fa60',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 05:45:50.000','2022-07-04 05:45:50.000'),(93,'afae7b4b-92eb-4d05-a08a-410d533bb5b6','704a92e392fd-f13bdf46-dada-4651-9bbb-65f9fbb3f979','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-e1600ee3-11bf-418d-875a-fc602879e2f4',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 05:45:50.000','2022-07-04 05:45:50.000'),(94,'bc8c1aba-123a-459e-a17a-ad1ccc5c96ef','704a92e392fd-f13bdf46-dada-4651-9bbb-65f9fbb3f979','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-98ccad28-eccf-4cd1-9fd1-f3b95ac16be1',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 05:45:50.000','2022-07-04 05:45:50.000'),(95,'1c1b0fb6-0412-4caf-a57c-d032d6784928','704a92e392fd-f13bdf46-dada-4651-9bbb-65f9fbb3f979','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-e1bd0dbe-e782-4036-b741-b9cec0d7a91f',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 05:45:50.000','2022-07-04 05:45:50.000'),(96,'7f17c47f-054b-467d-b9c9-1e944713b385','704a92e392fd-f13bdf46-dada-4651-9bbb-65f9fbb3f979','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-d7b79c55-503a-4113-8ebd-e7dc7d19bdd3',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 05:45:50.000','2022-07-04 05:45:50.000'),(97,'b18ec90c-0487-4a11-849e-58977098fa4d','ea5fd5f5f9f0-74948866-ce37-41ac-bf61-ecc55d8eb6e3','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-e1600ee3-11bf-418d-875a-fc602879e2f4',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 08:13:24.000','2022-07-04 08:13:24.000'),(98,'3964d763-54e0-4cd2-8526-bd5a6f3df73d','ea5fd5f5f9f0-74948866-ce37-41ac-bf61-ecc55d8eb6e3','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-35af0d95-9b8c-45ee-baf1-d1e61003fa60',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 08:13:24.000','2022-07-04 08:13:24.000'),(99,'767764a3-a33d-4125-b89e-4839be58ed30','ea5fd5f5f9f0-74948866-ce37-41ac-bf61-ecc55d8eb6e3','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-e1bd0dbe-e782-4036-b741-b9cec0d7a91f',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 08:13:24.000','2022-07-04 08:13:24.000'),(101,'89d1f28e-45b1-4503-bd18-644b60c126e0','ea5fd5f5f9f0-3dacc58c-ce29-46ab-8cd7-8af4d7b992d9','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-e6a95ed0-2ce9-4669-9a0f-74b6ed73a7e1',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 08:56:41.000','2022-07-04 08:58:07.000'),(103,'701cbb40-e48b-4f05-a1a0-dc428b85f0f9','ea5fd5f5f9f0-3dacc58c-ce29-46ab-8cd7-8af4d7b992d9','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-a33baaf9-bae4-440d-aae9-1bf75134389e',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 08:56:41.000','2022-07-04 08:58:07.000'),(104,'330cf53a-72b1-430f-a2eb-bf4ba73386a6','ea5fd5f5f9f0-3dacc58c-ce29-46ab-8cd7-8af4d7b992d9','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-59748b95-cd3f-44c3-9203-c6b48e24805a',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 08:56:41.000','2022-07-04 08:58:07.000'),(108,'c13556bc-93ca-4f15-ba86-c18ad67a573b','ea5fd5f5f9f0-3dacc58c-ce29-46ab-8cd7-8af4d7b992d9','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-2866d0a5-9623-4af9-af19-d49bcdc2b783',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 08:58:07.000','2022-07-04 08:58:07.000'),(110,'f01f9b83-8ff5-40ba-bedb-717be30e30c4','ea5fd5f5f9f0-26e823c6-320c-454b-ae13-2f3d201c3990','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-e1600ee3-11bf-418d-875a-fc602879e2f4',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 08:58:31.000','2022-07-04 08:58:31.000'),(111,'16074167-4c30-4416-a9f0-41a7b804ad10','ea5fd5f5f9f0-26e823c6-320c-454b-ae13-2f3d201c3990','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-e6a95ed0-2ce9-4669-9a0f-74b6ed73a7e1',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 08:58:31.000','2022-07-04 08:58:31.000'),(112,'e4d81b82-4aa8-4b28-81db-048174c013f8','ea5fd5f5f9f0-26e823c6-320c-454b-ae13-2f3d201c3990','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-2866d0a5-9623-4af9-af19-d49bcdc2b783',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 08:58:31.000','2022-07-04 08:58:31.000'),(113,'9ad1526d-0697-40ad-8f9d-f5197132551a','ea5fd5f5f9f0-26e823c6-320c-454b-ae13-2f3d201c3990','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-a33baaf9-bae4-440d-aae9-1bf75134389e',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 08:58:31.000','2022-07-04 08:58:31.000'),(117,'3f8e2784-9599-46d7-b348-d9656bbf8827','ea5fd5f5f9f0-01359f16-87e1-4d07-a271-9566ef037116','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-2866d0a5-9623-4af9-af19-d49bcdc2b783',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 10:00:02.000','2022-07-04 10:03:39.000'),(118,'859b19e7-fdc4-4f71-b924-d4d508dcd21a','ea5fd5f5f9f0-01359f16-87e1-4d07-a271-9566ef037116','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-a33baaf9-bae4-440d-aae9-1bf75134389e',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 10:00:02.000','2022-07-04 10:03:39.000'),(119,'743700fd-e097-4f7f-a8f8-7299fe75e621','ea5fd5f5f9f0-01359f16-87e1-4d07-a271-9566ef037116','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-59748b95-cd3f-44c3-9203-c6b48e24805a',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 10:00:02.000','2022-07-04 10:03:39.000'),(120,'4501a501-8f82-47a5-b5ae-16254d4a4c80','ea5fd5f5f9f0-01359f16-87e1-4d07-a271-9566ef037116','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-e1600ee3-11bf-418d-875a-fc602879e2f4',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 10:03:18.000','2022-07-04 10:03:39.000'),(121,'6a7feaec-3095-46c9-8c1d-5e4cdfcd5c9a','ea5fd5f5f9f0-01359f16-87e1-4d07-a271-9566ef037116','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-e6a95ed0-2ce9-4669-9a0f-74b6ed73a7e1',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 10:03:39.000','2022-07-04 10:03:39.000'),(122,'db509c83-cb13-4aa6-abcd-e55ef1836005','ea5fd5f5f9f0-34e375ea-7bc1-42c3-a523-ab8f93f504c9','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-e1600ee3-11bf-418d-875a-fc602879e2f4',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 10:29:39.000','2022-07-04 10:29:39.000'),(123,'5c7b97ee-9328-41a6-8870-ad5cf7c8f4dc','ea5fd5f5f9f0-34e375ea-7bc1-42c3-a523-ab8f93f504c9','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-e6a95ed0-2ce9-4669-9a0f-74b6ed73a7e1',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 10:29:39.000','2022-07-04 10:29:39.000'),(124,'e6d355b0-b94b-4b50-9890-8b3976280a6f','ea5fd5f5f9f0-34e375ea-7bc1-42c3-a523-ab8f93f504c9','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-d7b79c55-503a-4113-8ebd-e7dc7d19bdd3',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 10:29:39.000','2022-07-04 10:29:39.000'),(125,'32457ab9-769a-4f25-b63b-795dc9b5802e','ea5fd5f5f9f0-34e375ea-7bc1-42c3-a523-ab8f93f504c9','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-43bde033-b5a5-4551-a8c3-75d957fee4e0',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 10:29:39.000','2022-07-04 10:29:39.000'),(126,'baa057cd-fe4b-4933-b943-7cbab0cb98e1','ea5fd5f5f9f0-e8d7779d-5099-4582-b707-a429e10a4786','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-e1600ee3-11bf-418d-875a-fc602879e2f4',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 11:11:38.000','2022-07-04 11:13:32.000'),(127,'f920fa8f-87e3-45b3-bc36-fa842a13bc7a','ea5fd5f5f9f0-e8d7779d-5099-4582-b707-a429e10a4786','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-e6a95ed0-2ce9-4669-9a0f-74b6ed73a7e1',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 11:11:49.000','2022-07-04 11:13:32.000'),(132,'969e1a6b-2c9c-4fbc-9373-08dd41f44feb','ea5fd5f5f9f0-e8d7779d-5099-4582-b707-a429e10a4786','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-35af0d95-9b8c-45ee-baf1-d1e61003fa60',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 11:12:41.000','2022-07-04 11:13:32.000'),(133,'f02c79b5-bcef-4d0c-bf99-40eb7d60cf4d','ea5fd5f5f9f0-e8d7779d-5099-4582-b707-a429e10a4786','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-e1bd0dbe-e782-4036-b741-b9cec0d7a91f',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 11:12:41.000','2022-07-04 11:13:32.000'),(134,'1278842e-5a17-4a01-8f6d-5274e437f938','ea5fd5f5f9f0-e8d7779d-5099-4582-b707-a429e10a4786','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-98ccad28-eccf-4cd1-9fd1-f3b95ac16be1',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 11:12:41.000','2022-07-04 11:13:32.000'),(136,'d5c203cd-8cf4-4a20-b675-0f8cdeda3911','ea5fd5f5f9f0-e8d7779d-5099-4582-b707-a429e10a4786','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-095c0355-61a5-40b7-8c74-189528688279',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 11:12:41.000','2022-07-04 11:13:32.000'),(137,'f43b4744-88fc-47c4-9f85-128a746707ea','ea5fd5f5f9f0-e8d7779d-5099-4582-b707-a429e10a4786','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-43bde033-b5a5-4551-a8c3-75d957fee4e0',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-04 11:13:32.000','2022-07-04 11:14:53.000'),(152,'9160aa2c-186a-4637-9f6d-9b548093a529','ea5fd5f5f9f0-422c5bbc-4b06-49ae-b5ae-f474902f05bc','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-e1600ee3-11bf-418d-875a-fc602879e2f4',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-05 02:16:50.000','2022-07-05 02:17:58.000'),(153,'16295ab2-075a-4271-b478-54287b7540a1','ea5fd5f5f9f0-422c5bbc-4b06-49ae-b5ae-f474902f05bc','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-e6a95ed0-2ce9-4669-9a0f-74b6ed73a7e1',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-05 02:16:50.000','2022-07-05 02:17:58.000'),(154,'87b328f0-bf2a-4375-a33b-9ab91e8159bf','ea5fd5f5f9f0-422c5bbc-4b06-49ae-b5ae-f474902f05bc','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-2866d0a5-9623-4af9-af19-d49bcdc2b783',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-05 02:16:50.000','2022-07-05 02:17:58.000'),(155,'1d2ba7a8-124f-4872-b3e0-19b27353eaf7','ea5fd5f5f9f0-422c5bbc-4b06-49ae-b5ae-f474902f05bc','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-43bde033-b5a5-4551-a8c3-75d957fee4e0',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-05 02:17:50.000','2022-07-05 02:17:58.000'),(157,'5fdcdde4-fa2d-4712-923e-2f2c5de0c8a8','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-e1600ee3-11bf-418d-875a-fc602879e2f4',2,'555',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-05 10:46:11.000','2022-07-06 02:24:49.000'),(158,'a74e201f-ca9c-4866-b813-754a4cabdd85','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-c2ca9a07-db64-4e1e-b070-4e798e9234f3',2,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-05 10:46:54.000','2022-07-06 02:24:49.000'),(159,'99652688-e868-4532-a693-aee84a23149c','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-35af0d95-9b8c-45ee-baf1-d1e61003fa60',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-06 02:24:27.000','2022-07-06 02:24:49.000'),(160,'a0ce202a-a08f-415e-82e4-debe50abd5b3','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-e1bd0dbe-e782-4036-b741-b9cec0d7a91f',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-06 02:24:27.000','2022-07-06 02:24:49.000'),(161,'73a809a2-6d17-4109-80fd-0c586ab52216','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-d7b79c55-503a-4113-8ebd-e7dc7d19bdd3',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-06 02:24:27.000','2022-07-06 02:24:49.000'),(162,'96101f85-6df7-446e-ba0b-ef1b5ab49e41','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-98ccad28-eccf-4cd1-9fd1-f3b95ac16be1',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-06 02:24:27.000','2022-07-06 02:24:49.000'),(163,'c93d5d22-d6ea-4b5a-a633-67c69a3c5a76','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-095c0355-61a5-40b7-8c74-189528688279',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-06 02:24:27.000','2022-07-06 02:24:49.000'),(164,'fe687cd2-7f81-4182-869d-c6fba2a1e9cf','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-e6a95ed0-2ce9-4669-9a0f-74b6ed73a7e1',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-06 02:24:35.000','2022-07-06 02:24:49.000'),(165,'04304c66-6a29-4800-aa20-a11f44714534','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-2866d0a5-9623-4af9-af19-d49bcdc2b783',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-06 02:24:35.000','2022-07-06 02:24:49.000'),(166,'7be17749-b8b2-4e6e-a155-2cda5fecde7b','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-a33baaf9-bae4-440d-aae9-1bf75134389e',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-06 02:24:35.000','2022-07-06 02:24:49.000'),(167,'341ba192-8be7-419e-8281-f6a8e94251ef','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-59748b95-cd3f-44c3-9203-c6b48e24805a',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-06 02:24:35.000','2022-07-06 02:24:49.000'),(168,'351cf4ed-baca-44ab-a620-ca3fc67573d8','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-43bde033-b5a5-4551-a8c3-75d957fee4e0',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-06 02:24:49.000','2022-07-11 02:09:45.000'),(169,'2318d3a7-7b0e-4399-bde4-c5f2a2837251','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-fb05ac21-4ff4-4c2b-975f-d908cee338ea',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-06 02:24:49.000','2022-07-06 02:24:49.000'),(170,'445458f7-d345-4826-8da3-66ad244e367f','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-04d65c6b-3f90-4df5-96cb-637b9275668b',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-06 02:24:49.000','2022-07-06 02:24:49.000'),(171,'8e98d116-2a2f-4d29-b014-3904a5a74eb0','704a92e392fd-e26669f3-efe5-4619-bca6-5cf75f6eba4e','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-acb7bf93-ef24-4f6e-a14a-0d415248565e',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-06 02:24:49.000','2022-07-06 02:24:49.000'),(172,'895e0762-2993-49e1-9148-d383131f7949','704a92e392fd-6eb348bf-5229-43c1-b57a-0048365b9dff','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-3a83be70-194b-4f78-a5f6-12dcaecce6d6',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-08 17:03:08.000','2022-07-08 17:03:08.000'),(173,'aabc773f-10c7-48fb-94dd-0ba9fa65f662','704a92e392fd-6eb348bf-5229-43c1-b57a-0048365b9dff','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',1,0,'704a92e392fd-22568f0c-df20-49a9-8022-b343f92c5c92',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-08 17:03:08.000','2022-07-08 17:03:08.000'),(174,'bc2ddacc-0df0-44fd-aadd-f96357dc9ae8','794e41ba0e63-c0cea96b-108b-471e-b5cd-5ff3b784a916','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-fb93d21f-82e8-4737-801f-405283466743',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-11 08:40:37.000','2022-07-15 10:12:41.000'),(175,'44589881-d082-4f87-8948-d482ff2a0a12','794e41ba0e63-c0cea96b-108b-471e-b5cd-5ff3b784a916','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,0,'794e41ba0e63-3a83be70-194b-4f78-a5f6-12dcaecce6d6',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-11 08:40:37.000','2022-07-15 10:12:28.000'),(177,'84ec6607-d616-4ff9-b758-0ed0a72668cf','794e41ba0e63-c0cea96b-108b-471e-b5cd-5ff3b784a916','eb734dd0-773e-411b-ba29-794e41ba0e63','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-5b27a73e-1616-4ee3-ad7d-04eedb3f10a8',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-11 12:05:35.000','2022-07-15 10:13:11.000'),(178,'f7419ab5-99ea-4ea2-823f-e63ced488204','794e41ba0e63-97ef0324-a273-49cf-b7a8-b0788d556cd1','eb734dd0-773e-411b-ba29-794e41ba0e63','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',2,0,'ea5fd5f5f9f0-fb93d21f-82e8-4737-801f-405283466743',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-11 12:07:01.000','2022-07-11 12:07:01.000'),(179,'c4a3ed68-b1a1-4878-9156-a0c4d694c1bf','794e41ba0e63-97ef0324-a273-49cf-b7a8-b0788d556cd1','eb734dd0-773e-411b-ba29-794e41ba0e63','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-5b27a73e-1616-4ee3-ad7d-04eedb3f10a8',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-11 12:07:01.000','2022-07-11 12:07:01.000'),(180,'6623fac3-dcf4-479b-b5ae-1f4233799029','794e41ba0e63-97ef0324-a273-49cf-b7a8-b0788d556cd1','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,0,'794e41ba0e63-74d57b0e-d3d4-40d9-931e-2fa48f8bdeaf',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-11 12:07:01.000','2022-07-11 12:07:01.000'),(181,'8ebf867a-d552-47b4-b832-a3c9d056fa58','794e41ba0e63-97ef0324-a273-49cf-b7a8-b0788d556cd1','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,0,'794e41ba0e63-92d6aaf1-2abe-46d9-8320-db3a7abfae4d',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-11 12:09:47.000','2022-07-11 12:09:47.000'),(182,'1289f539-34ab-4be8-8bf2-74a866c5d94a','ea5fd5f5f9f0-cd657924-2e44-4321-a8e4-968ef33050cc','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-fb93d21f-82e8-4737-801f-405283466743',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-12 02:43:22.000','2022-07-12 03:01:47.000'),(183,'98f8c5fd-ea5a-4c3e-8f16-73bd41c90186','ea5fd5f5f9f0-cd657924-2e44-4321-a8e4-968ef33050cc','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-cbc81f36-49a0-46df-a297-008b5d268b90',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-12 03:01:31.000','2022-07-12 03:01:47.000'),(184,'0fc29efe-5c41-4578-873c-bc9cc4dbf51f','ea5fd5f5f9f0-cd657924-2e44-4321-a8e4-968ef33050cc','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-c2ca9a07-db64-4e1e-b070-4e798e9234f3',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-12 03:01:47.000','2022-07-12 03:01:47.000'),(185,'5de00380-c1f2-4bd1-81bb-e060b348273a','ea5fd5f5f9f0-1c59bbf5-62f0-4ce2-b01d-44b432440ee4','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-1183f807-ebd8-4e14-a904-a3855bcce5f7',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-12 07:35:15.000','2022-07-12 07:39:26.000'),(186,'1c07255e-4f2c-4700-9cbc-b18040677e49','ea5fd5f5f9f0-1c59bbf5-62f0-4ce2-b01d-44b432440ee4','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-fb93d21f-82e8-4737-801f-405283466743',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-12 07:36:15.000','2022-07-12 07:39:26.000'),(187,'81fde2e9-f4dc-4e44-88cc-dcd57c61c277','ea5fd5f5f9f0-0e0277d9-2d84-4b67-bec1-145ffa807cd7','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-fb93d21f-82e8-4737-801f-405283466743',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-12 08:15:18.000','2022-07-12 08:15:18.000'),(188,'58587404-6bdf-4e3b-9395-70a92cd7396d','ea5fd5f5f9f0-0e0277d9-2d84-4b67-bec1-145ffa807cd7','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-90ef6e04-5f02-4bc2-81a8-6c3d6aeb0ba9',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-12 08:15:18.000','2022-07-12 08:15:18.000'),(189,'f28aaf36-f786-469b-801c-7cd945eeba58','ea5fd5f5f9f0-acdb0c7d-5ce5-4559-9168-6e45bf10e665','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-bd49b3d8-2a49-4a2f-9ff0-31fb69d362ee',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-12 10:55:18.000','2022-07-15 10:02:12.000'),(190,'16bf3f7e-b342-4348-a2c3-99cee676dfb5','ea5fd5f5f9f0-acdb0c7d-5ce5-4559-9168-6e45bf10e665','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-8815021d-8b23-40e9-b5f3-057d1d8e5666',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-12 10:55:18.000','2022-07-15 10:02:12.000'),(191,'81340660-9951-43c7-995f-9a4e84275414','ea5fd5f5f9f0-b03a29c2-3d09-4dcf-9c61-6f08021ef412','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-e574b4b3-a186-42e9-8cc0-feb48942a466',0,NULL,NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-15 06:42:28.000','2022-07-15 06:42:28.000'),(192,'b7ccf770-158d-4320-86dc-a8dfc3d7102b','ea5fd5f5f9f0-b03a29c2-3d09-4dcf-9c61-6f08021ef412','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-d771ed2c-480d-45ab-b9b6-a08f95c77a8d',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-15 06:42:28.000','2022-07-15 06:42:28.000'),(193,'f902f754-6898-4509-b688-f99eb40b267b','ea5fd5f5f9f0-2ddb6425-b691-46c8-97f7-82794f9a5ebd','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-d771ed2c-480d-45ab-b9b6-a08f95c77a8d',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-15 07:07:21.000','2022-07-15 07:07:21.000'),(194,'fbb32c2f-446c-41bc-a613-1400ee586f50','ea5fd5f5f9f0-61825652-983f-40ec-a379-43f8b8cb7424','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-74d57b0e-d3d4-40d9-931e-2fa48f8bdeaf',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-19 08:27:34.000','2022-07-19 08:29:29.000'),(195,'ac75d0ed-88d2-45b8-8666-d6858504dc61','ea5fd5f5f9f0-61825652-983f-40ec-a379-43f8b8cb7424','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','eb734dd0-773e-411b-ba29-794e41ba0e63',2,0,'794e41ba0e63-92d6aaf1-2abe-46d9-8320-db3a7abfae4d',2,'ee',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-19 08:27:34.000','2022-07-19 08:29:36.000'),(196,'31c8c33f-ebfd-4b80-93a2-1c9f39c33baf','ea5fd5f5f9f0-61825652-983f-40ec-a379-43f8b8cb7424','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-f46cfcde-3e46-4fc4-8f19-25feb6357a02',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-19 08:27:41.000','2022-07-19 08:36:03.000'),(197,'f448156e-7c87-4bc8-9c81-64ea58fdecbf','ea5fd5f5f9f0-61825652-983f-40ec-a379-43f8b8cb7424','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-54f3fe5d-3fb3-489c-9e9e-c5e2a867273f',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-19 08:27:41.000','2022-07-19 08:36:04.000'),(198,'bf3fb69a-3e13-415d-8397-2fbbbe15cb12','ea5fd5f5f9f0-61825652-983f-40ec-a379-43f8b8cb7424','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0',1,0,'ea5fd5f5f9f0-0f9df64b-2b5e-427a-9c99-7ccc9a576202',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-19 08:28:26.000','2022-07-19 08:28:26.000'),(200,'cc60e279-cc83-41c4-8659-8c423817d753','794e41ba0e63-a5471022-7cf5-4af8-857c-c3e8bbb215a6','eb734dd0-773e-411b-ba29-794e41ba0e63','3abfcb2a-8335-4bcc-b6f9-704a92e392fd',2,0,'704a92e392fd-54f3fe5d-3fb3-489c-9e9e-c5e2a867273f',1,'',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-19 08:52:35.000','2022-07-19 08:52:46.000'),(201,'c30f84ac-f865-42ec-a626-b88d2410a9c6','794e41ba0e63-a5471022-7cf5-4af8-857c-c3e8bbb215a6','eb734dd0-773e-411b-ba29-794e41ba0e63','eb734dd0-773e-411b-ba29-794e41ba0e63',1,0,'794e41ba0e63-74d57b0e-d3d4-40d9-931e-2fa48f8bdeaf',1,'项目发起者自动同意',NULL,'http://fusion.primihub-demo.svc.cluster.local:8080/','2022-07-19 08:52:35.000','2022-07-19 08:52:44.000');
-/*!40000 ALTER TABLE `data_project_resource` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_psi`
---
-
+-- ----------------------------
+-- Table structure for data_psi
+-- ----------------------------
 DROP TABLE IF EXISTS `data_psi`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `data_psi` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'psi 主键',
-  `own_organ_id` varchar(255) DEFAULT NULL COMMENT '本机构id',
-  `own_resource_id` bigint(20) DEFAULT NULL COMMENT '本机构资源id',
-  `own_keyword` varchar(255) DEFAULT NULL COMMENT '本机构资源关键字',
-  `other_organ_id` varchar(255) DEFAULT NULL COMMENT '其他机构id',
-  `other_resource_id` varchar(255) DEFAULT NULL COMMENT '其他机构资源id',
-  `other_keyword` varchar(255) DEFAULT NULL COMMENT '其他机构资源关键字',
-  `output_file_path_type` tinyint(4) DEFAULT '0' COMMENT '文件路径输出类型 0默认 自动生成',
-  `output_no_repeat` tinyint(4) DEFAULT '0' COMMENT '输出内容是否不去重 默认0 不去重 1去重',
-  `column_complete_statistics` tinyint(4) DEFAULT '0' COMMENT '是否对"可统计"的附加列做全表统计 默认0 是 1不是',
-  `result_name` varchar(255) DEFAULT NULL COMMENT '结果名称',
-  `output_content` int(11) DEFAULT '0' COMMENT '输出内容 默认0 0交集 1差集',
-  `output_format` varchar(255) DEFAULT NULL COMMENT '输出格式',
-  `result_organ_ids` varchar(255) DEFAULT NULL COMMENT '结果获取方 多机构","号间隔',
-  `server_address` varchar(255) DEFAULT NULL COMMENT '其他机构中心节点地址',
-  `remarks` varchar(255) DEFAULT NULL COMMENT '备注',
-  `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE `data_psi`  (
+                             `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'psi 主键',
+                             `own_organ_id` varchar(255) DEFAULT NULL COMMENT '本机构id',
+                             `own_resource_id` bigint(20) DEFAULT NULL COMMENT '本机构资源id',
+                             `own_keyword` varchar(255) DEFAULT NULL COMMENT '本机构资源关键字',
+                             `other_organ_id` varchar(255) DEFAULT NULL COMMENT '其他机构id',
+                             `other_resource_id` varchar(255) DEFAULT NULL COMMENT '其他机构资源id',
+                             `other_keyword` varchar(255) DEFAULT NULL COMMENT '其他机构资源关键字',
+                             `output_file_path_type` tinyint(4) DEFAULT '0' COMMENT '文件路径输出类型 0默认 自动生成',
+                             `output_no_repeat` tinyint(4) DEFAULT '0' COMMENT '输出内容是否不去重 默认0 不去重 1去重',
+                             `column_complete_statistics` tinyint(4) DEFAULT '0' COMMENT '是否对"可统计"的附加列做全表统计 默认0 是 1不是',
+                             `result_name` varchar(255) DEFAULT NULL COMMENT '结果名称',
+                             `output_content` int(11) DEFAULT '0' COMMENT '输出内容 默认0 0交集 1差集',
+                             `output_format` varchar(255) DEFAULT NULL COMMENT '输出格式',
+                             `result_organ_ids` varchar(255) DEFAULT NULL COMMENT '结果获取方 多机构","号间隔',
+                             `server_address` varchar(255) DEFAULT NULL COMMENT '其他机构中心节点地址',
+                             `remarks` varchar(255) DEFAULT NULL COMMENT '备注',
+                             `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
+                             `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                             `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                             `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                             PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `data_psi`
---
 
-LOCK TABLES `data_psi` WRITE;
-/*!40000 ALTER TABLE `data_psi` DISABLE KEYS */;
-INSERT INTO `data_psi` VALUES (2,'eb734dd0-773e-411b-ba29-794e41ba0e63',3,'company','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','ea5fd5f5f9f0-a33baaf9-bae4-440d-aae9-1bf75134389e','company',0,0,0,'000',0,'0','eb734dd0-773e-411b-ba29-794e41ba0e63','http://fusion.primihub-demo.svc.cluster.local:8080/','',1,0,'2022-07-01 11:09:00.000','2022-07-01 11:09:00.000'),(3,'eb734dd0-773e-411b-ba29-794e41ba0e63',3,'company','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','ea5fd5f5f9f0-a33baaf9-bae4-440d-aae9-1bf75134389e','company',0,0,0,'000',0,'0','eb734dd0-773e-411b-ba29-794e41ba0e63','http://fusion.primihub-demo.svc.cluster.local:8080/','',1,0,'2022-07-01 11:29:23.000','2022-07-01 11:29:23.000'),(4,'eb734dd0-773e-411b-ba29-794e41ba0e63',3,'company','7aeeb3aa-75cc-4e40-8692-ea5fd5f5f9f0','ea5fd5f5f9f0-a33baaf9-bae4-440d-aae9-1bf75134389e','company',0,0,0,'999',0,'0','eb734dd0-773e-411b-ba29-794e41ba0e63','http://fusion.primihub-demo.svc.cluster.local:8080/','',1,0,'2022-07-01 14:04:54.000','2022-07-01 14:04:54.000'),(5,'eb734dd0-773e-411b-ba29-794e41ba0e63',7,'seq','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','704a92e392fd-fc9119c2-c361-4701-9362-00460a3e95b0','seq',0,0,0,'demo3_yfan-yfan_test01',0,'0','eb734dd0-773e-411b-ba29-794e41ba0e63','http://fusion.primihub-demo.svc.cluster.local:8080/','飞飞飞',1024,0,'2022-07-11 08:45:29.000','2022-07-11 08:45:29.000'),(6,'eb734dd0-773e-411b-ba29-794e41ba0e63',8,'seq','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','704a92e392fd-fc9119c2-c361-4701-9362-00460a3e95b0','seq',0,0,0,'demo04-yfan_test01',1,'0','eb734dd0-773e-411b-ba29-794e41ba0e63','http://fusion.primihub-demo.svc.cluster.local:8080/','',1024,0,'2022-07-11 12:00:48.000','2022-07-11 12:00:48.000'),(7,'eb734dd0-773e-411b-ba29-794e41ba0e63',7,'seq','3abfcb2a-8335-4bcc-b6f9-704a92e392fd','704a92e392fd-fc9119c2-c361-4701-9362-00460a3e95b0','seq',0,0,0,'demo3_yfan-yfan_test01',0,'0','eb734dd0-773e-411b-ba29-794e41ba0e63','http://fusion.primihub-demo.svc.cluster.local:8080/','',1013,0,'2022-07-13 06:23:43.000','2022-07-13 06:23:43.000');
-/*!40000 ALTER TABLE `data_psi` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_psi_resource`
---
-
+-- ----------------------------
+-- Table structure for data_psi_resource
+-- ----------------------------
 DROP TABLE IF EXISTS `data_psi_resource`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `data_psi_resource` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'psi资源id',
-  `resource_id` bigint(20) DEFAULT NULL COMMENT '资源id',
-  `psi_resource_desc` varchar(255) DEFAULT NULL COMMENT 'psi资源描述',
-  `table_structure_template` varchar(255) DEFAULT NULL COMMENT '表结构模板',
-  `organ_type` int(11) DEFAULT NULL COMMENT '机构类型',
-  `results_allow_open` int(11) DEFAULT NULL COMMENT '是否允许结果出现在对方节点上',
-  `keyword_list` varchar(255) DEFAULT NULL COMMENT '关键字 关键字:类型,关键字:类型.....',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE `data_psi_resource`  (
+                                      `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'psi资源id',
+                                      `resource_id` bigint(20) DEFAULT NULL COMMENT '资源id',
+                                      `psi_resource_desc` varchar(255) DEFAULT NULL COMMENT 'psi资源描述',
+                                      `table_structure_template` varchar(255) DEFAULT NULL COMMENT '表结构模板',
+                                      `organ_type` int(11) DEFAULT NULL COMMENT '机构类型',
+                                      `results_allow_open` int(11) DEFAULT NULL COMMENT '是否允许结果出现在对方节点上',
+                                      `keyword_list` varchar(255) DEFAULT NULL COMMENT '关键字 关键字:类型,关键字:类型.....',
+                                      `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                                      `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                      `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                                      PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `data_psi_resource`
---
 
-LOCK TABLES `data_psi_resource` WRITE;
-/*!40000 ALTER TABLE `data_psi_resource` DISABLE KEYS */;
-/*!40000 ALTER TABLE `data_psi_resource` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_psi_task`
---
-
+-- ----------------------------
+-- Table structure for data_psi_task
+-- ----------------------------
 DROP TABLE IF EXISTS `data_psi_task`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `data_psi_task` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'psi任务id',
-  `psi_id` bigint(20) DEFAULT NULL COMMENT 'psi id',
-  `task_id` varchar(255) DEFAULT NULL COMMENT '对外展示的任务uuid 同时也是文件名称',
-  `task_state` int(11) DEFAULT '0' COMMENT '运行状态 0未运行 1运行中 2完成 默认0',
-  `ascription_type` int(11) DEFAULT '0' COMMENT '归属类型 0一方 1双方',
-  `ascription` varchar(255) DEFAULT NULL COMMENT '结果归属',
-  `file_rows` int(11) DEFAULT '0' COMMENT '文件行数',
-  `file_path` varchar(255) DEFAULT NULL COMMENT '文件路径',
-  `file_content` blob COMMENT '文件内容',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `data_psi_task`
---
-
-LOCK TABLES `data_psi_task` WRITE;
-/*!40000 ALTER TABLE `data_psi_task` DISABLE KEYS */;
-INSERT INTO `data_psi_task` VALUES (2,2,'a088524e-3f2a-4b02-8fcf-08f9c1400955',1,0,'一方获取交集',9,'/data/result/2022070111/a088524e-3f2a-4b02-8fcf-08f9c1400955.csv',_binary '\"intersection_row\"\r\n2\r\n9\r\n3\r\n0\r\n5\r\n6\r\n4\r\n1\r\n',0,'2022-07-01 11:09:00.000','2022-07-01 11:09:03.000'),(3,3,'2e7cb713-ea1d-417a-96a1-84a5c93fb81e',1,0,'一方获取交集',9,'/data/result/2022070111/2e7cb713-ea1d-417a-96a1-84a5c93fb81e.csv',_binary '\"intersection_row\"\r\n1\r\n0\r\n3\r\n2\r\n5\r\n6\r\n9\r\n4\r\n',0,'2022-07-01 11:29:23.000','2022-07-01 11:29:24.000'),(4,4,'0f2f528c-7fc5-4c38-a863-c9ed2fe276a8',3,0,'一方获取交集',NULL,'/data/result/2022070114/0f2f528c-7fc5-4c38-a863-c9ed2fe276a8.csv',NULL,0,'2022-07-01 14:04:54.000','2022-07-01 14:06:45.000'),(5,5,'3e82bea3-c717-4572-9d87-22bf9cea7a0a',1,0,'一方获取交集',0,'/data/result/2022071108/3e82bea3-c717-4572-9d87-22bf9cea7a0a.csv','',0,'2022-07-11 08:45:29.000','2022-07-11 08:45:31.000'),(6,6,'edf7eaff-5447-4c3a-b897-c5518ba29e89',1,0,'一方获取差集',0,'/data/result/2022071112/edf7eaff-5447-4c3a-b897-c5518ba29e89.csv','',0,'2022-07-11 12:00:48.000','2022-07-11 12:00:49.000'),(7,7,'5054bfbe-54c4-4e02-9a9a-de1b1764ad8f',1,0,'一方获取交集',0,'/data/result/2022071306/5054bfbe-54c4-4e02-9a9a-de1b1764ad8f.csv','',0,'2022-07-13 06:23:43.000','2022-07-13 06:24:45.000');
-/*!40000 ALTER TABLE `data_psi_task` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_resource`
---
-
+CREATE TABLE `data_psi_task`  (
+                                  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'psi任务id',
+                                  `psi_id` bigint(20) DEFAULT NULL COMMENT 'psi id',
+                                  `task_id` varchar(255) DEFAULT NULL COMMENT '对外展示的任务uuid 同时也是文件名称',
+                                  `task_state` int(11) DEFAULT '0' COMMENT '运行状态 0未运行 1运行中 2完成 默认0',
+                                  `ascription_type` int(11) DEFAULT '0' COMMENT '归属类型 0一方 1双方',
+                                  `ascription` varchar(255) DEFAULT NULL COMMENT '结果归属',
+                                  `file_rows` int(11) DEFAULT '0' COMMENT '文件行数',
+                                  `file_path` varchar(255) DEFAULT NULL COMMENT '文件路径',
+                                  `file_content` blob COMMENT '文件内容',
+                                  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                                  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                                  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+-- ----------------------------
+-- Table structure for data_resource
+-- ----------------------------
 DROP TABLE IF EXISTS `data_resource`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `data_resource` (
-  `resource_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '资源id',
-  `resource_name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '资源名称',
-  `resource_desc` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '资源描述',
-  `resource_sort_type` int(2) DEFAULT NULL COMMENT '资源分类（银行，电商，媒体，运营商，保险）',
-  `resource_auth_type` int(1) DEFAULT NULL COMMENT '授权类型（公开，私有）',
-  `resource_source` int(1) DEFAULT NULL COMMENT '资源来源（文件上传，数据库链接）',
-  `resource_num` int(8) DEFAULT NULL COMMENT '资源数',
-  `file_id` int(8) DEFAULT NULL COMMENT '文件id',
-  `file_size` int(32) DEFAULT NULL COMMENT '文件大小',
-  `file_suffix` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '文件后缀',
-  `file_rows` int(8) DEFAULT NULL COMMENT '文件行数',
-  `file_columns` int(8) DEFAULT NULL COMMENT '文件列数',
-  `file_handle_status` tinyint(4) DEFAULT NULL COMMENT '文件处理状态',
-  `file_handle_field` blob COMMENT '文件头字段',
-  `file_contains_y` tinyint(4) DEFAULT '0' COMMENT '文件字段是否包含y字段 0否 1是',
-  `file_y_rows` int(11) DEFAULT '0' COMMENT '文件字段y值内容不为空的行数',
-  `file_y_ratio` decimal(8,4) DEFAULT '0.0000' COMMENT '文件字段y值内容不为空的行数在总行的占比',
-  `public_organ_id` varchar(3072) DEFAULT NULL COMMENT '机构列表',
-  `resource_fusion_id` varchar(255) DEFAULT NULL COMMENT '中心节点资源ID',
-  `db_id` int(8) DEFAULT NULL COMMENT '数据库id',
-  `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
-  `organ_id` bigint(20) DEFAULT NULL COMMENT '机构id',
-  `url` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '资源表示路径',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`resource_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='资源表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE `data_resource`  (
+                                  `resource_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '资源id',
+                                  `resource_name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '资源名称',
+                                  `resource_desc` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '资源描述',
+                                  `resource_sort_type` int(2) DEFAULT NULL COMMENT '资源分类（银行，电商，媒体，运营商，保险）',
+                                  `resource_auth_type` int(1) DEFAULT NULL COMMENT '授权类型（公开，私有）',
+                                  `resource_source` int(1) DEFAULT NULL COMMENT '资源来源（文件上传，数据库链接）',
+                                  `resource_num` int(8) DEFAULT NULL COMMENT '资源数',
+                                  `file_id` int(8) DEFAULT NULL COMMENT '文件id',
+                                  `file_size` int(32) DEFAULT NULL COMMENT '文件大小',
+                                  `file_suffix` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '文件后缀',
+                                  `file_rows` int(8) DEFAULT NULL COMMENT '文件行数',
+                                  `file_columns` int(8) DEFAULT NULL COMMENT '文件列数',
+                                  `file_handle_status` tinyint(4) DEFAULT NULL COMMENT '文件处理状态',
+                                  `file_handle_field` blob COMMENT '文件头字段',
+                                  `file_contains_y` tinyint(4) DEFAULT '0' COMMENT '文件字段是否包含y字段 0否 1是',
+                                  `file_y_rows` int(11) DEFAULT '0' COMMENT '文件字段y值内容不为空的行数',
+                                  `file_y_ratio` decimal(8,4) DEFAULT '0.0000' COMMENT '文件字段y值内容不为空的行数在总行的占比',
+                                  `public_organ_id` varchar(3072) DEFAULT NULL COMMENT '机构列表',
+                                  `resource_fusion_id` varchar(255) DEFAULT NULL COMMENT '中心节点资源ID',
+                                  `db_id` int(8) DEFAULT NULL COMMENT '数据库id',
+                                  `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
+                                  `organ_id` bigint(20) DEFAULT NULL COMMENT '机构id',
+                                  `url` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '资源表示路径',
+                                  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                                  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                                  PRIMARY KEY (`resource_id`) USING BTREE
+) ENGINE = InnoDB  CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '资源表' ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `data_resource`
---
-
-LOCK TABLES `data_resource` WRITE;
-/*!40000 ALTER TABLE `data_resource` DISABLE KEYS */;
-INSERT INTO `data_resource` VALUES (1,'333','3333',NULL,1,1,0,1161,232,'csv',20,1,0,_binary 'guaranteetype',NULL,NULL,NULL,NULL,'794e41ba0e63-acb7bf93-ef24-4f6e-a14a-0d415248565e',0,1,NULL,'/data/upload/1/2022063006/7b5ee2bc-ac5e-4ef7-a2b2-c73ac99e8a10.csv',0,'2022-06-30 06:25:35.000','2022-06-30 07:40:00.000'),(2,'储存了吗','储存了吗',NULL,1,1,0,1162,232,'csv',20,1,0,_binary 'guaranteetype',NULL,NULL,NULL,NULL,'794e41ba0e63-04d65c6b-3f90-4df5-96cb-637b9275668b',0,1,NULL,'/data/upload/1/2022063011/e3acd3b3-36e1-4482-9b68-19ec86ac8f23.csv',0,'2022-06-30 11:12:59.000','2022-06-30 11:50:00.000'),(3,'onepsi','222',NULL,1,1,0,1163,379,'csv',10,1,0,_binary 'company',NULL,NULL,NULL,NULL,'794e41ba0e63-fb05ac21-4ff4-4c2b-975f-d908cee338ea',0,1,NULL,'/data/upload/1/2022063011/5ebb2022-a802-4ef5-b691-160de053481f.csv',0,'2022-06-30 11:23:29.000','2022-06-30 11:30:00.000'),(4,'pir新数据','pir新数据',NULL,1,1,0,1164,193,'csv',20,1,0,_binary 'guaranteetype',NULL,NULL,NULL,NULL,'794e41ba0e63-c2ca9a07-db64-4e1e-b070-4e798e9234f3',0,1,NULL,'/data/upload/1/2022063011/42d932fb-0655-4bd7-ba22-273e2721dc4a.csv',0,'2022-06-30 11:38:00.000','2022-07-01 11:40:00.000'),(5,'pir','pir',NULL,1,1,0,1165,232,'csv',20,1,0,_binary 'guaranteetype',NULL,NULL,NULL,NULL,'794e41ba0e63-43bde033-b5a5-4551-a8c3-75d957fee4e0',0,1,NULL,'/data/upload/1/2022070112/9a5fab80-fa14-488f-abc3-9c61f071e92e.csv',0,'2022-07-01 12:07:03.000','2022-07-01 12:20:00.000'),(6,'pir中文','中文数据',NULL,1,1,0,1166,193,'csv',20,1,0,_binary 'guaranteetype',NULL,NULL,NULL,NULL,'794e41ba0e63-3a83be70-194b-4f78-a5f6-12dcaecce6d6',0,1,NULL,'/data/upload/1/2022070811/7ba0fc7b-082a-4850-8ecb-6051828983f2.csv',0,'2022-07-08 11:14:47.000','2022-07-08 11:40:00.000'),(7,'demo3_yfan','demo3_yfan',NULL,1,1,0,1167,824,'csv',9,13,0,_binary 'seq,marital,race,age,histologic,CT,CN,CM,ER,PR,HER2,RX,y',1,4,44.4444,NULL,'794e41ba0e63-92d6aaf1-2abe-46d9-8320-db3a7abfae4d',0,1024,NULL,'/data/upload/1/2022071108/b3656a31-54d3-4a96-9d01-6b8fdb1680a7.csv',0,'2022-07-11 08:45:08.000','2022-07-11 08:50:00.000'),(8,'demo04','demo04',NULL,1,1,0,1168,834,'csv',9,13,0,_binary 'seq,marital1,race1,age1,histologic,CT1,CN1,CM1,ER1,PR1,HER21,RX1,y',1,4,44.4444,NULL,'794e41ba0e63-74d57b0e-d3d4-40d9-931e-2fa48f8bdeaf',0,1024,NULL,'/data/upload/1/2022071111/c6eeb084-fa07-4350-8709-74e51449ac2a.csv',0,'2022-07-11 11:59:53.000','2022-07-11 12:10:00.000');
-/*!40000 ALTER TABLE `data_resource` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_resource_auth_record`
---
-
-DROP TABLE IF EXISTS `data_resource_auth_record`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `data_resource_auth_record` (
-  `record_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `record_status` int(2) DEFAULT NULL COMMENT '审核状态',
-  `user_id` bigint(20) DEFAULT NULL COMMENT '审核人员id',
-  `user_name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '审核人姓名',
-  `project_id` bigint(20) DEFAULT NULL COMMENT '项目id',
-  `resource_id` bigint(20) DEFAULT NULL COMMENT '资源id',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`record_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='项目资源授权审核表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `data_resource_auth_record`
---
-
-LOCK TABLES `data_resource_auth_record` WRITE;
-/*!40000 ALTER TABLE `data_resource_auth_record` DISABLE KEYS */;
-/*!40000 ALTER TABLE `data_resource_auth_record` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_resource_tag`
---
-
+-- ----------------------------
+-- Table structure for data_resource_tag
+-- ----------------------------
 DROP TABLE IF EXISTS `data_resource_tag`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `data_resource_tag` (
-  `tag_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '标签id',
-  `tag_name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '标签名称',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`tag_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='标签表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE `data_resource_tag`  (
+                                      `tag_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '标签id',
+                                      `tag_name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '标签名称',
+                                      `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                                      `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                      `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                                      PRIMARY KEY (`tag_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '标签表' ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `data_resource_tag`
---
-
-LOCK TABLES `data_resource_tag` WRITE;
-/*!40000 ALTER TABLE `data_resource_tag` DISABLE KEYS */;
-INSERT INTO `data_resource_tag` VALUES (2,'333',0,'2022-06-30 07:33:38.000','2022-06-30 07:33:38.000'),(4,'psi',0,'2022-06-30 11:23:29.000','2022-06-30 11:23:29.000'),(7,'哇哦',0,'2022-06-30 11:37:01.000','2022-06-30 11:37:01.000'),(9,'pir',0,'2022-07-01 11:28:24.000','2022-07-01 11:28:24.000'),(10,'pir',0,'2022-07-01 12:07:03.000','2022-07-01 12:07:03.000'),(11,'中文',0,'2022-07-08 11:14:47.000','2022-07-08 11:14:47.000'),(12,'demo3_yfan',0,'2022-07-11 08:45:08.000','2022-07-11 08:45:08.000'),(13,'demo04',0,'2022-07-11 11:59:53.000','2022-07-11 11:59:53.000');
-/*!40000 ALTER TABLE `data_resource_tag` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_resource_visibility_auth`
---
-
-DROP TABLE IF EXISTS `data_resource_visibility_auth`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `data_resource_visibility_auth` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `resource_id` bigint(20) NOT NULL COMMENT '资源id',
-  `organ_global_id` varchar(64) NOT NULL COMMENT '机构唯一id',
-  `organ_name` varchar(64) NOT NULL COMMENT '资源名称',
-  `organ_server_address` varchar(255) NOT NULL COMMENT '服务地址',
-  `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
-  `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `resource_id_ix` (`resource_id`) USING BTREE,
-  KEY `organ_global_id_ix` (`organ_global_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `data_resource_visibility_auth`
---
-
-LOCK TABLES `data_resource_visibility_auth` WRITE;
-/*!40000 ALTER TABLE `data_resource_visibility_auth` DISABLE KEYS */;
-/*!40000 ALTER TABLE `data_resource_visibility_auth` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_rt`
---
-
+-- ----------------------------
+-- Table structure for data_rt
+-- ----------------------------
 DROP TABLE IF EXISTS `data_rt`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `data_rt` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `resource_id` bigint(20) DEFAULT NULL COMMENT '资源id',
-  `tag_id` bigint(20) DEFAULT NULL COMMENT '标签id',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='资源标签关系表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE `data_rt`  (
+                            `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                            `resource_id` bigint(20) DEFAULT NULL COMMENT '资源id',
+                            `tag_id` bigint(20) DEFAULT NULL COMMENT '标签id',
+                            `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                            `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                            `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                            PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '资源标签关系表' ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `data_rt`
---
+-- ----------------------------
+-- Table structure for data_file_field
+-- ----------------------------
+DROP TABLE IF EXISTS `data_file_field`;
+CREATE TABLE `data_file_field` (
+                                   `field_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '字段id',
+                                   `file_id` bigint(20) DEFAULT NULL COMMENT '文件id',
+                                   `resource_id` bigint(20) DEFAULT NULL COMMENT '资源id',
+                                   `field_name` varchar(255) DEFAULT NULL COMMENT '字段名称',
+                                   `field_as` varchar(255) DEFAULT NULL COMMENT '字段别名',
+                                   `field_type` int(11) DEFAULT '0' COMMENT '字段类型 默认0 string',
+                                   `field_desc` varchar(255) DEFAULT NULL COMMENT '字段描述',
+                                   `relevance` int(11) DEFAULT '0' COMMENT '关键字 0否 1是',
+                                   `grouping` int(11) DEFAULT '0' COMMENT '分组 0否 1是',
+                                   `protection_status` int(11) DEFAULT '0' COMMENT '保护开关 0关闭 1开启',
+                                   `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                                   `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                   `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                                   PRIMARY KEY (`field_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE = utf8_general_ci COMMENT = '资源字段表' ROW_FORMAT = Dynamic;
 
-LOCK TABLES `data_rt` WRITE;
-/*!40000 ALTER TABLE `data_rt` DISABLE KEYS */;
-INSERT INTO `data_rt` VALUES (2,1,2,0,'2022-06-30 07:33:38.000','2022-06-30 07:33:38.000'),(4,3,4,0,'2022-06-30 11:23:29.000','2022-06-30 11:23:29.000'),(7,2,7,0,'2022-06-30 11:37:01.000','2022-06-30 11:37:01.000'),(9,4,9,0,'2022-07-01 11:28:24.000','2022-07-01 11:28:24.000'),(10,5,10,0,'2022-07-01 12:07:03.000','2022-07-01 12:07:03.000'),(11,6,11,0,'2022-07-08 11:14:47.000','2022-07-08 11:14:47.000'),(12,7,12,0,'2022-07-11 08:45:08.000','2022-07-11 08:45:08.000'),(13,8,13,0,'2022-07-11 11:59:53.000','2022-07-11 11:59:53.000');
-/*!40000 ALTER TABLE `data_rt` ENABLE KEYS */;
-UNLOCK TABLES;
+-- ----------------------------
+-- Table structure for data_mpc_task
+-- ----------------------------
+DROP TABLE IF EXISTS `data_mpc_task`;
+CREATE TABLE `data_mpc_task` (
+                                 `task_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务id',
+                                 `task_id_name` varchar(255) DEFAULT NULL COMMENT '任务id对外展示',
+                                 `script_id` bigint(20) DEFAULT NULL COMMENT '脚本id',
+                                 `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
+                                 `task_status` int(11) DEFAULT '0' COMMENT '任务状态 0未运行 1成功 2运行中 3失败',
+                                 `task_desc` varchar(255) DEFAULT NULL COMMENT '任务备注',
+                                 `log_data` blob COMMENT '日志信息',
+                                 `result_file_path` varchar(255) DEFAULT NULL COMMENT '结果文件地址',
+                                 `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                                 `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                 `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                                 PRIMARY KEY (`task_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8  COMMENT = 'mpc任务表' ROW_FORMAT=DYNAMIC;
 
---
--- Table structure for table `data_script`
---
-
+-- ----------------------------
+-- Table structure for data_script
+-- ----------------------------
 DROP TABLE IF EXISTS `data_script`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `data_script` (
-  `script_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '脚本id',
-  `name` varchar(255) DEFAULT NULL COMMENT '文件名称或文件夹名称',
-  `catalogue` int(11) DEFAULT '0' COMMENT '是否目录 0否 1是',
-  `p_script_id` bigint(20) DEFAULT NULL COMMENT '上级id',
-  `script_type` int(11) DEFAULT NULL COMMENT '脚本类型 0sql 1python',
-  `script_status` int(11) DEFAULT NULL COMMENT '脚本状态 0打开 1关闭 默认打开',
-  `script_content` blob COMMENT '脚本内容',
-  `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
-  `organ_id` bigint(20) DEFAULT NULL COMMENT '机构id',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`script_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `data_script`
---
-
-LOCK TABLES `data_script` WRITE;
-/*!40000 ALTER TABLE `data_script` DISABLE KEYS */;
-/*!40000 ALTER TABLE `data_script` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `data_task`
---
-
+CREATE TABLE `data_script`  (
+                                `script_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '脚本id',
+                                `name` varchar(255) DEFAULT NULL COMMENT '文件名称或文件夹名称',
+                                `catalogue` int(11) DEFAULT '0' COMMENT '是否目录 0否 1是',
+                                `p_script_id` bigint(20) DEFAULT NULL COMMENT '上级id',
+                                `script_type` int(11) DEFAULT NULL COMMENT '脚本类型 0sql 1python',
+                                `script_status` int(11) DEFAULT NULL COMMENT '脚本状态 0打开 1关闭 默认打开',
+                                `script_content` blob COMMENT '脚本内容',
+                                `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
+                                `organ_id` bigint(20) DEFAULT NULL COMMENT '机构id',
+                                `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                                `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                                PRIMARY KEY (`script_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+-- ----------------------------
+-- Table structure for data_task
+-- ----------------------------
 DROP TABLE IF EXISTS `data_task`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `data_task` (
-  `task_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务id',
-  `task_id_name` varchar(255) DEFAULT NULL COMMENT '任务id展示名',
-  `task_name` varchar(255) DEFAULT NULL COMMENT '任务名称',
-  `task_state` int(11) DEFAULT '0' COMMENT '任务状态(0未开始 1成功 2运行中 3失败 4取消)',
-  `task_type` int(11) DEFAULT NULL COMMENT '任务类型 1、模型 2、PSI 3、PIR',
-  `task_result_path` varchar(255) DEFAULT NULL COMMENT '文件返回路径',
-  `task_result_content` blob COMMENT '文件返回内容',
-  `task_start_time` bigint(20) DEFAULT NULL COMMENT '任务开始时间',
-  `task_end_time` bigint(20) DEFAULT NULL COMMENT '任务结束时间',
-  `task_user_id` bigint(20) DEFAULT NULL COMMENT '任务创建人',
-  `task_error_msg` blob COMMENT '任务异常信息',
-  `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
-  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
-  PRIMARY KEY (`task_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='数据任务表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `data_task`
---
-
-LOCK TABLES `data_task` WRITE;
-/*!40000 ALTER TABLE `data_task` DISABLE KEYS */;
-INSERT INTO `data_task` VALUES (1,'f66bf357-0dbc-4570-be3e-749aaae006e3',NULL,3,1,'/data/result/2022071908/a2771d77-42dd-4b59-81f3-50cef9a02d03.csv',NULL,1658220818034,1658228710810,1010,_binary 'UNAVAILABLE: Network closed for unknown reason',0,'2022-07-19 08:53:38.000','2022-07-19 11:05:10.000');
-/*!40000 ALTER TABLE `data_task` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `sys_auth`
---
-
+                             `task_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务id',
+                             `task_id_name` varchar(255) DEFAULT NULL COMMENT '任务id展示名',
+                             `task_name` varchar(255) DEFAULT NULL COMMENT '任务名称',
+                             `task_state` int(11) DEFAULT '0' COMMENT '任务状态(0未开始 1成功 2运行中 3失败 4取消)',
+                             `task_type` int(11) DEFAULT NULL COMMENT '任务类型 1、模型 2、PSI 3、PIR',
+                             `task_result_path` varchar(255) DEFAULT NULL COMMENT '文件返回路径',
+                             `task_result_content` blob COMMENT '文件返回内容',
+                             `task_start_time` bigint(20) DEFAULT NULL COMMENT '任务开始时间',
+                             `task_end_time` bigint(20) DEFAULT NULL COMMENT '任务结束时间',
+                             `task_user_id` bigint(20) DEFAULT NULL COMMENT '任务创建人',
+                             `task_error_msg` blob COMMENT '任务异常信息',
+                             `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                             `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                             `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                             PRIMARY KEY (`task_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='数据任务表';
+-- ----------------------------
+-- Table structure for sys_auth
+-- ----------------------------
 DROP TABLE IF EXISTS `sys_auth`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sys_auth` (
-  `auth_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '权限id',
-  `auth_name` varchar(64) NOT NULL COMMENT '权限名称',
-  `auth_code` varchar(32) NOT NULL COMMENT '权限代码',
-  `auth_type` tinyint(4) NOT NULL COMMENT '权限类型 1 菜单 2 列表 3 按钮',
-  `p_auth_id` bigint(20) NOT NULL COMMENT '父id',
-  `r_auth_id` bigint(20) NOT NULL COMMENT '根id',
-  `full_path` varchar(255) NOT NULL COMMENT '完整路径',
-  `auth_url` varchar(255) NOT NULL COMMENT '过滤路径',
-  `data_auth_code` varchar(64) NOT NULL COMMENT '数据权限代码',
-  `auth_index` int(16) NOT NULL COMMENT '顺序',
-  `auth_depth` int(16) NOT NULL COMMENT '深度',
-  `is_show` tinyint(4) NOT NULL COMMENT '是否展示',
-  `is_editable` tinyint(4) NOT NULL COMMENT '是否可编辑',
-  `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
-  `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
-  PRIMARY KEY (`auth_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1048 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='权限表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE `sys_auth`  (
+                             `auth_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '权限id',
+                             `auth_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限名称',
+                             `auth_code` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限代码',
+                             `auth_type` tinyint(4) NOT NULL COMMENT '权限类型 1 菜单 2 列表 3 按钮',
+                             `p_auth_id` bigint(20) NOT NULL COMMENT '父id',
+                             `r_auth_id` bigint(20) NOT NULL COMMENT '根id',
+                             `full_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '完整路径',
+                             `auth_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '过滤路径',
+                             `data_auth_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '数据权限代码',
+                             `auth_index` int(16) NOT NULL COMMENT '顺序',
+                             `auth_depth` int(16) NOT NULL COMMENT '深度',
+                             `is_show` tinyint(4) NOT NULL COMMENT '是否展示',
+                             `is_editable` tinyint(4) NOT NULL COMMENT '是否可编辑',
+                             `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
+                             `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                             `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+                             PRIMARY KEY (`auth_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1001 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = DYNAMIC;
 
---
--- Dumping data for table `sys_auth`
---
+-- ----------------------------
+-- Records of sys_auth
+-- ----------------------------
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1001, '项目管理', 'Project', 1, 0, 1001, '1001', '', 'own', 1, 0, 1, 1, 0, '2022-07-19 08:51:04.399', '2022-07-19 08:51:04.443');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1002, '项目列表', 'ProjectList', 2, 1001, 1001, '1001,1002', '/project/getProjectList', 'own', 1, 1, 1, 1, 0, '2022-07-19 08:51:04.469', '2022-07-19 08:51:04.497');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1003, '项目详情', 'ProjectDetail', 3, 1001, 1001, '1001,1003', '/project/getProjectDetails', 'own', 2, 1, 1, 1, 0, '2022-07-19 08:51:04.505', '2022-07-19 08:51:04.512');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1004, '新建项目', 'ProjectCreate', 3, 1002, 1001, '1001,1002,1004', '/project/saveOrUpdateProject', 'own', 1, 2, 1, 1, 0, '2022-07-19 08:51:04.520', '2022-07-19 08:51:04.526');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1005, '关闭项目', 'ProjectDelete', 3, 1002, 1001, '1001,1002,1005', '/project/closeProject', 'own', 2, 2, 1, 1, 0, '2022-07-19 08:51:04.532', '2022-07-19 08:51:04.539');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1006, '模型列表', 'ModelList', 2, 1003, 1001, '1001,1003,1006', '/model/getmodellist', 'own', 1, 2, 1, 1, 0, '2022-07-19 08:51:04.544', '2022-07-19 08:51:04.549');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1007, '模型详情', 'ModelDetail', 3, 1006, 1001, '1001,1003,1006,1007', '/model/getdatamodel', 'own', 1, 3, 1, 1, 0, '2022-07-19 08:51:04.557', '2022-07-19 08:51:04.563');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1008, '模型查看', 'ModelView', 3, 1006, 1001, '1001,1003,1006,1008', '/model/getdatamodel', 'own', 2, 3, 1, 1, 0, '2022-07-19 08:51:04.571', '2022-07-19 08:51:04.578');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1009, '添加模型', 'ModelCreate', 3, 1006, 1001, '1001,1003,1006,1009', '/model/saveModelAndComponent', 'own', 3, 3, 1, 1, 0, '2022-07-19 08:51:04.590', '2022-07-19 08:51:04.597');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1010, '模型编辑', 'ModelEdit', 3, 1006, 1001, '1001,1003,1006,1010', '/model/saveModelAndComponent', 'own', 4, 3, 1, 1, 0, '2022-07-19 08:51:04.609', '2022-07-19 08:51:04.618');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1011, '执行记录列表', 'ModelTaskHistory', 3, 1006, 1001, '1001,1003,1006,1011', '/task/saveModelAndComponent', 'own', 5, 3, 1, 1, 0, '2022-07-19 08:51:04.624', '2022-07-19 08:51:04.630');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1012, '模型运行', 'ModelRun', 3, 1006, 1001, '1001,1003,1006,1012', '/model/runTaskModel', 'own', 6, 3, 1, 1, 0, '2022-07-19 08:51:04.638', '2022-07-19 08:51:04.644');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1013, '下载结果', 'ModelResultDownload', 3, 1006, 1001, '1001,1003,1006,1013', '/task/downloadTaskFile', 'own', 7, 3, 1, 1, 0, '2022-07-19 08:51:04.653', '2022-07-19 08:51:04.659');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1014, '匿踪查询', 'PrivateSearch', 1, 0, 1014, '1014', '/fusionResource/getResourceList', 'own', 2, 0, 1, 1, 0, '2022-07-19 08:51:04.664', '2022-07-19 08:51:04.673');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1015, '匿踪查询按钮', 'PrivateSearchButton', 3, 1014, 1014, '1014,1015', '/pir/pirSubmitTask', 'own', 1, 1, 1, 1, 0, '2022-07-19 08:51:04.710', '2022-07-19 08:51:04.739');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1016, '匿踪查询列表', 'PrivateSearchList', 2, 1014, 1014, '1014,1016', '/pir/downloadPirTask', 'own', 2, 1, 1, 1, 0, '2022-07-19 08:51:04.764', '2022-07-19 08:51:04.781');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1017, '隐私求交', 'PSI', 1, 0, 1017, '1017', '', 'own', 3, 0, 1, 1, 0, '2022-07-19 08:51:04.791', '2022-07-19 08:51:04.801');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1018, '求交任务', 'PSITask', 2, 1017, 1017, '1017,1018', '/psi/getPsiResourceAllocationList', 'own', 1, 1, 1, 1, 0, '2022-07-19 08:51:04.812', '2022-07-19 08:51:04.821');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1019, '求交结果', 'PSIResult', 2, 1017, 1017, '1017,1019', '/psi/getPsiTaskList', 'own', 2, 1, 1, 1, 0, '2022-07-19 08:51:04.829', '2022-07-19 08:51:04.840');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1020, '资源管理', 'ResourceMenu', 1, 0, 1020, '1020', '', 'own', 4, 0, 1, 1, 0, '2022-07-19 08:51:04.854', '2022-07-19 08:51:04.861');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1021, '资源概览', 'ResourceList', 2, 1020, 1020, '1020,1021', '/resource/getdataresourcelist', 'own', 1, 1, 1, 1, 0, '2022-07-19 08:51:04.880', '2022-07-19 08:51:04.891');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1022, '资源详情', 'ResourceDetail', 3, 1020, 1020, '1020,1022', '/resource/getdataresource', 'own', 2, 1, 1, 1, 0, '2022-07-19 08:51:04.897', '2022-07-19 08:51:04.904');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1023, '上传资源', 'ResourceUpload', 3, 1020, 1020, '1020,1023', '/resource/saveorupdateresource', 'own', 3, 1, 1, 1, 0, '2022-07-19 08:51:04.907', '2022-07-19 08:51:04.910');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1024, '编辑资源', 'ResourceEdit', 3, 1020, 1020, '1020,1024', '/resource/saveorupdateresource', 'own', 4, 1, 1, 1, 0, '2022-07-19 08:51:04.915', '2022-07-19 08:51:04.921');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1025, '联邦资源', 'UnionList', 2, 1020, 1020, '1020,1025', '/fusionResource/getResourceList', 'own', 5, 1, 1, 1, 0, '2022-07-19 08:51:04.927', '2022-07-19 08:51:04.933');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1026, '联邦资源详情', 'UnionResourceDetail', 3, 1025, 1020, '1020,1025,1026', '/fusionResource/getDataResource', 'own', 1, 2, 1, 1, 0, '2022-07-19 08:51:04.937', '2022-07-19 08:51:04.942');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1027, '系统设置', 'Setting', 1, 0, 1027, '1027', '', 'own', 5, 0, 1, 0, 0, '2022-07-19 08:51:04.945', '2022-07-19 08:51:04.951');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1028, '用户管理', 'UserManage', 2, 1027, 1027, '1027,1028', '/user/findUserPage', 'own', 1, 1, 1, 0, 0, '2022-07-19 08:51:04.955', '2022-07-19 08:51:04.958');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1029, '用户新增', 'UserAdd', 3, 1028, 1027, '1027,1028,1029', '/user/saveOrUpdateUser', 'own', 1, 2, 1, 0, 0, '2022-07-19 08:51:04.962', '2022-07-19 08:51:04.967');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1030, '用户编辑', 'UserEdit', 3, 1028, 1027, '1027,1028,1030', '/user/saveOrUpdateUser', 'own', 2, 2, 1, 0, 0, '2022-07-19 08:51:04.972', '2022-07-19 08:51:04.976');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1031, '用户删除', 'UserDelete', 3, 1028, 1027, '1027,1028,1031', '/user/deleteSysUser', 'own', 3, 2, 1, 0, 0, '2022-07-19 08:51:04.981', '2022-07-19 08:51:04.986');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1032, '密码重置', 'UserPasswordReset', 3, 1028, 1027, '1027,1028,1032', '/user/initPassword', 'own', 4, 2, 1, 0, 0, '2022-07-19 08:51:04.990', '2022-07-19 08:51:04.995');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1033, '角色管理', 'RoleManage', 2, 1027, 1027, '1027,1033', '/role/findRolePage', 'own', 2, 1, 1, 0, 0, '2022-07-19 08:51:05.000', '2022-07-19 08:51:05.005');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1034, '角色新增', 'RoleAdd', 3, 1033, 1027, '1027,1033,1034', '/role/saveOrUpdateRole', 'own', 1, 2, 1, 0, 0, '2022-07-19 08:51:05.009', '2022-07-19 08:51:05.014');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1035, '角色编辑', 'RoleEdit', 3, 1033, 1027, '1027,1033,1035', '/role/saveOrUpdateRole', 'own', 2, 2, 1, 0, 0, '2022-07-19 08:51:05.019', '2022-07-19 08:51:05.024');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1036, '角色删除', 'RoleDelete', 3, 1033, 1027, '1027,1033,1036', '/role/deleteSysRole', 'own', 3, 2, 1, 0, 0, '2022-07-19 08:51:05.034', '2022-07-19 08:51:05.041');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1037, '菜单管理', 'MenuManage', 2, 1027, 1027, '1027,1037', '/auth/getAuthTree', 'own', 3, 1, 1, 0, 0, '2022-07-19 08:51:05.048', '2022-07-19 08:51:05.057');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1038, '菜单新增', 'MenuAdd', 3, 1037, 1027, '1027,1037,1038', '/auth/createAuthNode', 'own', 1, 2, 1, 0, 0, '2022-07-19 08:51:05.063', '2022-07-19 08:51:05.074');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1039, '菜单编辑', 'MenuEdit', 3, 1037, 1027, '1027,1037,1039', '/auth/alterAuthNodeStatus', 'own', 2, 2, 1, 0, 0, '2022-07-19 08:51:05.081', '2022-07-19 08:51:05.090');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1040, '菜单编辑', 'MenuDelete', 3, 1037, 1027, '1027,1037,1040', '/auth/deleteAuthNode', 'own', 3, 2, 1, 0, 0, '2022-07-19 08:51:05.098', '2022-07-19 08:51:05.107');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1041, '中心管理', 'CenterManage', 2, 1027, 1027, '1027,1041', '', 'own', 4, 1, 1, 0, 0, '2022-07-19 08:51:05.116', '2022-07-19 08:51:05.125');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1042, '编辑机构信息', 'OrganChange', 3, 1041, 1027, '1027,1041,1042', '/organ/changeLocalOrganInfo', 'own', 1, 2, 1, 0, 0, '2022-07-19 08:51:05.131', '2022-07-19 08:51:05.139');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1043, '添加中心节点', 'FusionAdd', 3, 1041, 1027, '1027,1041,1043', '/fusion/registerConnection', 'own', 2, 2, 1, 0, 0, '2022-07-19 08:51:05.145', '2022-07-19 08:51:05.153');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1044, '删除中心节点', 'FusionDelete', 3, 1041, 1027, '1027,1041,1044', '/fusion/deleteConnection', 'own', 3, 2, 1, 0, 0, '2022-07-19 08:51:05.159', '2022-07-19 08:51:05.164');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1045, '创建群组', 'GroupCreate', 3, 1041, 1027, '1027,1041,1045', '/fusion/createGroup', 'own', 4, 2, 1, 0, 0, '2022-07-19 08:51:05.172', '2022-07-19 08:51:05.182');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1046, '加入群组', 'GroupJoin', 3, 1041, 1027, '1027,1041,1046', '/fusion/joinGroup', 'own', 5, 2, 1, 0, 0, '2022-07-19 08:51:05.189', '2022-07-19 08:51:05.197');
+INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1047, '退出群组', 'GroupExit', 3, 1041, 1027, '1027,1041,1047', '/fusion/exitGroup', 'own', 6, 2, 1, 0, 0, '2022-07-19 08:51:05.205', '2022-07-19 08:51:05.210');
 
-LOCK TABLES `sys_auth` WRITE;
-/*!40000 ALTER TABLE `sys_auth` DISABLE KEYS */;
-INSERT INTO `sys_auth` VALUES (1001,'项目管理','Project',1,0,1001,'1001','','own',1,0,1,1,0,'2022-07-19 08:07:04.641','2022-07-19 08:07:04.647'),(1002,'项目列表','ProjectList',2,1001,1001,'1001,1002','/project/getProjectList','own',1,1,1,1,0,'2022-07-19 08:07:04.649','2022-07-19 08:07:04.651'),(1003,'项目详情','ProjectDetail',3,1001,1001,'1001,1003','/project/getProjectDetails','own',2,1,1,1,0,'2022-07-19 08:07:04.652','2022-07-19 08:07:04.653'),(1004,'新建项目','ProjectCreate',3,1002,1001,'1001,1002,1004','/project/saveOrUpdateProject','own',1,2,1,1,0,'2022-07-19 08:07:04.654','2022-07-19 08:07:04.655'),(1005,'关闭项目','ProjectDelete',3,1002,1001,'1001,1002,1005','/project/closeProject','own',2,2,1,1,0,'2022-07-19 08:07:04.657','2022-07-19 08:07:04.658'),(1006,'模型列表','ModelList',2,1003,1001,'1001,1003,1006','/model/getmodellist','own',1,2,1,1,0,'2022-07-19 08:07:04.659','2022-07-19 08:07:04.660'),(1007,'模型详情','ModelDetail',3,1006,1001,'1001,1003,1006,1007','/model/getdatamodel','own',1,3,1,1,0,'2022-07-19 08:07:04.661','2022-07-19 08:07:04.662'),(1008,'模型查看','ModelView',3,1006,1001,'1001,1003,1006,1008','/model/getdatamodel','own',2,3,1,1,0,'2022-07-19 08:07:04.664','2022-07-19 08:07:04.665'),(1009,'添加模型','ModelCreate',3,1006,1001,'1001,1003,1006,1009','/model/saveModelAndComponent','own',3,3,1,1,0,'2022-07-19 08:07:04.666','2022-07-19 08:07:04.667'),(1010,'模型编辑','ModelEdit',3,1006,1001,'1001,1003,1006,1010','/model/saveModelAndComponent','own',4,3,1,1,0,'2022-07-19 08:07:04.668','2022-07-19 08:07:04.670'),(1011,'执行记录列表','ModelTaskHistory',3,1006,1001,'1001,1003,1006,1011','/task/saveModelAndComponent','own',5,3,1,1,0,'2022-07-19 08:07:04.671','2022-07-19 08:07:04.672'),(1012,'模型运行','ModelRun',3,1006,1001,'1001,1003,1006,1012','/model/runTaskModel','own',6,3,1,1,0,'2022-07-19 08:07:04.673','2022-07-19 08:07:04.674'),(1013,'下载结果','ModelResultDownload',3,1006,1001,'1001,1003,1006,1013','/task/downloadTaskFile','own',7,3,1,1,0,'2022-07-19 08:07:04.676','2022-07-19 08:07:04.677'),(1014,'匿踪查询','PrivateSearch',1,0,1014,'1014','/fusionResource/getResourceList','own',2,0,1,1,0,'2022-07-19 08:07:04.678','2022-07-19 08:07:04.679'),(1015,'匿踪查询按钮','PrivateSearchButton',3,1014,1014,'1014,1015','/pir/pirSubmitTask','own',1,1,1,1,0,'2022-07-19 08:07:04.682','2022-07-19 08:07:04.685'),(1016,'匿踪查询列表','PrivateSearchList',2,1014,1014,'1014,1016','/pir/downloadPirTask','own',2,1,1,1,0,'2022-07-19 08:07:04.687','2022-07-19 08:07:04.688'),(1017,'隐私求交','PSI',1,0,1017,'1017','','own',3,0,1,1,0,'2022-07-19 08:07:04.689','2022-07-19 08:07:04.691'),(1018,'求交任务','PSITask',2,1017,1017,'1017,1018','/psi/getPsiResourceAllocationList','own',1,1,1,1,0,'2022-07-19 08:07:04.692','2022-07-19 08:07:04.693'),(1019,'求交结果','PSIResult',2,1017,1017,'1017,1019','/psi/getPsiTaskList','own',2,1,1,1,0,'2022-07-19 08:07:04.694','2022-07-19 08:07:04.695'),(1020,'资源管理','ResourceMenu',1,0,1020,'1020','','own',4,0,1,1,0,'2022-07-19 08:07:04.697','2022-07-19 08:07:04.698'),(1021,'资源概览','ResourceList',2,1020,1020,'1020,1021','/resource/getdataresourcelist','own',1,1,1,1,0,'2022-07-19 08:07:04.699','2022-07-19 08:07:04.700'),(1022,'资源详情','ResourceDetail',3,1020,1020,'1020,1022','/resource/getdataresource','own',2,1,1,1,0,'2022-07-19 08:07:04.701','2022-07-19 08:07:04.702'),(1023,'上传资源','ResourceUpload',3,1020,1020,'1020,1023','/resource/saveorupdateresource','own',3,1,1,1,0,'2022-07-19 08:07:04.703','2022-07-19 08:07:04.705'),(1024,'编辑资源','ResourceEdit',3,1020,1020,'1020,1024','/resource/saveorupdateresource','own',4,1,1,1,0,'2022-07-19 08:07:04.706','2022-07-19 08:07:04.707'),(1025,'联邦资源','UnionList',2,1020,1020,'1020,1025','/fusionResource/getResourceList','own',5,1,1,1,0,'2022-07-19 08:07:04.708','2022-07-19 08:07:04.709'),(1026,'联邦资源详情','UnionResourceDetail',3,1025,1020,'1020,1025,1026','/fusionResource/getDataResource','own',1,2,1,1,0,'2022-07-19 08:07:04.710','2022-07-19 08:07:04.711'),(1027,'系统设置','Setting',1,0,1027,'1027','','own',5,0,1,0,0,'2022-07-19 08:07:04.712','2022-07-19 08:07:04.713'),(1028,'用户管理','UserManage',2,1027,1027,'1027,1028','/user/findUserPage','own',1,1,1,0,0,'2022-07-19 08:07:04.715','2022-07-19 08:07:04.716'),(1029,'用户新增','UserAdd',3,1028,1027,'1027,1028,1029','/user/saveOrUpdateUser','own',1,2,1,0,0,'2022-07-19 08:07:04.717','2022-07-19 08:07:04.718'),(1030,'用户编辑','UserEdit',3,1028,1027,'1027,1028,1030','/user/saveOrUpdateUser','own',2,2,1,0,0,'2022-07-19 08:07:04.719','2022-07-19 08:07:04.720'),(1031,'用户删除','UserDelete',3,1028,1027,'1027,1028,1031','/user/deleteSysUser','own',3,2,1,0,0,'2022-07-19 08:07:04.721','2022-07-19 08:07:04.722'),(1032,'密码重置','UserPasswordReset',3,1028,1027,'1027,1028,1032','/user/initPassword','own',4,2,1,0,0,'2022-07-19 08:07:04.723','2022-07-19 08:07:04.724'),(1033,'角色管理','RoleManage',2,1027,1027,'1027,1033','/role/findRolePage','own',2,1,1,0,0,'2022-07-19 08:07:04.725','2022-07-19 08:07:04.726'),(1034,'角色新增','RoleAdd',3,1033,1027,'1027,1033,1034','/role/saveOrUpdateRole','own',1,2,1,0,0,'2022-07-19 08:07:04.728','2022-07-19 08:07:04.729'),(1035,'角色编辑','RoleEdit',3,1033,1027,'1027,1033,1035','/role/saveOrUpdateRole','own',2,2,1,0,0,'2022-07-19 08:07:04.730','2022-07-19 08:07:04.731'),(1036,'角色删除','RoleDelete',3,1033,1027,'1027,1033,1036','/role/deleteSysRole','own',3,2,1,0,0,'2022-07-19 08:07:04.732','2022-07-19 08:07:04.733'),(1037,'菜单管理','MenuManage',2,1027,1027,'1027,1037','/auth/getAuthTree','own',3,1,1,0,0,'2022-07-19 08:07:04.734','2022-07-19 08:07:04.735'),(1038,'菜单新增','MenuAdd',3,1037,1027,'1027,1037,1038','/auth/createAuthNode','own',1,2,1,0,0,'2022-07-19 08:07:04.736','2022-07-19 08:07:04.738'),(1039,'菜单编辑','MenuEdit',3,1037,1027,'1027,1037,1039','/auth/alterAuthNodeStatus','own',2,2,1,0,0,'2022-07-19 08:07:04.739','2022-07-19 08:07:04.740'),(1040,'菜单编辑','MenuDelete',3,1037,1027,'1027,1037,1040','/auth/deleteAuthNode','own',3,2,1,0,0,'2022-07-19 08:07:04.741','2022-07-19 08:07:04.742'),(1041,'中心管理','CenterManage',2,1027,1027,'1027,1041','','own',4,1,1,0,0,'2022-07-19 08:07:04.743','2022-07-19 08:07:04.744'),(1042,'编辑机构信息','OrganChange',3,1041,1027,'1027,1041,1042','/organ/changeLocalOrganInfo','own',1,2,1,0,0,'2022-07-19 08:07:04.745','2022-07-19 08:07:04.746'),(1043,'添加中心节点','FusionAdd',3,1041,1027,'1027,1041,1043','/fusion/registerConnection','own',2,2,1,0,0,'2022-07-19 08:07:04.747','2022-07-19 08:07:04.748'),(1044,'删除中心节点','FusionDelete',3,1041,1027,'1027,1041,1044','/fusion/deleteConnection','own',3,2,1,0,0,'2022-07-19 08:07:04.749','2022-07-19 08:07:04.750'),(1045,'创建群组','GroupCreate',3,1041,1027,'1027,1041,1045','/fusion/createGroup','own',4,2,1,0,0,'2022-07-19 08:07:04.751','2022-07-19 08:07:04.752'),(1046,'加入群组','GroupJoin',3,1041,1027,'1027,1041,1046','/fusion/joinGroup','own',5,2,1,0,0,'2022-07-19 08:07:04.753','2022-07-19 08:07:04.755'),(1047,'退出群组','GroupExit',3,1041,1027,'1027,1041,1047','/fusion/exitGroup','own',6,2,1,0,0,'2022-07-19 08:07:04.755','2022-07-19 08:07:04.757');
-/*!40000 ALTER TABLE `sys_auth` ENABLE KEYS */;
-UNLOCK TABLES;
 
---
--- Table structure for table `sys_file`
---
-
-DROP TABLE IF EXISTS `sys_file`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sys_file` (
-  `file_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '文件id',
-  `file_source` int(12) NOT NULL COMMENT '文件来源',
-  `file_url` varchar(255) NOT NULL COMMENT '文件地址',
-  `file_name` varchar(64) NOT NULL COMMENT '文件名称',
-  `file_suffix` varchar(64) NOT NULL COMMENT '文件后缀',
-  `file_size` bigint(20) NOT NULL COMMENT '文件实际大小',
-  `file_current_size` bigint(20) NOT NULL COMMENT '文件当前大小',
-  `file_area` varchar(32) NOT NULL COMMENT '文件区域',
-  `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
-  `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
-  PRIMARY KEY (`file_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1170 DEFAULT CHARSET=utf8 COMMENT='文件表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `sys_file`
---
-
-LOCK TABLES `sys_file` WRITE;
-/*!40000 ALTER TABLE `sys_file` DISABLE KEYS */;
-INSERT INTO `sys_file` VALUES (1000,1,'d:/data/upload/1/2022042717/f84b38e6-df36-469a-85c2-efd8d17b8a3e.csv','f84b38e6-df36-469a-85c2-efd8d17b8a3e','csv',229787,229787,'local',0,'2022-04-27 17:56:17.296','2022-04-27 17:56:17.296'),(1001,1,'d:/data/upload/1/2022042717/53ce47cd-ee99-4e69-add6-9996bbcc4fbd.csv','53ce47cd-ee99-4e69-add6-9996bbcc4fbd','csv',85434,85434,'local',0,'2022-04-27 17:57:24.508','2022-04-27 17:57:24.508'),(1002,1,'d:/data/upload/1/2022042717/14d6bc06-396c-4744-98c8-3a2d566bb68f.csv','14d6bc06-396c-4744-98c8-3a2d566bb68f','csv',262144,262144,'local',0,'2022-04-27 17:58:40.815','2022-04-27 17:58:40.815'),(1003,1,'d:/data/upload/1/2022042717/c398d891-0ddf-4fb9-bdd6-ccee7f619a77.csv','c398d891-0ddf-4fb9-bdd6-ccee7f619a77','csv',262144,262144,'local',0,'2022-04-27 17:58:40.815','2022-04-27 17:58:40.815'),(1004,1,'d:/data/upload/1/2022042717/fa562a6a-e419-4618-b35e-a94f4e80911e.csv','fa562a6a-e419-4618-b35e-a94f4e80911e','csv',328376,328376,'local',0,'2022-04-27 17:58:40.817','2022-04-27 17:58:40.817'),(1005,1,'d:/data/upload/1/2022042718/5d3aa10b-7feb-49c8-b712-4613f93905c6.csv','5d3aa10b-7feb-49c8-b712-4613f93905c6','csv',174069,174069,'local',0,'2022-04-27 18:00:49.195','2022-04-27 18:00:49.195'),(1006,1,'d:/data/upload/1/2022042718/ea717282-257a-4365-ab80-c132ecbf0307.csv','ea717282-257a-4365-ab80-c132ecbf0307','csv',468965,468965,'local',0,'2022-04-27 18:02:03.222','2022-04-27 18:02:03.222'),(1007,1,'d:/data/upload/1/2022042718/28efe5c0-ec48-491a-8722-47b4fea62746.csv','28efe5c0-ec48-491a-8722-47b4fea62746','csv',155430,155430,'local',0,'2022-04-27 18:04:25.237','2022-04-27 18:04:25.237'),(1008,1,'d:/data/upload/1/2022042718/180da108-6a8b-4487-afaf-0eb82e7fbade.csv','180da108-6a8b-4487-afaf-0eb82e7fbade','csv',468965,468965,'local',0,'2022-04-27 18:04:46.766','2022-04-27 18:04:46.766'),(1009,1,'d:/data/upload/1/2022042718/54afae23-c1dd-4849-a20e-56e959bd36c2.csv','54afae23-c1dd-4849-a20e-56e959bd36c2','csv',71460,71460,'local',0,'2022-04-27 18:05:29.456','2022-04-27 18:05:29.456'),(1010,1,'d:/data/upload/1/2022042718/bba54699-0ed0-4949-ae3a-5f2c9022657d.csv','bba54699-0ed0-4949-ae3a-5f2c9022657d','csv',468965,468965,'local',0,'2022-04-27 18:06:03.216','2022-04-27 18:06:03.216'),(1011,1,'/data/upload/1/2022042808/b81fca61-1f1c-49b1-9c36-b959f1ab0323.csv','b81fca61-1f1c-49b1-9c36-b959f1ab0323','csv',57913,57913,'local',0,'2022-04-28 08:18:23.513','2022-04-28 08:18:23.513'),(1012,1,'/data/upload/1/2022042808/fa52972c-6d88-4091-b579-a6ac184bfd29.csv','fa52972c-6d88-4091-b579-a6ac184bfd29','csv',236003,236003,'local',0,'2022-04-28 08:19:31.682','2022-04-28 08:19:31.682'),(1013,1,'/data/upload/1/2022042808/52ea9c8c-b317-47a1-bd79-aea514307749.csv','52ea9c8c-b317-47a1-bd79-aea514307749','csv',229787,229787,'local',0,'2022-04-28 08:21:07.417','2022-04-28 08:21:07.417'),(1014,1,'/data/upload/1/2022042903/9d1cb524-8714-414b-842b-f5eb8e08e247.csv','9d1cb524-8714-414b-842b-f5eb8e08e247','csv',653,653,'local',0,'2022-04-29 03:21:42.523','2022-04-29 03:21:42.523'),(1015,1,'/data/upload/1/2022042903/f286dd11-9273-4f72-b300-95eb6aeac66e.csv','f286dd11-9273-4f72-b300-95eb6aeac66e','csv',65891,65891,'local',0,'2022-04-29 03:22:28.859','2022-04-29 03:22:28.859'),(1016,1,'/data/upload/1/2022042905/324d1245-f10f-4004-a36e-cb7add235c61.csv','324d1245-f10f-4004-a36e-cb7add235c61','csv',65891,65891,'local',0,'2022-04-29 05:00:58.075','2022-04-29 05:00:58.075'),(1017,1,'/data/upload/1/2022042905/f13ee44a-9248-4ffa-bd7c-f6f0c22789d9.csv','f13ee44a-9248-4ffa-bd7c-f6f0c22789d9','csv',653,653,'local',0,'2022-04-29 05:02:00.859','2022-04-29 05:02:00.859'),(1018,1,'/data/upload/1/2022042905/e7cdb6ce-493c-4fa2-bcfe-78e3bf10e124.csv','e7cdb6ce-493c-4fa2-bcfe-78e3bf10e124','csv',653,653,'local',0,'2022-04-29 05:53:48.207','2022-04-29 05:53:48.207'),(1019,1,'/data/upload/1/2022042905/d9fb2b87-f252-4b87-9307-0c2692c008c3.csv','d9fb2b87-f252-4b87-9307-0c2692c008c3','csv',65891,65891,'local',0,'2022-04-29 05:55:02.252','2022-04-29 05:55:02.252'),(1020,1,'/data/upload/1/2022042906/4e54a130-9145-4580-91b1-4e0e11a016be.csv','4e54a130-9145-4580-91b1-4e0e11a016be','csv',653,653,'local',0,'2022-04-29 06:24:40.283','2022-04-29 06:24:40.283'),(1021,1,'/data/upload/1/2022042906/0b68e063-4aae-4327-9c78-6c6700a3ed45.csv','0b68e063-4aae-4327-9c78-6c6700a3ed45','csv',65891,65891,'local',0,'2022-04-29 06:25:31.900','2022-04-29 06:25:31.900'),(1022,1,'/data/upload/1/2022042908/79274d89-eacc-4f2f-b726-4971668c90ad.csv','79274d89-eacc-4f2f-b726-4971668c90ad','csv',65891,65891,'local',0,'2022-04-29 08:00:53.886','2022-04-29 08:00:53.886'),(1023,1,'/data/upload/1/2022042910/a72bffc9-d36e-461f-8612-e2d54e69c96a.csv','a72bffc9-d36e-461f-8612-e2d54e69c96a','csv',2229,2229,'local',0,'2022-04-29 10:40:01.449','2022-04-29 10:40:01.449'),(1024,1,'/data/upload/1/2022042910/d4e792cc-46d1-4167-8e60-bb7450dbab53.csv','d4e792cc-46d1-4167-8e60-bb7450dbab53','csv',2574,2574,'local',0,'2022-04-29 10:40:18.282','2022-04-29 10:40:18.282'),(1025,1,'/data/upload/1/2022043006/f1d1758d-06d7-4de4-b778-d706f136385f.csv','f1d1758d-06d7-4de4-b778-d706f136385f','csv',653,653,'local',0,'2022-04-30 06:55:29.909','2022-04-30 06:55:29.909'),(1026,1,'/data/upload/1/2022050508/b80f5a61-638f-4421-b4b1-87233ce1dcd7.csv','b80f5a61-638f-4421-b4b1-87233ce1dcd7','csv',46689,46689,'local',0,'2022-05-05 08:10:03.544','2022-05-05 08:10:03.544'),(1027,1,'/data/upload/1/2022050508/8f817f0e-4455-40db-ab14-2a2f164fc383.csv','8f817f0e-4455-40db-ab14-2a2f164fc383','csv',49185,49185,'local',0,'2022-05-05 08:10:41.670','2022-05-05 08:10:41.670'),(1028,1,'/data/upload/1/2022050510/62d86fc6-79d4-4ad9-9d45-6fe7f4744209.csv','62d86fc6-79d4-4ad9-9d45-6fe7f4744209','csv',46689,46689,'local',0,'2022-05-05 10:43:33.496','2022-05-05 10:43:33.496'),(1029,1,'/data/upload/1/2022050510/44777085-1db3-4cf5-8773-2f85f8137c9a.csv','44777085-1db3-4cf5-8773-2f85f8137c9a','csv',46689,46689,'local',0,'2022-05-05 10:49:13.324','2022-05-05 10:49:13.324'),(1030,1,'/data/upload/1/2022050511/b12979b0-a51e-47c4-ad88-ce9b20d3cb8f.csv','b12979b0-a51e-47c4-ad88-ce9b20d3cb8f','csv',46689,46689,'local',0,'2022-05-05 11:06:21.255','2022-05-05 11:06:21.255'),(1031,1,'/data/upload/1/2022050513/6227adea-3d6f-49c6-b492-531b58d6f52e.csv','6227adea-3d6f-49c6-b492-531b58d6f52e','csv',46689,46689,'local',0,'2022-05-05 13:32:10.822','2022-05-05 13:32:10.822'),(1032,1,'/data/upload/1/2022050513/18a2b447-5daf-48c9-82d2-a30ec6d63cdf.csv','18a2b447-5daf-48c9-82d2-a30ec6d63cdf','csv',653,653,'local',0,'2022-05-05 13:54:40.847','2022-05-05 13:54:40.847'),(1033,1,'/data/upload/1/2022050513/dbb8d697-f233-4738-b22b-7b5e028a9863.csv','dbb8d697-f233-4738-b22b-7b5e028a9863','csv',65891,65891,'local',0,'2022-05-05 13:55:32.620','2022-05-05 13:55:32.620'),(1034,1,'/data/upload/1/2022050602/fc5f7f5b-1e35-44c0-929d-6990267f6487.csv','fc5f7f5b-1e35-44c0-929d-6990267f6487','csv',653,653,'local',0,'2022-05-06 02:50:21.766','2022-05-06 02:50:21.766'),(1035,1,'/data/upload/1/2022050602/6b5ba4c8-1d79-49f5-be08-06d03d1fea2a.csv','6b5ba4c8-1d79-49f5-be08-06d03d1fea2a','csv',65891,65891,'local',0,'2022-05-06 02:54:40.187','2022-05-06 02:54:40.187'),(1036,1,'/data/upload/1/2022050602/7bf6a712-d358-49f2-af93-320aff39fdda.csv','7bf6a712-d358-49f2-af93-320aff39fdda','csv',46689,46689,'local',0,'2022-05-06 02:55:44.917','2022-05-06 02:55:44.917'),(1037,1,'/data/upload/1/2022050602/8f46ff02-ee02-4833-8aa3-f2390cdc6d55.csv','8f46ff02-ee02-4833-8aa3-f2390cdc6d55','csv',49185,49185,'local',0,'2022-05-06 02:57:14.380','2022-05-06 02:57:14.380'),(1038,1,'/data/upload/1/2022050612/e0867474-75df-4e82-bee4-c687e744cb31.csv','e0867474-75df-4e82-bee4-c687e744cb31','csv',91761,91761,'local',0,'2022-05-06 12:27:00.876','2022-05-06 12:27:00.876'),(1039,1,'/data/upload/1/2022050612/9b0bcde7-5bc1-4c67-bf32-f0ee69d6c4b8.csv','9b0bcde7-5bc1-4c67-bf32-f0ee69d6c4b8','csv',65909,65909,'local',0,'2022-05-06 12:36:44.803','2022-05-06 12:36:44.803'),(1040,1,'/data/upload/1/2022050702/58a152ff-f017-4240-a660-09a65bcce5bc.csv','58a152ff-f017-4240-a660-09a65bcce5bc','csv',653,653,'local',0,'2022-05-07 02:16:33.615','2022-05-07 02:16:33.615'),(1041,1,'/data/upload/1/2022050702/42678bc3-da0b-4ab9-97c3-82772a258a16.csv','42678bc3-da0b-4ab9-97c3-82772a258a16','csv',65194,65194,'local',0,'2022-05-07 02:17:36.042','2022-05-07 02:17:36.042'),(1042,1,'/data/upload/1/2022050702/425a4097-c53f-47d2-8dd4-7f97ffc2fc41.csv','425a4097-c53f-47d2-8dd4-7f97ffc2fc41','csv',46689,46689,'local',0,'2022-05-07 02:19:12.273','2022-05-07 02:19:12.273'),(1043,1,'/data/upload/1/2022050702/8d73cf63-6daf-4ff1-990c-24270e842d7d.csv','8d73cf63-6daf-4ff1-990c-24270e842d7d','csv',49185,49185,'local',0,'2022-05-07 02:19:56.918','2022-05-07 02:19:56.918'),(1044,1,'/data/upload/1/2022050708/b62d82b9-2ae2-4b26-a449-e2cd5962c040.csv','b62d82b9-2ae2-4b26-a449-e2cd5962c040','csv',653,653,'local',0,'2022-05-07 08:59:29.427','2022-05-07 08:59:29.427'),(1045,1,'/data/upload/1/2022050708/8345f59f-abef-4b5f-a81f-36f0e7918a84.csv','8345f59f-abef-4b5f-a81f-36f0e7918a84','csv',65194,65194,'local',0,'2022-05-07 08:59:57.255','2022-05-07 08:59:57.255'),(1046,1,'/data/upload/1/2022050709/5918d5eb-0fd8-4c43-97c3-af5af5f4470d.csv','5918d5eb-0fd8-4c43-97c3-af5af5f4470d','csv',8794,8794,'local',0,'2022-05-07 09:20:16.228','2022-05-07 09:20:16.228'),(1047,1,'/data/upload/1/2022050709/ebb44c23-35f4-4f50-8b4c-f3c72c840d4e.csv','ebb44c23-35f4-4f50-8b4c-f3c72c840d4e','csv',8785,8785,'local',0,'2022-05-07 09:20:32.249','2022-05-07 09:20:32.249'),(1048,1,'/data/upload/1/2022050709/03b17ac9-10f7-4685-ae9f-457b211f9fa6.csv','03b17ac9-10f7-4685-ae9f-457b211f9fa6','csv',8800,8800,'local',0,'2022-05-07 09:24:17.392','2022-05-07 09:24:17.392'),(1049,1,'/data/upload/1/2022050709/da611944-b5aa-463c-9b06-408f05f309b6.csv','da611944-b5aa-463c-9b06-408f05f309b6','csv',8780,8780,'local',0,'2022-05-07 09:24:32.597','2022-05-07 09:24:32.597'),(1050,1,'/data/upload/1/2022050709/81e97bc0-865f-443c-94eb-3f9a83cced17.csv','81e97bc0-865f-443c-94eb-3f9a83cced17','csv',264,264,'local',0,'2022-05-07 09:42:12.546','2022-05-07 09:42:12.546'),(1051,1,'/data/upload/1/2022050709/2a09dbe5-109c-4919-af23-911441cae88e.csv','2a09dbe5-109c-4919-af23-911441cae88e','csv',92,92,'local',0,'2022-05-07 09:42:38.452','2022-05-07 09:42:38.452'),(1052,1,'/data/upload/1/2022050806/19fa1211-0aac-4be0-b50c-2ae245ea47c3.csv','19fa1211-0aac-4be0-b50c-2ae245ea47c3','csv',653,653,'local',0,'2022-05-08 06:40:02.544','2022-05-08 06:40:02.544'),(1053,1,'/data/upload/1/2022050806/08cfdf5b-8b48-4dcf-be11-f42268691473.csv','08cfdf5b-8b48-4dcf-be11-f42268691473','csv',46689,46689,'local',0,'2022-05-08 06:40:19.491','2022-05-08 06:40:19.491'),(1054,1,'/data/upload/1/2022050806/9fa1f8ed-316e-41ce-a08e-fc4a359dda8b.csv','9fa1f8ed-316e-41ce-a08e-fc4a359dda8b','csv',65194,65194,'local',0,'2022-05-08 06:40:36.694','2022-05-08 06:40:36.694'),(1055,1,'/data/upload/1/2022050806/3edc9af9-665c-4bbb-a1b7-fa0c6071937b.csv','3edc9af9-665c-4bbb-a1b7-fa0c6071937b','csv',49185,49185,'local',0,'2022-05-08 06:40:57.494','2022-05-08 06:40:57.494'),(1056,1,'/data/upload/1/2022051123/cb715b8f-444e-40fe-bffe-7bd9e0ed41eb.csv','cb715b8f-444e-40fe-bffe-7bd9e0ed41eb','csv',24,24,'local',0,'2022-05-11 23:30:40.398','2022-05-11 23:30:40.398'),(1057,1,'/data/upload/1/2022051123/64a90b61-3830-4af2-a23c-2b9f711e218d.csv','64a90b61-3830-4af2-a23c-2b9f711e218d','csv',24,24,'local',0,'2022-05-11 23:49:17.977','2022-05-11 23:49:17.977'),(1058,1,'/data/upload/1/2022051702/4fe08c73-1c46-478f-a57a-925ab0a3a935.csv','4fe08c73-1c46-478f-a57a-925ab0a3a935','csv',236003,236003,'local',0,'2022-05-17 02:08:08.093','2022-05-17 02:08:08.093'),(1059,1,'/data/upload/1/2022051702/2bc3aaca-837c-4b13-b356-38caf1156e9b.csv','2bc3aaca-837c-4b13-b356-38caf1156e9b','csv',285409,285409,'local',0,'2022-05-17 02:12:20.548','2022-05-17 02:12:20.548'),(1060,1,'/data/upload/1/2022051702/e0f9153d-8415-4f3f-b194-d435ec642207.csv','e0f9153d-8415-4f3f-b194-d435ec642207','csv',174069,174069,'local',0,'2022-05-17 02:40:06.866','2022-05-17 02:40:06.866'),(1061,1,'/data/upload/1/2022051709/318f5949-6208-4757-9f2f-ad12fac61e30.csv','318f5949-6208-4757-9f2f-ad12fac61e30','csv',468965,468965,'local',0,'2022-05-17 09:56:30.021','2022-05-17 09:56:30.021'),(1062,1,'/data/upload/1/2022051709/c189f751-9b00-4764-a2cf-5b1832b50cb4.csv','c189f751-9b00-4764-a2cf-5b1832b50cb4','csv',468965,468965,'local',0,'2022-05-17 09:57:14.137','2022-05-17 09:57:14.137'),(1063,1,'/data/upload/1/2022051710/9d665b48-e367-401c-90a9-1ff99ec512a9.csv','9d665b48-e367-401c-90a9-1ff99ec512a9','csv',468965,468965,'local',0,'2022-05-17 10:24:12.835','2022-05-17 10:24:12.835'),(1064,1,'/data/upload/1/2022052703/1fe62b70-c9ee-4b82-a655-8f36d19f2e5f.csv','1fe62b70-c9ee-4b82-a655-8f36d19f2e5f','csv',48,48,'local',0,'2022-05-27 03:04:47.271','2022-05-27 03:04:47.271'),(1065,1,'/data/upload/1/2022060111/52e840aa-8738-47f5-b1ca-6faeca627159.csv','52e840aa-8738-47f5-b1ca-6faeca627159','csv',468965,468965,'local',0,'2022-06-01 11:06:26.783','2022-06-01 11:06:26.783'),(1066,1,'/data/upload/1/2022060111/a33fa3fb-2e80-4734-92dd-88176c83cfa0.csv','a33fa3fb-2e80-4734-92dd-88176c83cfa0','csv',42,42,'local',0,'2022-06-01 11:14:00.758','2022-06-01 11:14:00.758'),(1067,1,'/data/upload/1/2022060206/bf85275e-c9eb-48f5-ae2b-e9014cbe66f2.csv','bf85275e-c9eb-48f5-ae2b-e9014cbe66f2','csv',232,232,'local',0,'2022-06-02 06:28:11.408','2022-06-02 06:28:11.408'),(1068,1,'/data/upload/1/2022060206/62c47e7c-4aca-4529-a2f9-e3d606e09c23.csv','62c47e7c-4aca-4529-a2f9-e3d606e09c23','csv',345,345,'local',0,'2022-06-02 06:30:17.239','2022-06-02 06:30:17.239'),(1069,1,'/data/upload/1/2022060206/17198e79-a123-4add-bd2a-e911cc20e0a8.csv','17198e79-a123-4add-bd2a-e911cc20e0a8','csv',622,622,'local',0,'2022-06-02 06:38:36.899','2022-06-02 06:38:36.899'),(1070,1,'/data/upload/1/2022060206/4562d022-20ef-448b-ab2c-c14d552adfeb.csv','4562d022-20ef-448b-ab2c-c14d552adfeb','csv',3026,3026,'local',0,'2022-06-02 06:40:52.554','2022-06-02 06:40:52.554'),(1071,1,'/data/upload/1/2022060206/c2abd4a3-9655-405a-8c75-b8adfee21519.csv','c2abd4a3-9655-405a-8c75-b8adfee21519','csv',53,53,'local',0,'2022-06-02 06:43:06.361','2022-06-02 06:43:06.361'),(1072,1,'/data/upload/1/2022060206/75d281cb-f861-431f-9b99-e844c0f42ec8.csv','75d281cb-f861-431f-9b99-e844c0f42ec8','csv',231,231,'local',0,'2022-06-02 06:44:36.631','2022-06-02 06:44:36.631'),(1073,1,'/data/upload/1/2022060206/2ff30ffe-d9f1-412e-9d7b-f2eb899add39.csv','2ff30ffe-d9f1-412e-9d7b-f2eb899add39','csv',231,231,'local',0,'2022-06-02 06:51:29.367','2022-06-02 06:51:29.367'),(1074,1,'/data/upload/1/2022060207/db1e2962-50b7-4d1e-b097-6d72721c42fc.csv','db1e2962-50b7-4d1e-b097-6d72721c42fc','csv',42,42,'local',0,'2022-06-02 07:06:04.984','2022-06-02 07:06:04.984'),(1075,1,'/data/upload/1/2022060207/cd150379-4e2d-4ab4-8a32-94ace94dfbf5.csv','cd150379-4e2d-4ab4-8a32-94ace94dfbf5','csv',468965,468965,'local',0,'2022-06-02 07:07:28.178','2022-06-02 07:07:28.178'),(1076,1,'/data/upload/1/2022060207/7033bef4-cdfb-4240-a0c4-d77d0a85f1c5.csv','7033bef4-cdfb-4240-a0c4-d77d0a85f1c5','csv',468965,468965,'local',0,'2022-06-02 07:15:54.530','2022-06-02 07:15:54.530'),(1077,1,'/data/upload/1/2022060207/44a241f1-c2b5-4db6-8228-2345e00fe1e6.csv','44a241f1-c2b5-4db6-8228-2345e00fe1e6','csv',7681,7681,'local',0,'2022-06-02 07:24:32.520','2022-06-02 07:24:32.520'),(1078,1,'/data/upload/1/2022060207/478b55c8-2db8-4cbf-aa2a-6410582b917b.csv','478b55c8-2db8-4cbf-aa2a-6410582b917b','csv',24,24,'local',0,'2022-06-02 07:24:54.189','2022-06-02 07:24:54.189'),(1079,1,'/data/upload/1/2022060208/1ca59d09-ac08-4551-b322-f5f7793fa177.csv','1ca59d09-ac08-4551-b322-f5f7793fa177','csv',7681,7681,'local',0,'2022-06-02 08:08:14.676','2022-06-02 08:08:14.676'),(1080,1,'/data/upload/1/2022060208/e2f745d4-272c-42e3-8e66-b0b7b73a2fa2.csv','e2f745d4-272c-42e3-8e66-b0b7b73a2fa2','csv',174069,174069,'local',0,'2022-06-02 08:08:28.083','2022-06-02 08:08:28.083'),(1081,1,'/data/upload/1/2022060208/fbf86ade-b927-4b0d-9611-b0c5e923d9cb.csv','fbf86ade-b927-4b0d-9611-b0c5e923d9cb','csv',174069,174069,'local',0,'2022-06-02 08:10:30.639','2022-06-02 08:10:30.639'),(1082,1,'/data/upload/1/2022060208/2fb9661e-c2d9-45cd-a2f3-3fd5db0dff28.csv','2fb9661e-c2d9-45cd-a2f3-3fd5db0dff28','csv',174069,174069,'local',0,'2022-06-02 08:13:00.534','2022-06-02 08:13:00.534'),(1083,1,'/data/upload/1/2022060208/d618623f-37cd-4298-8a7b-3f8033e7e4d2.csv','d618623f-37cd-4298-8a7b-3f8033e7e4d2','csv',42,42,'local',0,'2022-06-02 08:45:33.980','2022-06-02 08:45:33.980'),(1084,1,'/data/upload/1/2022060208/4723fdd2-80bf-4fca-bf47-b135f127f67a.csv','4723fdd2-80bf-4fca-bf47-b135f127f67a','csv',468965,468965,'local',0,'2022-06-02 08:46:45.645','2022-06-02 08:46:45.645'),(1085,1,'/data/upload/1/2022060208/81daa4a1-c581-448a-900f-44b85e11e1e6.csv','81daa4a1-c581-448a-900f-44b85e11e1e6','csv',468965,468965,'local',0,'2022-06-02 08:50:59.456','2022-06-02 08:50:59.456'),(1086,1,'/data/upload/1/2022060209/c5b692a8-8076-4578-9aa8-387393001d8c.csv','c5b692a8-8076-4578-9aa8-387393001d8c','csv',468965,468965,'local',0,'2022-06-02 09:45:07.788','2022-06-02 09:45:07.788'),(1087,1,'/data/upload/1/2022060211/c70ef9e4-75d7-4ee7-933f-72064e3bf79d.csv','c70ef9e4-75d7-4ee7-933f-72064e3bf79d','csv',7,7,'local',0,'2022-06-02 11:42:03.543','2022-06-02 11:42:03.543'),(1088,1,'/data/upload/1/2022060211/5e8eef68-f394-4c30-b6fe-5ce021e6459d.csv','5e8eef68-f394-4c30-b6fe-5ce021e6459d','csv',468965,468965,'local',0,'2022-06-02 11:43:32.280','2022-06-02 11:43:32.280'),(1089,1,'/data/upload/1/2022060212/dbc78ab4-67e5-4235-b6e4-67254e778f32.csv','dbc78ab4-67e5-4235-b6e4-67254e778f32','csv',7681,7681,'local',0,'2022-06-02 12:13:15.335','2022-06-02 12:13:15.335'),(1090,1,'/data/upload/1/2022060212/bf7ab78d-5c5f-4adf-a5a5-58a824a2f6d3.csv','bf7ab78d-5c5f-4adf-a5a5-58a824a2f6d3','csv',24,24,'local',0,'2022-06-02 12:13:35.930','2022-06-02 12:13:35.930'),(1091,1,'/data/upload/1/2022060602/1db9004d-1381-40a5-89ae-e227c48bc198.csv','1db9004d-1381-40a5-89ae-e227c48bc198','csv',468965,468965,'local',0,'2022-06-06 02:50:57.256','2022-06-06 02:50:57.256'),(1092,1,'/data/upload/1/2022060603/68810a86-c998-4e88-8380-9d3f3df70706.csv','68810a86-c998-4e88-8380-9d3f3df70706','csv',7681,7681,'local',0,'2022-06-06 03:25:29.081','2022-06-06 03:25:29.081'),(1093,1,'/data/upload/1/2022060603/5f455365-f7b6-44d8-944b-ac8ed84da60d.csv','5f455365-f7b6-44d8-944b-ac8ed84da60d','csv',7681,7681,'local',0,'2022-06-06 03:25:45.120','2022-06-06 03:25:45.120'),(1094,1,'/data/upload/1/2022060603/7da458fa-8c14-434b-8c67-712f8967429a.csv','7da458fa-8c14-434b-8c67-712f8967429a','csv',468965,468965,'local',0,'2022-06-06 03:27:13.809','2022-06-06 03:27:13.809'),(1095,1,'/data/upload/1/2022060603/11e83c91-778f-464e-aa53-ff249315c186.csv','11e83c91-778f-464e-aa53-ff249315c186','csv',468965,468965,'local',0,'2022-06-06 03:28:14.557','2022-06-06 03:28:14.557'),(1096,1,'/data/upload/1/2022060603/c8dbb780-8fa8-4569-8d94-951aab76aaec.csv','c8dbb780-8fa8-4569-8d94-951aab76aaec','csv',42,42,'local',0,'2022-06-06 03:31:14.308','2022-06-06 03:31:14.308'),(1097,1,'/data/upload/1/2022060603/81cb1023-ae88-47c7-93e9-d3f2b1b5229d.csv','81cb1023-ae88-47c7-93e9-d3f2b1b5229d','csv',7681,7681,'local',0,'2022-06-06 03:33:42.220','2022-06-06 03:33:42.220'),(1098,1,'/data/upload/1/2022060603/d58f7316-2aed-49f8-8a96-96552d7363e4.csv','d58f7316-2aed-49f8-8a96-96552d7363e4','csv',7681,7681,'local',0,'2022-06-06 03:33:56.355','2022-06-06 03:33:56.355'),(1099,1,'/data/upload/1/2022060603/ba646e86-c25d-4d86-8fac-90de2c7c1e0f.csv','ba646e86-c25d-4d86-8fac-90de2c7c1e0f','csv',468965,468965,'local',0,'2022-06-06 03:34:05.574','2022-06-06 03:34:05.574'),(1100,1,'/data/upload/1/2022060603/09b1d9e2-ebcf-4f1e-9327-8943e6adf14c.csv','09b1d9e2-ebcf-4f1e-9327-8943e6adf14c','csv',468965,468965,'local',0,'2022-06-06 03:49:15.489','2022-06-06 03:49:15.489'),(1101,1,'/data/upload/1/2022060603/52dd8b8c-327e-4bf7-9def-6d6030912025.csv','52dd8b8c-327e-4bf7-9def-6d6030912025','csv',468965,468965,'local',0,'2022-06-06 03:53:45.095','2022-06-06 03:53:45.095'),(1102,1,'/data/upload/1/2022060603/d92bea18-6ee6-48d5-9612-8dd7932a2bb0.csv','d92bea18-6ee6-48d5-9612-8dd7932a2bb0','csv',468965,468965,'local',0,'2022-06-06 03:57:13.220','2022-06-06 03:57:13.220'),(1103,1,'/data/upload/1/2022060606/bcc845a2-6db6-4df8-8817-3ce9dfd78606.csv','bcc845a2-6db6-4df8-8817-3ce9dfd78606','csv',468965,468965,'local',0,'2022-06-06 06:29:00.803','2022-06-06 06:29:00.803'),(1104,1,'/data/upload/1/2022060606/023349b6-62d9-4715-a31a-21f6c65d1d6d.csv','023349b6-62d9-4715-a31a-21f6c65d1d6d','csv',468965,468965,'local',0,'2022-06-06 06:43:08.332','2022-06-06 06:43:08.332'),(1105,1,'/data/upload/1/2022060611/368d8a14-fc08-46fa-85aa-5fff6655ed48.csv','368d8a14-fc08-46fa-85aa-5fff6655ed48','csv',262144,262144,'local',0,'2022-06-06 11:17:32.022','2022-06-06 11:17:32.022'),(1106,1,'/data/upload/1/2022060611/1a837e10-1230-40e4-b84e-b3bea4c4faca.csv','1a837e10-1230-40e4-b84e-b3bea4c4faca','csv',262144,262144,'local',0,'2022-06-06 11:17:32.024','2022-06-06 11:17:32.024'),(1107,1,'/data/upload/1/2022060611/90b37847-e7e1-45dc-b42b-7b72faf4ad26.csv','90b37847-e7e1-45dc-b42b-7b72faf4ad26','csv',493338,493338,'local',0,'2022-06-06 11:17:32.184','2022-06-06 11:17:32.184'),(1108,1,'/data/upload/1/2022061305/ff67c5c3-016a-4e01-8469-295809b02964.csv','ff67c5c3-016a-4e01-8469-295809b02964','csv',468965,468965,'local',0,'2022-06-13 05:05:35.500','2022-06-13 05:05:35.500'),(1109,1,'/data/upload/1/2022061308/eca86adc-c6ff-4a05-a7f3-3757b4421f59.csv','eca86adc-c6ff-4a05-a7f3-3757b4421f59','csv',174069,174069,'local',0,'2022-06-13 08:34:12.555','2022-06-13 08:34:12.555'),(1110,1,'/data/upload/1/2022061308/8ab1412a-0822-47de-9c37-1ff160ee9e94.csv','8ab1412a-0822-47de-9c37-1ff160ee9e94','csv',262144,262144,'local',0,'2022-06-13 08:36:14.130','2022-06-13 08:36:14.130'),(1111,1,'/data/upload/1/2022061308/ecf44770-f15e-4131-996a-a0658b73cb57.csv','ecf44770-f15e-4131-996a-a0658b73cb57','csv',262144,262144,'local',0,'2022-06-13 08:36:14.132','2022-06-13 08:36:14.132'),(1112,1,'/data/upload/1/2022061308/77482ad6-b0cf-4903-b73a-cb416225a45a.csv','77482ad6-b0cf-4903-b73a-cb416225a45a','csv',493338,493338,'local',0,'2022-06-13 08:36:14.238','2022-06-13 08:36:14.238'),(1113,1,'/data/upload/1/2022061308/73959533-36cd-4e6b-b1f8-2b777810c1b1.csv','73959533-36cd-4e6b-b1f8-2b777810c1b1','csv',198180,198180,'local',0,'2022-06-13 08:39:27.135','2022-06-13 08:39:27.135'),(1114,1,'/data/upload/1/2022061308/160e3b3f-05d1-4cb2-b164-a933fe0726a7.csv','160e3b3f-05d1-4cb2-b164-a933fe0726a7','csv',198180,198180,'local',0,'2022-06-13 08:53:06.524','2022-06-13 08:53:06.524'),(1115,1,'/data/upload/1/2022061308/47cff17f-eb5f-46d5-be4a-4bcc77344378.csv','47cff17f-eb5f-46d5-be4a-4bcc77344378','csv',198180,198180,'local',0,'2022-06-13 08:57:05.379','2022-06-13 08:57:05.379'),(1116,1,'/data/upload/1/2022061309/0c7d1ef4-113e-4da8-8301-8f46e8851d95.csv','0c7d1ef4-113e-4da8-8301-8f46e8851d95','csv',198180,198180,'local',0,'2022-06-13 09:06:18.831','2022-06-13 09:06:18.831'),(1117,1,'/data/upload/1/2022061309/38f639df-a4a8-4eea-b9cd-082ef97e88e9.csv','38f639df-a4a8-4eea-b9cd-082ef97e88e9','csv',198180,198180,'local',0,'2022-06-13 09:11:40.551','2022-06-13 09:11:40.551'),(1118,1,'/data/upload/1/2022061309/5aa1f513-fe49-4710-b055-a4903b142c16.csv','5aa1f513-fe49-4710-b055-a4903b142c16','csv',198180,198180,'local',0,'2022-06-13 09:31:01.053','2022-06-13 09:31:01.053'),(1119,1,'/data/upload/1/2022061309/4843b321-8849-4743-8132-a51e56a0fa05.csv','4843b321-8849-4743-8132-a51e56a0fa05','csv',198180,198180,'local',0,'2022-06-13 09:33:17.752','2022-06-13 09:33:17.752'),(1120,1,'/data/upload/1/2022061402/4e2308e9-bce8-4e64-9a00-224dfc2cfad3.csv','4e2308e9-bce8-4e64-9a00-224dfc2cfad3','csv',198180,198180,'local',0,'2022-06-14 02:43:47.951','2022-06-14 02:43:47.951'),(1121,1,'/data/upload/1/2022061407/55c06a0e-a74d-4f0b-9d81-b6bc57ff4e99.csv','55c06a0e-a74d-4f0b-9d81-b6bc57ff4e99','csv',198180,198180,'local',0,'2022-06-14 07:28:35.503','2022-06-14 07:28:35.503'),(1122,1,'/data/upload/1/2022061409/8a71bbc1-fb73-48f8-a663-23dacacd14d4.csv','8a71bbc1-fb73-48f8-a663-23dacacd14d4','csv',232,232,'local',0,'2022-06-14 09:51:12.754','2022-06-14 09:51:12.754'),(1123,1,'/data/upload/1/2022061411/6c710b38-e439-4275-99f1-27211654a579.csv','6c710b38-e439-4275-99f1-27211654a579','csv',198180,198180,'local',0,'2022-06-14 11:07:16.226','2022-06-14 11:07:16.226'),(1124,1,'/data/upload/1/2022061413/347fdc7f-9b50-49d5-a41d-ca6c629fe775.csv','347fdc7f-9b50-49d5-a41d-ca6c629fe775','csv',198180,198180,'local',0,'2022-06-14 13:55:02.413','2022-06-14 13:55:02.413'),(1125,1,'/data/upload/1/2022061506/1abe377b-4724-47af-94cb-c0b53ca6c378.csv','1abe377b-4724-47af-94cb-c0b53ca6c378','csv',232,232,'local',0,'2022-06-15 06:24:11.677','2022-06-15 06:24:11.677'),(1126,1,'/data/upload/1/2022061507/9c0a426b-a318-46a9-b4b6-fb9c3a8fd38b.csv','9c0a426b-a318-46a9-b4b6-fb9c3a8fd38b','csv',198180,198180,'local',0,'2022-06-15 07:36:46.502','2022-06-15 07:36:46.502'),(1127,1,'/data/upload/1/2022061508/183178cd-8a9e-4b75-b850-58868df5db58.csv','183178cd-8a9e-4b75-b850-58868df5db58','csv',198180,198180,'local',0,'2022-06-15 08:12:24.506','2022-06-15 08:12:24.506'),(1128,1,'/data/upload/1/2022061508/c40d0937-181a-4b15-b47b-1555160c558d.csv','c40d0937-181a-4b15-b47b-1555160c558d','csv',198180,198180,'local',0,'2022-06-15 08:13:33.359','2022-06-15 08:13:33.359'),(1129,1,'/data/upload/1/2022061509/10ae2234-dede-47fc-9810-f99ed32bceda.csv','10ae2234-dede-47fc-9810-f99ed32bceda','csv',19889,19889,'local',0,'2022-06-15 09:49:25.339','2022-06-15 09:49:25.339'),(1130,1,'/data/upload/1/2022061509/086b060c-2a3d-4648-b8b2-b60363dd2bbd.csv','086b060c-2a3d-4648-b8b2-b60363dd2bbd','csv',19889,19889,'local',0,'2022-06-15 09:49:45.566','2022-06-15 09:49:45.566'),(1131,1,'/data/upload/1/2022061510/70cd0e92-a8b2-4dc6-8716-80f18bbf8422.csv','70cd0e92-a8b2-4dc6-8716-80f18bbf8422','csv',232,232,'local',0,'2022-06-15 10:42:09.134','2022-06-15 10:42:09.134'),(1132,1,'/data/upload/1/2022061513/11aba79d-f0b7-4ec0-8bb0-d6b6d96964df.csv','11aba79d-f0b7-4ec0-8bb0-d6b6d96964df','csv',53,53,'local',0,'2022-06-15 13:24:42.768','2022-06-15 13:24:42.768'),(1133,1,'/data/upload/1/2022061604/33f87f26-53e4-427d-83f1-7e4b5f7e4d75.csv','33f87f26-53e4-427d-83f1-7e4b5f7e4d75','csv',12384,12384,'local',0,'2022-06-16 04:12:21.608','2022-06-16 04:12:21.608'),(1134,1,'/data/upload/1/2022061604/545fbc51-116e-488d-ae13-6dfff46e8961.csv','545fbc51-116e-488d-ae13-6dfff46e8961','csv',3672,3672,'local',0,'2022-06-16 04:13:39.290','2022-06-16 04:13:39.290'),(1135,1,'/data/upload/1/2022061606/2beba02e-a07a-415f-83d9-8a7f320cd142.csv','2beba02e-a07a-415f-83d9-8a7f320cd142','csv',622,622,'local',0,'2022-06-16 06:21:53.224','2022-06-16 06:21:53.224'),(1136,1,'/data/upload/1/2022061606/09c1bde4-f73c-4fba-a7c8-6c1cdda01b82.csv','09c1bde4-f73c-4fba-a7c8-6c1cdda01b82','csv',622,622,'local',0,'2022-06-16 06:22:48.957','2022-06-16 06:22:48.957'),(1137,1,'/data/upload/1/2022061606/5848e100-f382-4823-afc9-5bf283746f88.csv','5848e100-f382-4823-afc9-5bf283746f88','csv',232,232,'local',0,'2022-06-16 06:25:24.174','2022-06-16 06:25:24.174'),(1138,1,'/data/upload/1/2022061606/f5aa3172-e5a9-4a5f-a39e-05334cd5acad.csv','f5aa3172-e5a9-4a5f-a39e-05334cd5acad','csv',7,7,'local',0,'2022-06-16 06:27:04.748','2022-06-16 06:27:04.748'),(1139,1,'/data/upload/1/2022061606/725f7e9b-c9b8-43cc-85de-84ffd999a7fb.csv','725f7e9b-c9b8-43cc-85de-84ffd999a7fb','csv',7,7,'local',0,'2022-06-16 06:29:01.319','2022-06-16 06:29:01.319'),(1140,1,'/data/upload/1/2022061606/7ef6bae2-d748-45d6-a3af-983c9c777411.csv','7ef6bae2-d748-45d6-a3af-983c9c777411','csv',7,7,'local',0,'2022-06-16 06:36:48.472','2022-06-16 06:36:48.472'),(1141,1,'/data/upload/1/2022061606/77b2c5b0-9587-4045-a6e5-873ca2813359.csv','77b2c5b0-9587-4045-a6e5-873ca2813359','csv',264,264,'local',0,'2022-06-16 06:36:57.608','2022-06-16 06:36:57.608'),(1142,1,'/data/upload/1/2022061606/faaf7bab-da03-4fca-9a05-5cfbbf032766.csv','faaf7bab-da03-4fca-9a05-5cfbbf032766','csv',804,804,'local',0,'2022-06-16 06:43:07.648','2022-06-16 06:43:07.648'),(1143,1,'/data/upload/1/2022061606/7e0ffac4-bc48-4394-9117-4e9f134754c9.csv','7e0ffac4-bc48-4394-9117-4e9f134754c9','csv',804,804,'local',0,'2022-06-16 06:43:20.333','2022-06-16 06:43:20.333'),(1144,1,'/data/upload/1/2022061607/02a72e4e-aff8-4f20-b541-fdd4fd85a0a0.csv','02a72e4e-aff8-4f20-b541-fdd4fd85a0a0','csv',50,50,'local',0,'2022-06-16 07:10:13.234','2022-06-16 07:10:13.234'),(1145,1,'/data/upload/1/2022061607/f0e836ac-bbd6-40f0-abcd-a005eaef8146.csv','f0e836ac-bbd6-40f0-abcd-a005eaef8146','csv',121,121,'local',0,'2022-06-16 07:29:34.128','2022-06-16 07:29:34.128'),(1146,1,'/data/upload/1/2022062003/f6b388a3-ccab-4fb2-a3b1-c41b3b7cdfa3.csv','f6b388a3-ccab-4fb2-a3b1-c41b3b7cdfa3','csv',232,232,'local',0,'2022-06-20 03:16:02.619','2022-06-20 03:16:02.619'),(1147,1,'/data/upload/1/2022062108/39ad6a61-0ded-4f5d-9092-a4bdda09ef61.csv','39ad6a61-0ded-4f5d-9092-a4bdda09ef61','csv',134,134,'local',0,'2022-06-21 08:41:42.774','2022-06-21 08:41:42.774'),(1148,1,'/data/upload/1/2022062108/ec0a3561-1e35-4470-bde9-d61103d244dd.csv','ec0a3561-1e35-4470-bde9-d61103d244dd','csv',134,134,'local',0,'2022-06-21 08:58:21.645','2022-06-21 08:58:21.645'),(1149,1,'/data/upload/1/2022062111/87c7a4c9-5aa7-4111-be06-7d09983c8525.csv','87c7a4c9-5aa7-4111-be06-7d09983c8525','csv',379,379,'local',0,'2022-06-21 11:02:31.803','2022-06-21 11:02:31.803'),(1150,1,'/data/upload/1/2022062113/5d372677-50f9-4b3d-b67f-72a3de676a74.csv','5d372677-50f9-4b3d-b67f-72a3de676a74','csv',53,53,'local',0,'2022-06-21 13:51:25.331','2022-06-21 13:51:25.331'),(1151,1,'/data/upload/1/2022062201/056285c5-76aa-49cc-84bf-ae2d2b0c89ac.csv','056285c5-76aa-49cc-84bf-ae2d2b0c89ac','csv',379,379,'local',0,'2022-06-22 01:52:58.220','2022-06-22 01:52:58.220'),(1152,1,'/data/upload/1/2022062201/b242b54d-062e-4388-88ef-d6f6f1d12f89.csv','b242b54d-062e-4388-88ef-d6f6f1d12f89','csv',232,232,'local',0,'2022-06-22 01:58:01.333','2022-06-22 01:58:01.333'),(1153,1,'/data/upload/1/2022062202/c1638061-ff85-4283-8346-452f7639a5b3.csv','c1638061-ff85-4283-8346-452f7639a5b3','csv',232,232,'local',0,'2022-06-22 02:28:51.535','2022-06-22 02:28:51.535'),(1154,1,'/data/upload/1/2022062203/9648c3ea-07be-4221-ae2a-e926978239ce.csv','9648c3ea-07be-4221-ae2a-e926978239ce','csv',4400,4400,'local',0,'2022-06-22 03:25:16.689','2022-06-22 03:25:16.689'),(1155,1,'/data/upload/1/2022062203/f48d71ea-62fd-4af3-ae86-a83f647c12bb.csv','f48d71ea-62fd-4af3-ae86-a83f647c12bb','csv',379,379,'local',0,'2022-06-22 03:40:52.146','2022-06-22 03:40:52.146'),(1156,1,'/data/upload/1/2022062906/4bbfcf2c-b2e3-467b-a234-4df098bf9f33.csv','4bbfcf2c-b2e3-467b-a234-4df098bf9f33','csv',232,232,'local',0,'2022-06-29 06:59:21.383','2022-06-29 06:59:21.383'),(1157,1,'/data/upload/1/2022062907/81a720f1-ca7e-4977-b8a1-0b0e35001770.csv','81a720f1-ca7e-4977-b8a1-0b0e35001770','csv',379,379,'local',0,'2022-06-29 07:10:40.418','2022-06-29 07:10:40.418'),(1158,1,'/data/upload/1/2022062907/a2fbf821-e4da-4bc2-8848-5cf1eb04f697.csv','a2fbf821-e4da-4bc2-8848-5cf1eb04f697','csv',379,379,'local',0,'2022-06-29 07:24:03.067','2022-06-29 07:24:03.067'),(1159,1,'/data/upload/1/2022062908/2760f117-abde-4b63-8a05-b0ca3359e976.csv','2760f117-abde-4b63-8a05-b0ca3359e976','csv',19889,19889,'local',0,'2022-06-29 08:18:43.674','2022-06-29 08:18:43.674'),(1160,1,'/data/upload/1/2022062908/c8c5c8c3-beba-4d82-b42d-87ccc90b8a36.csv','c8c5c8c3-beba-4d82-b42d-87ccc90b8a36','csv',3672,3672,'local',0,'2022-06-29 08:19:37.226','2022-06-29 08:19:37.226'),(1161,1,'/data/upload/1/2022063006/7b5ee2bc-ac5e-4ef7-a2b2-c73ac99e8a10.csv','7b5ee2bc-ac5e-4ef7-a2b2-c73ac99e8a10','csv',232,232,'local',0,'2022-06-30 06:25:31.998','2022-06-30 06:25:31.998'),(1162,1,'/data/upload/1/2022063011/e3acd3b3-36e1-4482-9b68-19ec86ac8f23.csv','e3acd3b3-36e1-4482-9b68-19ec86ac8f23','csv',232,232,'local',0,'2022-06-30 11:12:57.443','2022-06-30 11:12:57.443'),(1163,1,'/data/upload/1/2022063011/5ebb2022-a802-4ef5-b691-160de053481f.csv','5ebb2022-a802-4ef5-b691-160de053481f','csv',379,379,'local',0,'2022-06-30 11:23:23.407','2022-06-30 11:23:23.407'),(1164,1,'/data/upload/1/2022063011/42d932fb-0655-4bd7-ba22-273e2721dc4a.csv','42d932fb-0655-4bd7-ba22-273e2721dc4a','csv',193,193,'local',0,'2022-06-30 11:37:57.835','2022-06-30 11:37:57.835'),(1165,1,'/data/upload/1/2022070112/9a5fab80-fa14-488f-abc3-9c61f071e92e.csv','9a5fab80-fa14-488f-abc3-9c61f071e92e','csv',232,232,'local',0,'2022-07-01 12:07:00.179','2022-07-01 12:07:00.179'),(1166,1,'/data/upload/1/2022070811/7ba0fc7b-082a-4850-8ecb-6051828983f2.csv','7ba0fc7b-082a-4850-8ecb-6051828983f2','csv',193,193,'local',0,'2022-07-08 11:14:42.009','2022-07-08 11:14:42.009'),(1167,1,'/data/upload/1/2022071108/b3656a31-54d3-4a96-9d01-6b8fdb1680a7.csv','b3656a31-54d3-4a96-9d01-6b8fdb1680a7','csv',824,824,'local',0,'2022-07-11 08:44:57.852','2022-07-11 08:44:57.852'),(1168,1,'/data/upload/1/2022071111/c6eeb084-fa07-4350-8709-74e51449ac2a.csv','c6eeb084-fa07-4350-8709-74e51449ac2a','csv',834,834,'local',0,'2022-07-11 11:59:45.440','2022-07-11 11:59:45.440'),(1169,1,'/data/upload/1/2022071206/7c40dd7b-5fd7-4fe4-937c-c7a52c47119f.csv','7c40dd7b-5fd7-4fe4-937c-c7a52c47119f','csv',834,834,'local',0,'2022-07-12 06:55:57.038','2022-07-12 06:55:57.038');
-/*!40000 ALTER TABLE `sys_file` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `sys_organ`
---
-
-DROP TABLE IF EXISTS `sys_organ`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sys_organ` (
-  `organ_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '机构id',
-  `organ_name` varchar(64) NOT NULL COMMENT '机构名称',
-  `p_organ_id` bigint(20) NOT NULL COMMENT '父机构id',
-  `r_organ_id` bigint(20) NOT NULL COMMENT '根机构id',
-  `full_path` varchar(255) NOT NULL COMMENT '完整路径',
-  `organ_index` int(12) NOT NULL COMMENT '顺序',
-  `organ_depth` int(12) NOT NULL COMMENT '深度',
-  `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
-  `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
-  PRIMARY KEY (`organ_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1004 DEFAULT CHARSET=utf8 COMMENT='机构表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `sys_organ`
---
-
-LOCK TABLES `sys_organ` WRITE;
-/*!40000 ALTER TABLE `sys_organ` DISABLE KEYS */;
-INSERT INTO `sys_organ` VALUES (1000,'北京原语科技',0,1000,'1000',1,0,0,'2022-04-27 17:46:59.024','2022-04-27 17:46:59.034'),(1001,'北京招商银行(西红门支行)',0,1001,'1001',1,0,0,'2022-04-27 17:47:27.399','2022-04-27 17:47:27.408'),(1002,'北京建设银行(天通苑支行)',0,1002,'1002',1,0,0,'2022-04-27 17:47:43.366','2022-04-27 17:47:43.374'),(1003,'华建集团',0,1003,'1003',1,0,0,'2022-04-27 17:48:49.533','2022-04-27 17:48:55.822');
-/*!40000 ALTER TABLE `sys_organ` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `sys_ra`
---
-
+-- ----------------------------
+-- Table structure for sys_ra
+-- ----------------------------
 DROP TABLE IF EXISTS `sys_ra`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sys_ra` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `role_id` bigint(20) NOT NULL COMMENT '角色id',
-  `auth_id` bigint(20) NOT NULL COMMENT '权限id',
-  `is_del` tinyint(2) NOT NULL COMMENT '是否删除',
-  `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='角色权限表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE `sys_ra`  (
+                           `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+                           `role_id` bigint(20) NOT NULL COMMENT '角色id',
+                           `auth_id` bigint(20) NOT NULL COMMENT '权限id',
+                           `is_del` tinyint(2) NOT NULL COMMENT '是否删除',
+                           `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                           `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+                           PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色权限表' ROW_FORMAT = DYNAMIC;
 
---
--- Dumping data for table `sys_ra`
---
+-- ----------------------------
+-- Records of sys_ra
+-- ----------------------------
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1000, 1, 1001, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1001, 1, 1002, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1002, 1, 1003, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1003, 1, 1004, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1004, 1, 1005, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1005, 1, 1006, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1006, 1, 1007, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1007, 1, 1008, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1008, 1, 1009, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1009, 1, 1010, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1010, 1, 1011, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1011, 1, 1012, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1012, 1, 1013, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1013, 1, 1014, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1014, 1, 1015, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1015, 1, 1016, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1016, 1, 1017, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1017, 1, 1018, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1018, 1, 1019, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1019, 1, 1020, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1020, 1, 1021, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1021, 1, 1022, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1022, 1, 1023, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1023, 1, 1024, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1024, 1, 1025, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1025, 1, 1026, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1026, 1, 1027, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1027, 1, 1028, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1028, 1, 1029, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1029, 1, 1030, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1030, 1, 1031, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1031, 1, 1032, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1032, 1, 1033, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1033, 1, 1034, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1034, 1, 1035, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1035, 1, 1036, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1036, 1, 1037, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1037, 1, 1038, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1038, 1, 1039, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1039, 1, 1040, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1040, 1, 1041, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1041, 1, 1042, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1042, 1, 1043, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1043, 1, 1044, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1044, 1, 1045, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1045, 1, 1046, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
+INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1046, 1, 1047, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
 
-LOCK TABLES `sys_ra` WRITE;
-/*!40000 ALTER TABLE `sys_ra` DISABLE KEYS */;
-INSERT INTO `sys_ra` VALUES (1,1,1,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(2,1,2,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(3,1,3,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(4,1,4,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(5,1,5,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(6,1,6,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(7,1,7,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(8,1,8,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(9,1,9,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(10,1,10,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(11,1,11,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(12,1,12,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(13,1,13,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(14,1,14,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(15,1,15,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(16,1,16,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(17,1,17,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(18,1,18,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(19,1,19,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(20,1,20,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(21,1,21,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(22,1,22,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(23,1,23,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(24,1,24,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(25,1,25,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(26,1,26,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(27,1,27,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(28,1,28,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(29,1,29,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(30,1,30,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(31,1,31,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(32,1,32,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(33,1,33,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(34,1,34,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(35,1,35,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(36,1,36,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(37,1,37,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(38,1,38,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(39,1,39,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(40,1,40,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(41,1,41,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(42,1,42,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(43,1,43,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(44,1,44,0,'2022-07-11 16:48:13.064','2022-07-11 16:48:13.064'),(45,1000,1,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(46,1000,2,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(47,1000,3,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(48,1000,4,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(49,1000,5,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(50,1000,6,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(51,1000,7,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(52,1000,8,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(53,1000,9,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(54,1000,10,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(55,1000,11,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(56,1000,12,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(57,1000,13,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(58,1000,14,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(59,1000,15,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(60,1000,16,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(61,1000,17,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(62,1000,18,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(63,1000,19,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(64,1000,20,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(65,1000,21,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(66,1000,22,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(67,1000,23,0,'2022-07-11 16:48:13.070','2022-07-11 16:48:13.070'),(68,1,1001,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(69,1,1002,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(70,1,1003,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(71,1,1004,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(72,1,1005,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(73,1,1006,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(74,1,1007,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(75,1,1008,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(76,1,1009,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(77,1,1010,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(78,1,1011,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(79,1,1012,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(80,1,1013,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(81,1,1014,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(82,1,1015,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(83,1,1016,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(84,1,1017,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(85,1,1018,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(86,1,1019,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(87,1,1020,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(88,1,1021,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(89,1,1022,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(90,1,1023,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(91,1,1024,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(92,1,1025,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(93,1,1026,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(94,1,1027,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(95,1,1028,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(96,1,1029,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(97,1,1030,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(98,1,1031,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(99,1,1032,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(100,1,1033,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(101,1,1034,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(102,1,1035,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(103,1,1036,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(104,1,1037,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(105,1,1038,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(106,1,1039,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(107,1,1040,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(108,1,1041,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(109,1,1042,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(110,1,1043,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(111,1,1044,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(112,1,1045,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(113,1,1046,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(114,1,1047,0,'2022-07-19 08:07:04.780','2022-07-19 08:07:04.780'),(115,1000,1001,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(116,1000,1002,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(117,1000,1004,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(118,1000,1005,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(119,1000,1003,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(120,1000,1006,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(121,1000,1007,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(122,1000,1008,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(123,1000,1009,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(124,1000,1010,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(125,1000,1011,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(126,1000,1012,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(127,1000,1013,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(128,1000,1014,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(129,1000,1015,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(130,1000,1016,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(131,1000,1017,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(132,1000,1018,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(133,1000,1019,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(134,1000,1020,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(135,1000,1021,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(136,1000,1022,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(137,1000,1023,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(138,1000,1024,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(139,1000,1025,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723'),(140,1000,1026,0,'2022-07-19 08:14:12.723','2022-07-19 08:14:12.723');
-/*!40000 ALTER TABLE `sys_ra` ENABLE KEYS */;
-UNLOCK TABLES;
 
---
--- Table structure for table `sys_role`
---
-
+-- ----------------------------
+-- Table structure for sys_role
+-- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sys_role` (
-  `role_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色id',
-  `role_name` varchar(32) NOT NULL COMMENT '角色名称',
-  `is_editable` tinyint(4) NOT NULL COMMENT '是否可编辑',
-  `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
-  `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
-  PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='角色表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE `sys_role`  (
+                             `role_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色id',
+                             `role_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名称',
+                             `is_editable` tinyint(4) NOT NULL COMMENT '是否可编辑',
+                             `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
+                             `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                             `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+                             PRIMARY KEY (`role_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
 
---
--- Dumping data for table `sys_role`
---
+-- ----------------------------
+-- Records of sys_role
+-- ----------------------------
+INSERT INTO `sys_role` VALUES (1, '超级管理员', 0, 0, '2022-03-25 17:08:52.100', '2022-03-25 17:43:29.970');
+INSERT INTO `sys_role` VALUES (1000, '业务权限', 1, 0, '2022-04-27 17:50:02.139', '2022-04-27 17:50:02.139');
 
-LOCK TABLES `sys_role` WRITE;
-/*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
-INSERT INTO `sys_role` VALUES (1,'超级管理员',1,0,'2022-03-25 17:08:52.100','2022-07-01 13:35:16.987'),(1000,'业务权限',1,0,'2022-04-27 17:50:02.139','2022-04-27 17:50:02.139');
-/*!40000 ALTER TABLE `sys_role` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `sys_uo`
---
-
-DROP TABLE IF EXISTS `sys_uo`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sys_uo` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `user_id` bigint(20) NOT NULL COMMENT '用户id',
-  `organ_id` bigint(20) NOT NULL COMMENT '机构id',
-  `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
-  `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1028 DEFAULT CHARSET=utf8 COMMENT='用户机构关系表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `sys_uo`
---
-
-LOCK TABLES `sys_uo` WRITE;
-/*!40000 ALTER TABLE `sys_uo` DISABLE KEYS */;
-INSERT INTO `sys_uo` VALUES (1000,1000,1000,0,'2022-04-27 17:51:02.232','2022-04-27 17:51:02.232'),(1001,1001,1000,0,'2022-04-27 17:51:23.012','2022-04-27 17:51:23.012'),(1002,1002,1000,0,'2022-04-27 17:51:53.924','2022-04-27 17:51:53.924'),(1003,1003,1000,0,'2022-04-27 17:52:23.441','2022-04-27 17:52:23.441'),(1004,1004,1000,0,'2022-04-27 17:52:55.595','2022-04-27 17:52:55.595'),(1005,1005,1,0,'2022-04-27 17:53:26.348','2022-04-27 17:53:26.348'),(1006,1006,1,0,'2022-04-27 17:53:47.146','2022-04-27 17:53:47.146'),(1007,1007,1,0,'2022-04-27 17:54:14.287','2022-04-27 17:54:14.287'),(1008,1008,1000,0,'2022-04-27 17:54:37.563','2022-04-27 17:54:37.563'),(1009,1,1,0,'2022-04-27 12:58:17.354','2022-04-27 12:58:17.354'),(1010,1006,1,0,'2022-04-28 06:08:44.777','2022-04-28 06:08:44.777'),(1011,1006,1005,0,'2022-05-10 06:15:17.529','2022-05-10 06:15:17.529'),(1012,1009,1005,0,'2022-05-11 07:17:38.565','2022-05-11 07:17:38.565'),(1013,1006,1000,0,'2022-05-11 07:26:51.880','2022-05-11 07:26:51.880'),(1014,1007,1,0,'2022-05-11 07:37:40.264','2022-05-11 07:37:40.264'),(1015,1007,1008,0,'2022-05-11 07:37:40.264','2022-05-11 07:37:40.264'),(1016,1007,1,0,'2022-05-11 07:37:50.423','2022-05-11 07:37:50.423'),(1017,1007,1,0,'2022-05-11 09:01:43.155','2022-05-11 09:01:43.155'),(1018,1007,1008,0,'2022-05-11 09:01:43.155','2022-05-11 09:01:43.155'),(1019,1007,1005,0,'2022-05-11 09:01:43.155','2022-05-11 09:01:43.155'),(1020,1007,1,0,'2022-05-11 09:03:59.952','2022-05-11 09:03:59.952'),(1021,1007,1,0,'2022-05-11 09:05:32.338','2022-05-11 09:05:32.338'),(1022,1007,1008,0,'2022-05-11 09:05:32.338','2022-05-11 09:05:32.338'),(1023,1007,1008,0,'2022-05-11 09:06:47.557','2022-05-11 09:06:47.557'),(1024,1010,1008,0,'2022-05-11 09:08:13.545','2022-05-11 09:08:13.545'),(1025,1011,1008,0,'2022-05-11 09:08:35.032','2022-05-11 09:08:35.032'),(1026,1011,1000,0,'2022-05-11 09:10:32.194','2022-05-11 09:10:32.194'),(1027,1012,1,0,'2022-05-27 10:14:10.489','2022-05-27 10:14:10.489');
-/*!40000 ALTER TABLE `sys_uo` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `sys_ur`
---
-
+-- ----------------------------
+-- Table structure for sys_ur
+-- ----------------------------
 DROP TABLE IF EXISTS `sys_ur`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sys_ur` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `user_id` bigint(20) NOT NULL COMMENT '用户id',
-  `role_id` bigint(20) NOT NULL COMMENT '角色id',
-  `is_del` bigint(20) NOT NULL COMMENT '是否删除',
-  `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1037 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户角色关系表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE `sys_ur`  (
+                           `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+                           `user_id` bigint(20) NOT NULL COMMENT '用户id',
+                           `role_id` bigint(20) NOT NULL COMMENT '角色id',
+                           `is_del` bigint(20) NOT NULL COMMENT '是否删除',
+                           `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                           `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+                           PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户角色关系表' ROW_FORMAT = DYNAMIC;
 
---
--- Dumping data for table `sys_ur`
---
+-- ----------------------------
+-- Records of sys_ur
+-- ----------------------------
+INSERT INTO `sys_ur` VALUES (1, 1, 1, 0, '2022-03-25 17:55:53.090', '2022-03-25 18:03:28.371');
 
-LOCK TABLES `sys_ur` WRITE;
-/*!40000 ALTER TABLE `sys_ur` DISABLE KEYS */;
-INSERT INTO `sys_ur` VALUES (1,1,1,0,'2022-03-25 17:55:53.090','2022-03-25 18:03:28.371'),(1000,1000,1000,0,'2022-07-01 09:25:06.184','2022-07-01 09:25:06.184'),(1001,1001,1000,0,'2022-07-01 09:40:02.511','2022-07-01 09:40:02.511'),(1002,1002,1000,0,'2022-07-01 10:51:51.553','2022-07-01 10:51:51.553'),(1003,1003,1000,0,'2022-07-01 10:55:02.447','2022-07-01 10:55:02.447'),(1004,1004,1000,0,'2022-07-01 10:58:18.290','2022-07-01 10:58:18.290'),(1005,1005,1000,0,'2022-07-01 11:14:31.890','2022-07-01 11:14:31.890'),(1006,1006,1000,0,'2022-07-01 14:12:11.653','2022-07-01 14:12:11.653'),(1007,1007,1000,0,'2022-07-01 14:12:13.841','2022-07-01 14:12:13.841'),(1008,1008,1000,0,'2022-07-07 13:05:15.866','2022-07-07 13:05:15.866'),(1009,1009,1000,0,'2022-07-08 17:02:26.271','2022-07-08 17:02:26.271'),(1010,1010,1000,0,'2022-07-08 17:22:54.066','2022-07-08 17:22:54.066'),(1011,1011,1000,0,'2022-07-09 01:36:43.189','2022-07-09 01:36:43.189'),(1012,1012,1000,0,'2022-07-09 03:07:09.337','2022-07-09 03:07:09.337'),(1013,1013,1000,0,'2022-07-09 03:31:42.940','2022-07-09 03:31:42.940'),(1014,1014,1000,0,'2022-07-09 04:16:11.540','2022-07-09 04:16:11.540'),(1015,1015,1000,0,'2022-07-09 04:35:36.185','2022-07-09 04:35:36.185'),(1016,1016,1000,0,'2022-07-09 05:53:37.538','2022-07-09 05:53:37.538'),(1017,1017,1000,0,'2022-07-09 06:29:34.968','2022-07-09 06:29:34.968'),(1018,1018,1000,0,'2022-07-09 09:12:15.491','2022-07-09 09:12:15.491'),(1019,1019,1000,0,'2022-07-09 09:25:39.811','2022-07-09 09:25:39.811'),(1020,1020,1000,0,'2022-07-09 15:35:28.482','2022-07-09 15:35:28.482'),(1021,1021,1000,0,'2022-07-11 02:07:13.671','2022-07-11 02:07:13.671'),(1022,1022,1000,0,'2022-07-11 06:09:57.923','2022-07-11 06:09:57.923'),(1023,1023,1000,0,'2022-07-11 07:53:40.975','2022-07-11 07:53:40.975'),(1024,1024,1000,0,'2022-07-11 08:25:53.637','2022-07-11 08:25:53.637'),(1025,1025,1000,0,'2022-07-12 01:23:35.387','2022-07-12 01:23:35.387'),(1026,1026,1000,0,'2022-07-12 01:26:33.045','2022-07-12 01:26:33.045'),(1027,1027,1000,0,'2022-07-12 02:41:46.069','2022-07-12 02:41:46.069'),(1028,1028,1000,0,'2022-07-12 03:43:16.485','2022-07-12 03:43:16.485'),(1029,1029,1000,0,'2022-07-12 07:06:56.850','2022-07-12 07:06:56.850'),(1030,1030,1000,0,'2022-07-12 09:11:24.657','2022-07-12 09:11:24.657'),(1031,1031,1000,0,'2022-07-13 03:44:19.287','2022-07-13 03:44:19.287'),(1032,1032,1000,0,'2022-07-15 09:54:45.647','2022-07-15 09:54:45.647'),(1033,1033,1000,0,'2022-07-18 02:21:51.363','2022-07-18 02:21:51.363'),(1034,1034,1000,0,'2022-07-18 11:16:21.666','2022-07-18 11:16:21.666'),(1035,1035,1000,0,'2022-07-19 06:12:38.626','2022-07-19 06:12:38.626'),(1036,1036,1000,0,'2022-07-19 09:13:50.190','2022-07-19 09:13:50.190');
-/*!40000 ALTER TABLE `sys_ur` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `sys_user`
---
-
+-- ----------------------------
+-- Table structure for sys_user
+-- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sys_user` (
-  `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户id',
-  `user_account` varchar(64) NOT NULL COMMENT '账户名称',
-  `user_password` varchar(128) NOT NULL COMMENT '账户密码',
-  `user_name` varchar(64) NOT NULL COMMENT '用户昵称',
-  `role_id_list` varchar(255) NOT NULL COMMENT '角色id集合',
-  `is_forbid` tinyint(4) NOT NULL COMMENT '是否禁用',
-  `is_editable` tinyint(4) NOT NULL COMMENT '是否可编辑',
-  `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
-  `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
-  `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更改时间',
-  PRIMARY KEY (`user_id`) USING BTREE,
-  UNIQUE KEY `ix_unique_user_account` (`user_account`) USING BTREE COMMENT '账户名称唯一索引'
-) ENGINE=InnoDB AUTO_INCREMENT=1037 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE `sys_user`  (
+                             `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户id',
+                             `user_account` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '账户名称',
+                             `user_password` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '账户密码',
+                             `user_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户昵称',
+                             `role_id_list` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色id集合',
+                             `is_forbid` tinyint(4) NOT NULL COMMENT '是否禁用',
+                             `is_editable` tinyint(4) NOT NULL COMMENT '是否可编辑',
+                             `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
+                             `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                             `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更改时间',
+                             `register_type` tinyint(4) NOT NULL COMMENT '注册类型1：管理员创建 2：邮箱 3：手机',
+                             PRIMARY KEY (`user_id`) USING BTREE,
+                             UNIQUE INDEX `ix_unique_user_account`(`user_account`) USING BTREE COMMENT '账户名称唯一索引'
+) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
 
---
--- Dumping data for table `sys_user`
---
+-- ----------------------------
+-- Records of sys_user
+-- ----------------------------
+INSERT INTO `sys_user` VALUES (1, 'admin', 'a0f34ffac5a82245e4fca2e21f358a42', 'admin', '1', 0, 1, 0, '2022-03-25 17:55:53.048', '2022-07-18 17:13:02.377', 1);
 
-LOCK TABLES `sys_user` WRITE;
-/*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
-INSERT INTO `sys_user` VALUES (1,'admin','37eee4198e0413d4133a0af7915eb84a','admin','1',0,1,0,'2022-03-25 17:55:53.048','2022-07-08 16:23:45.426'),(1004,'leiyannan@primihub.com','58360f68cddd7eda97b722252ddf03e9','zhanjingjing','1000',0,1,0,'2022-07-01 10:58:18.284','2022-07-01 10:58:18.293'),(1005,'13699223155@163.com','dcaf6fb0c3611cc9a627feb18d6ddf08','leiyannan','1000',0,1,0,'2022-07-01 11:14:31.881','2022-07-01 11:14:31.894'),(1006,'17801066560@163.com','39392ad68c1895109ef8b41074b73e57','liweihua','1000',0,1,0,'2022-07-01 14:12:11.643','2022-07-01 14:12:11.657'),(1007,'cookiefly@163.com','1e8c0eca5e809f0af5c19b2e6ba8b3d3','Allen','1000',0,1,0,'2022-07-01 14:12:13.839','2022-07-01 14:12:13.842'),(1008,'zhangjianning@primihub.com','a0f34ffac5a82245e4fca2e21f358a42','zjn','1000',0,1,0,'2022-07-07 13:05:15.839','2022-07-07 13:05:15.875'),(1009,'yemingzhu5555@126.com','44d90e7dc60ae23bcc99f916627149ec','武鹏','1000',0,1,0,'2022-07-08 17:02:26.245','2022-07-08 17:02:26.279'),(1010,'2474150040@qq.com','a0f34ffac5a82245e4fca2e21f358a42','leiyannan','1000',0,1,0,'2022-07-08 17:22:54.064','2022-07-08 17:22:54.067'),(1011,'yankaili2006@163.com','5c6306c8e465dd4c578699967db49d03','李延凯','1000',0,1,0,'2022-07-09 01:36:43.186','2022-07-09 01:36:43.190'),(1012,'zhanjingjing@primihub.com','a0f34ffac5a82245e4fca2e21f358a42','zhanjingjing','1000',0,1,0,'2022-07-09 03:07:09.334','2022-07-09 03:07:09.339'),(1013,'zjn@wiwi.ink','a0f34ffac5a82245e4fca2e21f358a42','zjn','1000',0,1,0,'2022-07-09 03:31:42.938','2022-07-09 03:31:42.941'),(1014,'19856207@qq.com','15293eed2bde0aa02b56b78ca59984ec','HH','1000',0,1,0,'2022-07-09 04:16:11.538','2022-07-09 04:16:11.541'),(1015,'364683582@qq.com','5b0704aa4a6864f6c95823295991f77f','zhanjingjing','1000',0,1,0,'2022-07-09 04:35:36.183','2022-07-09 04:35:36.186'),(1016,'my_bo_love@126.com','8c02dee0ebd1560b3e25a2972755a8ca','闵勇博','1000',0,1,0,'2022-07-09 05:53:37.536','2022-07-09 05:53:37.540'),(1017,'327680114@qq.com','18575a3bb0723789fe46a398a05d3f62','舒明','1000',0,1,0,'2022-07-09 06:29:34.966','2022-07-09 06:29:34.969'),(1018,'xiozhoz@gmail.com','3acacb914b68b2063befa3338ad151ce','xiaozhou','1000',0,1,0,'2022-07-09 09:12:15.488','2022-07-09 09:12:15.492'),(1019,'22021074@qq.com','526924d01eb6efeb9f8d519ba3eb2501','麦泽庆','1000',0,1,0,'2022-07-09 09:25:39.809','2022-07-09 09:25:39.812'),(1020,'363746440@qq.com','185022562d4980dc7da6c2c0a4909168','黄生','1000',0,1,0,'2022-07-09 15:35:28.451','2022-07-09 15:35:28.494'),(1021,'crypto@d4rk.dev','e3b7973c68598c83cd0301eb8300f25a','杨昊','1000',0,1,0,'2022-07-11 02:07:13.665','2022-07-11 02:07:13.674'),(1022,'604442069@qq.com','72d69d0274f25c1bfcc1884c4f64cacd','曲傲','1000',0,1,0,'2022-07-11 06:09:57.917','2022-07-11 06:09:57.926'),(1023,'cuichang1015@163.com','92d8a95d00ef03ae335acdf401ecae49','崔昌','1000',0,1,0,'2022-07-11 07:53:40.964','2022-07-11 07:53:40.979'),(1024,'fy_fygo@163.com','f870ae2a776444677c54b9c42b83c39f','yfan','1000',0,1,0,'2022-07-11 08:25:53.630','2022-07-11 08:25:53.640'),(1025,'zhao123lj@163.com','a0f34ffac5a82245e4fca2e21f358a42','zx','1000',0,1,0,'2022-07-12 01:23:35.377','2022-07-12 01:23:35.391'),(1026,'947351683@qq.com','00fd68046192d4ca3d007281b35cc40f','李','1000',0,1,0,'2022-07-12 01:26:33.043','2022-07-12 01:26:33.046'),(1027,'you_kai@163.com','c8d0c2a3f333d8e46981c5b2c001498e','由楷','1000',0,1,0,'2022-07-12 02:41:46.067','2022-07-12 02:41:46.070'),(1028,'lijie9@hisense.com','f19243e4a1cc70d344d09d06213388b8','ljrhw','1000',0,1,0,'2022-07-12 03:43:16.481','2022-07-12 03:43:16.486'),(1029,'betterccc@qq.com','3caadeadb8788785f20a961e80dc1330','Bob','1000',0,1,0,'2022-07-12 07:06:56.848','2022-07-12 07:06:56.851'),(1030,'923164327@qq.com','cd9639e15874d77f8b4bb2b7e9ce87bf','申女士','1000',0,1,0,'2022-07-12 09:11:24.655','2022-07-12 09:11:24.658'),(1031,'1431371354@qq.com','9cea43bcd009586afa3090d46eba4b28','aaaaaa','1000',0,1,0,'2022-07-13 03:44:19.285','2022-07-13 03:44:19.288'),(1032,'huyuwan@hotmail.com','05c5d830b959247ed093b38b7d934b72','胡豫皖','1000',0,1,0,'2022-07-15 09:54:45.645','2022-07-15 09:54:45.650'),(1033,'wangxuan0163@163.com','f46b95cb5928423b171ef748017246c9','wx','1000',0,1,0,'2022-07-18 02:21:51.360','2022-07-18 02:21:51.363'),(1034,'demouser99','a0f34ffac5a82245e4fca2e21f358a42','demouser99','1000',0,1,0,'2022-07-18 11:16:21.664','2022-07-18 11:16:21.667'),(1035,'buaamy@163.com','2f49503ed947173ee60e9363088b5bca','buaamy','1000',0,1,0,'2022-07-19 06:12:38.596','2022-07-19 06:12:38.633'),(1036,'389407070@qq.com','c180737eb2873e94b1b7c6c725fc4942','test','1000',0,1,0,'2022-07-19 09:13:50.185','2022-07-19 09:13:50.194');
-/*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+-- ----------------------------
+-- Table structure for sys_file
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_file`;
+CREATE TABLE `sys_file`  (
+                             `file_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '文件id',
+                             `file_source` int(12) NOT NULL COMMENT '文件来源',
+                             `file_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件地址',
+                             `file_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件名称',
+                             `file_suffix` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件后缀',
+                             `file_size` bigint(20) NOT NULL COMMENT '文件实际大小',
+                             `file_current_size` bigint(20) NOT NULL COMMENT '文件当前大小',
+                             `file_area` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件区域',
+                             `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
+                             `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                             `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+                             PRIMARY KEY (`file_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件表' ROW_FORMAT = Dynamic;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+-- ----------------------------
+-- Table structure for data_fusion_copy_task
+-- ----------------------------
+DROP TABLE IF EXISTS `data_fusion_copy_task`;
+CREATE TABLE `data_fusion_copy_task` (
+                                         `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                         `task_type` tinyint(4) NOT NULL COMMENT '任务类型 1 批量 2 单条',
+                                         `current_offset` bigint(20) NOT NULL COMMENT '当前偏移量',
+                                         `target_offset` bigint(20) NOT NULL COMMENT '目标便宜量',
+                                         `task_table` varchar(64) NOT NULL COMMENT '复制任务表名',
+                                         `fusion_server_address` varchar(64) NOT NULL COMMENT '连接中心地址',
+                                         `latest_error_msg` varchar(1024) NOT NULL COMMENT '最近一次复制失败原因',
+                                         `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
+                                         `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                         `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+                                         PRIMARY KEY (`id`) USING BTREE,
+                                         KEY `current_offset_ix` (`current_offset`) USING BTREE,
+                                         KEY `target_offset_ix` (`target_offset`) USING BTREE,
+                                         KEY `c_time_ix` (`c_time`) USING BTREE,
+                                         KEY `u_time_ix` (`u_time`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
--- Dump completed on 2022-07-30 11:46:39
+-- ----------------------------
+-- Table structure for data_resource_visibility_auth
+-- ----------------------------
+DROP TABLE IF EXISTS `data_resource_visibility_auth`;
+CREATE TABLE `data_resource_visibility_auth`  (
+                                                  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                                  `resource_id` bigint(20) NOT NULL COMMENT '资源id',
+                                                  `organ_global_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '机构唯一id',
+                                                  `organ_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '资源名称',
+                                                  `organ_server_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '服务地址',
+                                                  `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
+                                                  `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                                  `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+                                                  PRIMARY KEY (`id`) USING BTREE,
+                                                  INDEX `resource_id_ix`(`resource_id`) USING BTREE,
+                                                  INDEX `organ_global_id_ix`(`organ_global_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
