@@ -5,13 +5,13 @@ bootstrap:
   image: registry.hub.docker.com/primihub/simple-bootstrap-node
 
 platform:
-  image: registry.hub.docker.com/primihub/primihub-web:1.1.5
+  image: registry.hub.docker.com/primihub/primihub-web:1.2.0
 
 gateway:
-  image: registry.hub.docker.com/primihub/primihub-platform:1.1.5
+  image: registry.hub.docker.com/primihub/primihub-platform:1.2.0
 
 fusion:
-  image: registry.hub.docker.com/primihub/primihub-fusion:1.1.5
+  image: registry.hub.docker.com/primihub/primihub-fusion:1.2.0
 
 application:
-  image: registry.hub.docker.com/primihub/primihub-platform:1.1.5
+  image: registry.hub.docker.com/primihub/primihub-platform:1.2.0
