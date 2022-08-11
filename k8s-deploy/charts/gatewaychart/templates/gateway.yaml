@@ -29,13 +29,8 @@ spec:
             - '-jar'
             - '-Dfile.encoding=UTF-8'
             - /applications/gateway.jar
-            - '--spring.profiles.active=demo{{ $index }}'
-            
+            #- '--spring.profiles.active=demo{{ $index }}'
             - '--server.port=8080'
-            - '--spring.datasource.druid.username=primihub'
-            - '--spring.datasource.druid.password=primihub@123'
-            - >-
-              --spring.datasource.druid.url=jdbc:mysql://mysql.{{ $.Release.Namespace }}:3306/fusion?characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL&allowMultiQueries=true&serverTimezone=Asia/Shanghai&useSSL=false
             - '--spring.cloud.nacos.discovery.server-addr=nacos:8848'
             - '--nacos.config.server-addr=nacos:8848'
             {{ if eq $index 1 }}
