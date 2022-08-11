@@ -1,4 +1,7 @@
-use privacy_demo3;
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `privacy_demo3` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `privacy_demo3`;
 -- ----------------------------
 -- Table structure for data_model
 -- ----------------------------
