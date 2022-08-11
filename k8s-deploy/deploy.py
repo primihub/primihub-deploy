@@ -5,7 +5,7 @@ import sys
 import yaml
 import time
 
-deploy_order = ["storage", "nacos", "rabbitmq", "application", "gateway", "platform", "fusion", "primihub"]
+deploy_order = ["storage", "nacos", "primihub", "rabbitmq", "application", "gateway", "platform", "fusion"]
 
 def set_order():
     

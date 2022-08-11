@@ -13,6 +13,7 @@
 ### 安装
 ```
     cd k8s-deploy
+    kubectl create namespace "你的namespace"
     export NAMESPACE=<namespace>
     ./primihub_deploy.sh （或执行python3 deploy.py）
     已经将所需服务进行了封装，执行上述命令将安装storage（mysql、redis）、nacos、rabbitmq、application、gateway、platform、fusion、primihubnode这些服务

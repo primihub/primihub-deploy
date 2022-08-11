@@ -20,7 +20,7 @@ spec:
       volumes:
         - name: application-pvc-{{ $index }}
           persistentVolumeClaim:
-            claimName: application-volume-{{ $index }}
+            claimName: primihub-volume
       containers:
         - name: application{{ $index }}
           image: {{ $.Values.application.image }}
@@ -33,7 +33,6 @@ spec:
             - '-jar'
             - '-Dfile.encoding=UTF-8'
             - /applications/application.jar
-            - '--spring.profiles.active=demo{{ $index }}'
             - '--server.port=8080'
             - '--spring.rabbitmq.host=rabbitmq{{ $index }}'
             - '--spring.cloud.nacos.discovery.server-addr=nacos:8848'
