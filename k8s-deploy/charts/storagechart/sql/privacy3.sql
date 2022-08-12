@@ -1,5 +1,5 @@
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `privacy_demo3` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE IF NOT EXISTS `privacy_demo3` Character SET utf8 COLLATE utf8_bin;;
 
 USE `privacy_demo3`;
 -- ----------------------------

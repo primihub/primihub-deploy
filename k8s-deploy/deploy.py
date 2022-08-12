@@ -31,7 +31,7 @@ def deploy_primihub():
     print("now ns is :%s" % ns)
 
     image_str = set_order()
-    print(image_str)
+    # print(image_str)
     helm_str = "helm upgrade  %s -n %s charts/%schart --install" 
     for service in deploy_order:
         print("in installing %s >>>>>>>>>>>>>>>>>>>>>" % service)

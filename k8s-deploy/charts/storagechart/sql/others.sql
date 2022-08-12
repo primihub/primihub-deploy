@@ -19,7 +19,7 @@
 -- Current Database: `resource_demo1`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `resource_demo1` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE IF NOT EXISTS `resource_demo1` Character SET utf8 COLLATE utf8_bin;
 
 USE `resource_demo1`;
 
@@ -27,7 +27,7 @@ USE `resource_demo1`;
 -- Current Database: `resource_demo2`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `resource_demo2` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE IF NOT EXISTS `resource_demo2` Character SET utf8 COLLATE utf8_bin;
 
 USE `resource_demo2`;
 
@@ -35,7 +35,7 @@ USE `resource_demo2`;
 -- Current Database: `resource_demo3`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `resource_demo3` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE IF NOT EXISTS `resource_demo3` Character SET utf8 COLLATE utf8_bin;
 
 USE `resource_demo3`;
 
@@ -43,7 +43,7 @@ USE `resource_demo3`;
 -- Current Database: `nacos_config`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `nacos_config` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE IF NOT EXISTS `nacos_config` Character SET utf8 COLLATE utf8_bin;
 
 USE `nacos_config`;
 
@@ -415,7 +415,7 @@ UNLOCK TABLES;
 -- Current Database: `fusion_demo`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `fusion_demo` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `fusion_demo` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 USE `fusion_demo`;
 
