@@ -59,6 +59,7 @@ spec:
           volumeMounts:
             - name: mysql-config
               mountPath: /etc/my.cnf
+              subPath: my.cnf
             - name: mysql-pvc
               mountPath: /var/lib/mysql
             - name: sql-others
