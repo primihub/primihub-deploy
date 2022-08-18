@@ -5,7 +5,7 @@ services:
     container_name: mysql
     restart: always
     env_file:
-      - ./data/mysql.env
+      - ./data/env/mysql.env
     volumes:
       - ./data/mysql:/var/lib/mysql
       - ./data/initsql/:/docker-entrypoint-initdb.d/
@@ -65,7 +65,7 @@ services:
     container_name: nacos-server
     restart: always
     env_file:
-      - ./data/nacos-mysql.env
+      - ./data/env/nacos-mysql.env
     volumes:
       - ./data/log/:/home/nacos/logs
       #- ./nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties
