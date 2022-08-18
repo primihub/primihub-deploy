@@ -230,10 +230,10 @@ services:
     image: $PRIMIHUB_NODE
     container_name: primihub_node0
     restart: "always"
-    ports:
-      # - "8050:50050"
-      # - "10120:12120"
-      # - "10121:12121"
+    # ports:
+    #   - "8050:50050"
+    #   - "10120:12120"
+    #   - "10121:12121"
     volumes:
       - ./config:/app/config
       - ./data:/data
@@ -251,10 +251,10 @@ services:
     image: $PRIMIHUB_NODE
     container_name: primihub_node1
     restart: "always"
-    ports:
-      # - "8051:50051"
-      # - "11120:12120"
-      # - "11121:12121"
+    # ports:
+    #   - "8051:50051"
+    #   - "11120:12120"
+    #   - "11121:12121"
     volumes:
       - ./config:/app/config
       - ./data:/data
@@ -272,10 +272,10 @@ services:
     image: $PRIMIHUB_NODE
     container_name: primihub_node2
     restart: "always"
-    ports:
-      # - "8052:50052"
-      # - "12120:12120"
-      # - "12121:12121"
+    # ports:
+    #   - "8052:50052"
+    #   - "12120:12120"
+    #   - "12121:12121"
     volumes:
       - ./config:/app/config
       - ./data:/data
