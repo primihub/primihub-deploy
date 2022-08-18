@@ -5,9 +5,9 @@ services:
     container_name: mysql
     restart: always
     env_file:
-      - ./nacos/env/mysql.env
+      - ./data/mysql.env
     volumes:
-      - ./nacos/mysql:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
     ports:
       - "3306:3306"
     networks:
@@ -61,9 +61,9 @@ services:
     container_name: nacos-server
     restart: on-failure
     env_file:
-      - ./nacos/env/nacos-standlone-mysql.env
+      - ./data/nacos-mysql.env
     volumes:
-      - ./nacos/standalone-logs/:/home/nacos/logs
+      - ./data/logs/:/home/nacos/logs
       #- ./nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties
     ports:
       - "8848:8848"
@@ -231,7 +231,7 @@ services:
     container_name: primihub_node0
     restart: "always"
     ports:
-      - "8050:50050"
+      # - "8050:50050"
       # - "10120:12120"
       # - "10121:12121"
     volumes:
@@ -252,7 +252,7 @@ services:
     container_name: primihub_node1
     restart: "always"
     ports:
-      - "8051:50051"
+      # - "8051:50051"
       # - "11120:12120"
       # - "11121:12121"
     volumes:
@@ -273,7 +273,7 @@ services:
     container_name: primihub_node2
     restart: "always"
     ports:
-      - "8052:50052"
+      # - "8052:50052"
       # - "12120:12120"
       # - "12121:12121"
     volumes:
