@@ -7,8 +7,8 @@ services:
     env_file:
       - ./data/mysql.env
     volumes:
-      - ./mysql:/var/lib/mysql
-      - ./data/sql/:/docker-entrypoint-initdb.d/
+      - ./data/mysql:/var/lib/mysql
+      - ./data/initsql/:/docker-entrypoint-initdb.d/
     ports:
       - "3306:3306"
     networks:
@@ -33,6 +33,7 @@ services:
   rabbitmq1:
     image: rabbitmq:3.6.15-management
     container_name: rabbitmq1
+    restart: always
     depends_on:
       - redis
     networks:
@@ -42,6 +43,7 @@ services:
   rabbitmq2:
     image: rabbitmq:3.6.15-management
     container_name: rabbitmq2
+    restart: always
     depends_on:
       - redis
     networks:
@@ -51,6 +53,7 @@ services:
   rabbitmq3:
     image: rabbitmq:3.6.15-management
     container_name: rabbitmq3
+    restart: always
     depends_on:
       - redis
     networks:
@@ -60,18 +63,18 @@ services:
   nacos:
     image: nacos/nacos-server:v2.0.4
     container_name: nacos-server
-    restart: on-failure
+    restart: always
     env_file:
       - ./data/nacos-mysql.env
     volumes:
-      - ./data/logs/:/home/nacos/logs
+      - ./data/log/:/home/nacos/logs
       #- ./nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties
     ports:
       - "8848:8848"
       - "9848:9848"
       - "9555:9555"
     depends_on:
-      - mysql
+      - node0
     networks:
       primihub_net:
         ipv4_address: 172.28.1.19
@@ -242,11 +245,12 @@ services:
       - "/bin/bash"
       - "-c"
       - "./primihub-node --service_port=50050  --node_id=node0 --config=/app/config/primihub_node0.yaml"
+    depends_on:
+      - simple_bootstrap_node
     networks:
       primihub_net:
         ipv4_address: 172.28.1.10
-    depends_on:
-      - simple_bootstrap_node
+
 
   node1:
     image: $PRIMIHUB_NODE
@@ -263,11 +267,12 @@ services:
       - "/bin/bash"
       - "-c"
       - "./primihub-node --service_port=50051 --node_id=node1 --config=/app/config/primihub_node1.yaml"
+    depends_on:
+      - simple_bootstrap_node
     networks:
       primihub_net:
         ipv4_address: 172.28.1.11
-    depends_on:
-      - simple_bootstrap_node
+
 
   node2:
     image: $PRIMIHUB_NODE
@@ -284,11 +289,11 @@ services:
       - "/bin/bash"
       - "-c"
       - "./primihub-node --service_port=50052 --node_id=node2 --config=/app/config/primihub_node2.yaml"
+    depends_on:
+      - simple_bootstrap_node
     networks:
       primihub_net:
         ipv4_address: 172.28.1.12
-    depends_on:
-      - simple_bootstrap_node
 
   simple_bootstrap_node:
     image: primihub/simple-bootstrap-node:1.0
@@ -298,6 +303,8 @@ services:
     #   - "4001:4001"
     entrypoint: 
       - "/app/simple-bootstrap-node"
+    depends_on:
+      - mysql
     networks:
       primihub_net:
         ipv4_address: 172.28.1.13
