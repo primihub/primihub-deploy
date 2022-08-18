@@ -1,7 +1,7 @@
 
-CREATE DATABASE IF NOT EXISTS `privacy_demo3` Character SET utf8 COLLATE utf8_bin;;
+CREATE DATABASE IF NOT EXISTS `privacy_dc3` Character SET utf8 COLLATE utf8_bin;;
 
-USE `privacy_demo3`;
+USE `privacy_dc3`;
 -- ----------------------------
 -- Table structure for data_model
 -- ----------------------------

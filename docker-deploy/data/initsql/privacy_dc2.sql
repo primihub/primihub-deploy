@@ -1,7 +1,7 @@
 
-CREATE DATABASE IF NOT EXISTS `privacy_demo3` Character SET utf8 COLLATE utf8_bin;;
+CREATE DATABASE  IF NOT EXISTS `privacy_dc2` Character SET utf8 COLLATE utf8_bin;
 
-USE `privacy_demo3`;
+USE `privacy_dc2`;
 -- ----------------------------
 -- Table structure for data_model
 -- ----------------------------
@@ -662,5 +662,3 @@ CREATE TABLE `data_resource_visibility_auth`  (
                                                   INDEX `resource_id_ix`(`resource_id`) USING BTREE,
                                                   INDEX `organ_global_id_ix`(`organ_global_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
-GRANT ALL ON *.* TO 'primihub'@'%';
