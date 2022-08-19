@@ -2,25 +2,23 @@
 
 ### 部署要求
 
-- 1.拥有一个k8s集群
-- 2.拥有集群操作权限
+- 拥有一个k8s集群
+- 拥有集群操作权限
 
 ### 安装
 
-- 指定你要部署的namespace名称，执行安装脚本完成部署
+指定你要部署的namespace名称，执行安装脚本完成部署
 
 ```
 export NAMESPACE=<namespace>
 bash primihub_deploy.sh
 ```
 
-:::tip
 注意：目前脚本中指定了platform的nodePort端口，所以同一个集群只能安装一套（多租户场景将再进行优化处理）
-:::
 
 ### 验证：
 
-1. 查看对应pod的状态，是否均为Running
+查看对应pod的状态，是否均为Running
 ```
 # kubectl get pod -n "你的namespace"
 NAME                            READY   STATUS    RESTARTS   AGE
@@ -43,7 +41,7 @@ rabbitmq3-5cd59678cc-jx59r      1/1     Running   0          2d
 redis-595ff4c87b-ph6n6          1/1     Running   0          2d
 ```
 
-2. 所有服务状态均为Runing后在浏览器分别访问
+所有服务状态均为Runing后在浏览器分别访问
 
 http://k8s集群的任意一台机器的IP:30801
 
