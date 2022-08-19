@@ -1,3 +1,4 @@
+#!/bin/bash
 # export NAMESPACE=wangyongwang
 
 [ -z "$NAMESPACE" ] && echo "NAMESPACE is not set" && exit
