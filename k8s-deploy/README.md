@@ -14,7 +14,7 @@ export NAMESPACE=<namespace>
 bash primihub_deploy.sh
 ```
 
-### 验证：
+### 验证
 
 查看对应pod的状态，是否均为Running
 ```
@@ -38,6 +38,8 @@ rabbitmq2-5c9fbbb575-j7lpp      1/1     Running   0          19h
 rabbitmq3-5cd59678cc-ftmpv      1/1     Running   0          19h
 redis-595ff4c87b-p4qjj          1/1     Running   0          19h
 ```
+
+### 说明
 
 所有服务状态均为Runing后在浏览器分别访问
 
