@@ -62,6 +62,11 @@ else
     fi
 fi
 
+# 提前拉镜像，避免启动时重复拉取
+for i in `cat .env | cut -d '=' -f 2`
+do
+    docker pull $i
+done
 
 # 2.启动应用
 docker-compose up -d
