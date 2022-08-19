@@ -20,7 +20,8 @@ echo "kubectl checking"
 kubectl version
 if [[ $? -ne 0 ]]; then
     echo "try to install kubectl: "
-    curl -LO "https://dl.k8s.io/release/v1.24.0/bin/darwin/arm64/kubectl"  # 先只考虑mac
+    # curl -LO "https://dl.k8s.io/release/v1.24.0/bin/darwin/arm64/kubectl"  # 先只考虑mac
+    curl -LO "https://dl.k8s.io/release/v1.24.0/bin/linux/amd64/kubectl"
     if [[ $? -ne 0 ]]; then
         echo "下载kubectl失败, 请自行安装"
         exit 1
@@ -40,13 +41,15 @@ fi
 echo "helm checking"
 helm version
 if [[ $? -ne 0 ]];then
-    curl -LO "https://get.helm.sh/helm-v3.9.1-darwin-arm64.tar.gz"
+    # curl -LO "https://get.helm.sh/helm-v3.9.1-darwin-arm64.tar.gz"
+    curl -LO "https://get.helm.sh/helm-v3.9.1-linux-amd64.tar.gz
     if [[ $? -ne 0 ]]; then
         echo "下载helm失败, 请自行安装"
         exit 1
     else
         echo "正在安装helm, 可能需要您输入密码"
-        tar -zxvf helm-v3.9.1-darwin-arm64.tar.gz && sudo cp darwin-arm64/helm /usr/local/bin/helm
+        # tar -zxvf helm-v3.9.1-darwin-arm64.tar.gz && sudo cp darwin-arm64/helm /usr/local/bin/helm
+        tar -zxvf helm-v3.9.1-linux-amd64.tar.gz && sudo cp linux-amd64/helm /usr/local/bin/helm
         if [[ $? -eq 0 ]]; then
             helm version
             echo "helm已安装"

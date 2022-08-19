@@ -1,7 +1,7 @@
 #!/bin/bash
 # export NAMESPACE=wangyongwang
 
-[ -z "$NAMESPACE" ] && echo "NAMESPACE is not set" && exit
+[ -z "$NAMESPACE" ] && echo "NAMESPACE is not set, Use default ns: primihub" && export NAMESPACE=primihub
 
 helm uninstall primihub -n ${NAMESPACE} 
 
