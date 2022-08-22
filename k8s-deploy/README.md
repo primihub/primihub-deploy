@@ -4,9 +4,9 @@
 ### 部署要求
 ```
     0、拥有一个k8s集群，并可以连接到该集群
-    1、在操作的节点安装了python3和pip3，可执行python3 --version检查
+    1、在操作的节点安装了python3和pip3，可执行python3 --version和pip3 list来检查
     2、执行python3 primihub_require_check.py检查脚本：
-        1）会在操作节点安装pyyaml模块，安装服务时使用；
+        1）会在操作节点安装pyyaml模块，以便安装服务时使用；
         2）检查kubectl，helm等依赖是否安装，并在未安装时尝试进行联网安装；
         3）检查环境变量NAMESPACE是否设置，未设置会以primihub作为NAMESPACE来进行后续操作
         4）读取默认的storageclass，不存在默认的storageclass时，会尝试指定目前的storageclass为默认，但存在多个时，需手动介入执行。
@@ -21,7 +21,7 @@
 ```
     cd k8s-deploy
     <!-- kubectl create namespace "你的namespace" -->
-    export NAMESPACE=<namespace>  # 未设置为会使用primihub作为namespace
+    export NAMESPACE=<namespace>
     ./primihub_deploy.sh （或执行python3 deploy.py）
     已经将所需服务进行了封装，执行上述命令将安装storage（mysql、redis）、nacos、rabbitmq、application、gateway、platform、fusion、primihubnode这些服务
     注意：目前脚本中指定了platform的nodeport端口，所以一个集群只能安装一套（多租户场景将再进行优化处理）

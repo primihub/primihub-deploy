@@ -14,27 +14,27 @@ print(machine)
 helm_dl_dict = {
                  "Darwin":  
                             {
-                                "x86_64": "", 
+                                "x86_64": "https://get.helm.sh/helm-v3.9.3-darwin-amd64.tar.gz", 
                                 "arm64": "https://get.helm.sh/helm-v3.9.1-darwin-arm64.tar.gz"
                             },
 
                  "Linux":   
                             {
-                                "x86_64": "", 
-                                "arm64": ""
+                                "x86_64": "https://get.helm.sh/helm-v3.9.3-linux-amd64.tar.gz", 
+                                "arm64": "https://get.helm.sh/helm-v3.9.3-linux-arm64.tar.gz"
                             }
                 }
 
 kubectl_dl_dict = {
                     "Darwin": 
                             {
-                                "x86_64": "", 
+                                "x86_64": "https://dl.k8s.io/release/v1.24.0/bin/darwin/amd64/kubectl", 
                                 "arm64": "https://dl.k8s.io/release/v1.24.0/bin/darwin/arm64/kubectl"
                             }, 
                     "Linux": 
                             {
-                                "x86_64": "", 
-                                "arm64": ""
+                                "x86_64": "https://dl.k8s.io/release/v1.24.0/bin/linux/amd64/kubectl", 
+                                "arm64": "https://dl.k8s.io/release/v1.24.0/bin/linux/arm64/kubectl"
                             }
                 }
 
