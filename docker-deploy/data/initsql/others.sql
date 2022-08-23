@@ -51,7 +51,6 @@ USE `nacos_config`;
 -- Table structure for table `config_info`
 --
 
-DROP TABLE IF EXISTS `config_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `config_info` (
@@ -101,7 +100,6 @@ UNLOCK TABLES;
 -- Table structure for table `config_info_aggr`
 --
 
-DROP TABLE IF EXISTS `config_info_aggr`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `config_info_aggr` (
@@ -131,7 +129,6 @@ UNLOCK TABLES;
 -- Table structure for table `config_info_beta`
 --
 
-DROP TABLE IF EXISTS `config_info_beta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `config_info_beta` (
@@ -165,7 +162,6 @@ UNLOCK TABLES;
 -- Table structure for table `config_info_tag`
 --
 
-DROP TABLE IF EXISTS `config_info_tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `config_info_tag` (
@@ -199,7 +195,6 @@ UNLOCK TABLES;
 -- Table structure for table `config_tags_relation`
 --
 
-DROP TABLE IF EXISTS `config_tags_relation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `config_tags_relation` (
@@ -229,7 +224,6 @@ UNLOCK TABLES;
 -- Table structure for table `group_capacity`
 --
 
-DROP TABLE IF EXISTS `group_capacity`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `group_capacity` (
@@ -261,7 +255,6 @@ UNLOCK TABLES;
 -- Table structure for table `his_config_info`
 --
 
-DROP TABLE IF EXISTS `his_config_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `his_config_info` (
@@ -289,7 +282,6 @@ CREATE TABLE `his_config_info` (
 -- Table structure for table `permissions`
 --
 
-DROP TABLE IF EXISTS `permissions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `permissions` (
@@ -313,7 +305,6 @@ UNLOCK TABLES;
 -- Table structure for table `roles`
 --
 
-DROP TABLE IF EXISTS `roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `roles` (
@@ -337,7 +328,6 @@ UNLOCK TABLES;
 -- Table structure for table `tenant_capacity`
 --
 
-DROP TABLE IF EXISTS `tenant_capacity`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tenant_capacity` (
@@ -369,7 +359,6 @@ UNLOCK TABLES;
 -- Table structure for table `tenant_info`
 --
 
-DROP TABLE IF EXISTS `tenant_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tenant_info` (
@@ -401,7 +390,6 @@ UNLOCK TABLES;
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
@@ -434,7 +422,6 @@ USE `fusion_dc`;
 -- Table structure for table `data_fusion_copy_task`
 --
 
-DROP TABLE IF EXISTS `data_fusion_copy_task`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `data_fusion_copy_task` (
@@ -469,7 +456,6 @@ UNLOCK TABLES;
 -- Table structure for table `fusion_go`
 --
 
-DROP TABLE IF EXISTS `fusion_go`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fusion_go` (
@@ -500,7 +486,6 @@ UNLOCK TABLES;
 -- Table structure for table `fusion_group`
 --
 
-DROP TABLE IF EXISTS `fusion_group`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fusion_group` (
@@ -528,7 +513,6 @@ UNLOCK TABLES;
 -- Table structure for table `fusion_organ`
 --
 
-DROP TABLE IF EXISTS `fusion_organ`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fusion_organ` (
@@ -560,7 +544,6 @@ UNLOCK TABLES;
 -- Table structure for table `fusion_public_ro`
 --
 
-DROP TABLE IF EXISTS `fusion_public_ro`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fusion_public_ro` (
@@ -588,7 +571,6 @@ UNLOCK TABLES;
 -- Table structure for table `fusion_resource`
 --
 
-DROP TABLE IF EXISTS `fusion_resource`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fusion_resource` (
@@ -619,7 +601,6 @@ CREATE TABLE `fusion_resource` (
 -- Table structure for table `fusion_resource_field`
 --
 
-DROP TABLE IF EXISTS `fusion_resource_field`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fusion_resource_field` (
@@ -643,7 +624,6 @@ CREATE TABLE `fusion_resource_field` (
 -- Table structure for table `fusion_resource_tag`
 --
 
-DROP TABLE IF EXISTS `fusion_resource_tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fusion_resource_tag` (
@@ -660,7 +640,6 @@ CREATE TABLE `fusion_resource_tag` (
 -- Table structure for table `fusion_resource_visibility_auth`
 --
 
-DROP TABLE IF EXISTS `fusion_resource_visibility_auth`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fusion_resource_visibility_auth` (
