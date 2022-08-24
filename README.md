@@ -8,4 +8,4 @@
 
 ### 部署架构
 
-![PrimiHub](./k8s-deploy/primihub.svg)
+![PrimiHub](./k8s-deploy/primihub.jpg)
