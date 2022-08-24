@@ -2,7 +2,7 @@
 
 ### 部署要求
 
-- 拥有一个k8s集群
+- 拥有一个k8s集群,如没有k8s集群可参考 [这个步骤](https://kuboard-spray.cn/guide/install-k8s.html#%E5%AE%89%E8%A3%85-kuboard-spray) 快速部署一个
 - 拥有集群操作权限
 
 ### 安装

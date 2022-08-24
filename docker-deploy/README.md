@@ -2,6 +2,11 @@
 
 ### docker-compose部署
 
+#### 部署要求
+
+* 机器配置最低4核8G，磁盘40G
+* 系统支持`CentOS 7`和`Ubuntu 18.04+` (推荐使用`Ubuntu`)
+
 #### 执行deploy.sh脚本，完成部署
 ```bash
 bash deploy.sh
