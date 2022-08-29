@@ -15,12 +15,11 @@
 ### 安装
 
 * 指定你要部署的namespace名称，执行安装脚本完成部署
-    * cd k8s-deploy
-
-    * export NAMESPACE={namespace}
-
-    * ./primihub_deploy.sh （或执行python3 deploy.py）
-
+```bash
+    cd k8s-deploy
+    export NAMESPACE={namespace}
+    ./primihub_deploy.sh （或执行python3 deploy.py）
+```
     注意：目前脚本中指定了platform的nodeport端口，所以一个集群只能安装一套（多租户场景将再进行优化处理）
     
 
