@@ -2,8 +2,6 @@
 
 [ -z "$NAMESPACE" ] && echo "NAMESPACE is not set, Use default ns: primihub" && export NAMESPACE=primihub
 
-
-
 echo "check python3 version"
 
 python3 --version
