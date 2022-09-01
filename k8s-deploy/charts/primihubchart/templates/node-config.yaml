@@ -32,8 +32,10 @@ data:
       bootstrap_nodes:
         - "/ip4/172.28.1.13/tcp/4001/ipfs/QmP2C45o2vZfy1JXWFZDUEzrQCigMtd4r3nesvArV8dFKd"
         - "/ip4/172.28.1.13/tcp/4001/ipfs/QmdSyhb8eR9dDSR5jjnRoTDBwpBCSAjT7WueKJ9cQArYoA"
-      multi_addr: "/ip4/172.28.1.10/tcp/8880"
-      dht_get_value_timeout:  60
+      multi_addr: "/ip4/172.28.1.10/tcp/8886"
+      dht_get_value_timeout: 60
+
+    notify_server: 0.0.0.0:6666
 
   primihub_node1.yaml: |-
     version: 1.0
@@ -75,8 +77,11 @@ data:
       bootstrap_nodes:
         - "/ip4/172.28.1.13/tcp/4001/ipfs/QmP2C45o2vZfy1JXWFZDUEzrQCigMtd4r3nesvArV8dFKd"
         - "/ip4/172.28.1.13/tcp/4001/ipfs/QmdSyhb8eR9dDSR5jjnRoTDBwpBCSAjT7WueKJ9cQArYoA"
-      multi_addr: "/ip4/172.28.1.11/tcp/8881"
-      dht_get_value_timeout:  60
+      multi_addr: "/ip4/172.28.1.11/tcp/8887"
+      dht_get_value_timeout: 60
+
+    notify_server: 0.0.0.0:6667
+
   primihub_node2.yaml: |-
     version: 1.0
     node: "node2"
@@ -111,5 +116,7 @@ data:
       bootstrap_nodes:
         - "/ip4/172.28.1.13/tcp/4001/ipfs/QmP2C45o2vZfy1JXWFZDUEzrQCigMtd4r3nesvArV8dFKd"
         - "/ip4/172.28.1.13/tcp/4001/ipfs/QmdSyhb8eR9dDSR5jjnRoTDBwpBCSAjT7WueKJ9cQArYoA"
-      multi_addr: "/ip4/172.28.1.12/tcp/8882"
-      dht_get_value_timeout:  60
+      multi_addr: "/ip4/172.28.1.13/tcp/8888"
+      dht_get_value_timeout: 60
+
+    notify_server: 0.0.0.0:6668

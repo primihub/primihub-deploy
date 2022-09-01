@@ -1,18 +1,28 @@
 # README
 
+
 ### 部署要求
 
-- 拥有一个k8s集群,如没有k8s集群可参考 [这个步骤](https://kuboard-spray.cn/guide/install-k8s.html#%E5%AE%89%E8%A3%85-kuboard-spray) 快速部署一个
-- 拥有集群操作权限
+   * 拥有一个k8s集群，并可以连接到该集群, 如没有k8s集群可参考 [这个步骤](https://kuboard-spray.cn/guide/install-k8s.html#%E5%AE%89%E8%A3%85-kuboard-spray) 快速部署一个
+
+   * 在操作的节点安装了python3和pip3，可执行python3 --version和pip3 list进行检查
+
+   * 执行python3 primihub_require_check.py检查脚本
+
+   * 修改images.yaml中的镜像（已指定默认镜像，可根据基线进行调整）
+
 
 ### 安装
 
-指定你要部署的namespace名称，执行安装脚本完成部署
+* 指定你要部署的namespace名称，执行安装脚本完成部署
+```bash
+    cd k8s-deploy
+    export NAMESPACE={namespace}
+    ./primihub_deploy.sh （或执行python3 deploy.py）
+```
+    注意：目前脚本中指定了platform的nodeport端口，所以一个集群只能安装一套（多租户场景将再进行优化处理）
+    
 
-```
-export NAMESPACE=<namespace>
-bash primihub_deploy.sh
-```
 
 ### 验证
 
@@ -40,20 +50,21 @@ redis-595ff4c87b-p4qjj          1/1     Running   0          19h
 ```
 
 ### 说明
-
 所有服务状态均为Runing后在浏览器分别访问
 
-http://k8s集群的任意一台机器的IP:30801
+```
+    http://k8s集群的任意一台机器的IP:30801
 
-http://k8s集群的任意一台机器的IP:30802
+    http://k8s集群的任意一台机器的IP:30802
 
-http://k8s集群的任意一台机器的IP:30803
-
+    http://k8s集群的任意一台机器的IP:30803
+```
 注意：此处的端口是在 [这个文件](./charts/platformchart/templates/platform-svc.yaml) 的第三行指定，如遇端口冲突可自行修改为别的可用端口
 
-3 个管理后台模拟 3 个机构，默认用户密码都是 admin / 123456
+* 3 个管理后台模拟 3 个机构，默认用户密码都是 admin / 123456
 
-管理平台具体的操作步骤请参考 [快速试用管理平台](https://docs.primihub.com/docs/quick-start-platform)
+* 管理平台具体的操作步骤请参考 [快速试用管理平台](https://docs.primihub.com/docs/quick-start-platform)
+
 
 ### 删除
 执行以下脚本，将删除以上安装的所有服务
