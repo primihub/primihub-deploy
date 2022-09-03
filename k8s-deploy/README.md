@@ -89,12 +89,13 @@ helm uninstall <helm-name> -n <namespace>  卸载使用helm安装的服务
 
 ### loki安装
 
-需要loki来查看日志时，安装方式，grafana默认端口为30010：
-export NAMESPACE={namespace}
-./primihub_deploy.sh loki 
-默认账号admin，密码admin，端口30010
-grafana访问地址：http://<your ip>:30010/explore?orgId=1&left=%5B%22now-1h%22,%22now%22,%22primihub-loki%22,%7B%7D%5D
+需要loki来查看日志时，grafana默认端口为30010,安装方式：
+    export NAMESPACE={namespace}
+    ./primihub_deploy.sh loki 
+    默认账号admin，密码admin，端口30010
+    grafana访问地址：http://<your ip>:30010/explore?orgId=1&left=%5B%22now-1h%22,%22now%22,%22primihub-loki%22,%7B%7D%5D
 
-注意：loki默认只获取和展示本namespace的日志
-删除loki
-./primihub_deploy.sh loki delete
+    注意：loki默认只获取和展示本namespace的日志
+删除loki:
+    export NAMESPACE={namespace}
+    ./primihub_deploy.sh loki delete
