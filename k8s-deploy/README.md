@@ -99,7 +99,11 @@ grafana访问地址：
 ```
 http://<your ip>:30010
 默认账号admin，密码admin
+
+模板ID可使用：13639，或导入logs-app_rev1.json模板文件
 ```
+![import](./import.png)
+
 注意：loki默认只获取和展示本namespace的日志
 
 删除loki:
