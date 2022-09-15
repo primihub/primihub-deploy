@@ -2,7 +2,7 @@
 
 if [[ $# == 0 ]] ;then
 
-    bash primihub_require_check.sh
+    # bash primihub_require_check.sh
     ./deploy.py
 
 
