@@ -40,7 +40,7 @@ echo "helm checking"
 helm version
 if [[ $? -ne 0 ]];then
     # curl -LO "https://get.helm.sh/helm-v3.9.1-darwin-arm64.tar.gz"
-    curl -LO "https://get.helm.sh/helm-v3.9.1-linux-amd64.tar.gz
+    curl -LO "https://get.helm.sh/helm-v3.9.1-linux-amd64.tar.gz"
     if [[ $? -ne 0 ]]; then
         echo "下载helm失败, 请自行安装"
         exit 1
