@@ -148,7 +148,7 @@ def check_set_sc():
             print("现存storageclass数量过多, 请手动选择设置默认storageclass")
             return 
         elif sc_num == 1:
-            sc_name_cmd = "kubectl get sc -o name|awk -F / '{print $2}')"
+            sc_name_cmd = "kubectl get sc -o name|awk -F / '{print $2}'"
             sc_name = os.popen(sc_name_cmd).read().strip()
             if not sc_name:
                 print("查询不到storageclass, 请手动重试")
