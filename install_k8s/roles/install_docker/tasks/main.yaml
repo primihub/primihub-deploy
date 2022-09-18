@@ -1,0 +1,74 @@
+- block:
+    - name: install docker online focal
+      shell: |
+        apt update
+        apt install -y \
+            apt-transport-https \
+            ca-certificates \
+            curl \
+            gnupg-agent \
+            software-properties-common
+        curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | apt-key add -
+        apt-key fingerprint 0EBFCD88
+        add-apt-repository \
+            "deb [arch={{ ansible_machine }}] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/ \
+            $(lsb_release -cs) \
+            stable"
+        apt update
+        apt install -y --allow-downgrades docker-ce=5:19.03.15~3-0~ubuntu-focal docker-ce-cli=5:19.03.15~3-0~ubuntu-focal containerd.io
+  tags: install-deps
+  when:
+  - ansible_distribution == 'Ubuntu'
+  - mode == 'online'
+  - ansible_distribution_version == '20.04'
+
+- block:
+    - name: install docker online 1804
+      shell: |
+        apt update
+        apt install -y \
+            apt-transport-https \
+            ca-certificates \
+            curl \
+            gnupg-agent \
+            software-properties-common
+        curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | apt-key add -
+        apt-key fingerprint 0EBFCD88
+        add-apt-repository \
+            "deb [arch={{ ansible_machine }}] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/ \
+            $(lsb_release -cs) \
+            stable"
+        apt update
+        apt install -y --allow-downgrades docker-ce=5:19.03.15~3-0~ubuntu-bionic docker-ce-cli=5:19.03.15~3-0~ubuntu-bionic containerd.io
+  tags: install-deps
+  when:
+  - ansible_distribution == 'Ubuntu'
+  - mode == 'online'
+  - ansible_distribution_version == '18.04'
+
+- block:
+    - name: install docker online 1604
+      shell: |
+        apt update
+        apt install -y \
+            apt-transport-https \
+            ca-certificates \
+            curl \
+            gnupg-agent \
+            software-properties-common
+        curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | apt-key add -
+        apt-key fingerprint 0EBFCD88
+        add-apt-repository \
+            "deb [arch={{ ansible_machine }}] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/ \
+            $(lsb_release -cs) \
+            stable"
+        apt update
+        apt install -y --allow-downgrades docker-ce=5:19.03.15~3-0~ubuntu-xenial docker-ce-cli=5:19.03.15~3-0~ubuntu-xenial containerd.io
+  tags: install-deps
+  when:
+  - ansible_distribution == 'Ubuntu'
+  - mode == 'online'
+  - ansible_distribution_version == '16.04'  
+
+# 1604 xenial , 1804 bionic, 2004 focal
+
