@@ -1,9 +1,9 @@
 ---
-  - hosts: kube-master
-    become_user: root
-    become: yes
-    roles:
-      - sshgen
+  # - hosts: kube-master
+  #   become_user: root
+  #   become: yes
+  #   roles:
+  #     - sshgen
 
   - hosts: all 
     become_user: root
@@ -12,11 +12,17 @@
       - copy_ssh
       - install_deps
       - install_docker
+      - config_docker
 
   - hosts: kube-master
     become: yes
     gather_facts: no
     roles:
       - kubekey
+      - install_nfs_provisioner
+      
+      - loki
     tags: k8s
+
+
 

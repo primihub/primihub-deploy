@@ -1,0 +1,107 @@
+- name: add master to group nfs-server if nfs-server is not defined 
+  add_host:
+    name: "{{ hostvars[groups['kube-master'][0]]['inventory_hostname'] }}"
+    groups: nfs-server
+  when: groups["nfs-server"] is not defined or groups["nfs-server"]|length == 0
+  tags: nfs 
+
+- debug:
+    var: hostvars[groups['nfs-server'][0]]['inventory_hostname']
+  run_once: true
+  tags: nfs
+
+- name: ubuntu, install nfs server packages on master
+  block:
+    - name: ubuntu, install nfs server packages online
+      apt:
+        name: nfs-kernel-server 
+        state: present
+      register: install_nfsserver
+      ignore_errors: true
+      when: mode == 'online'
+
+    - name: ubuntu, exception handling for installing nfs-server failure
+      shell: rm -rf /var/lib/dpkg/info/nfs-*
+      when: 
+        - install_nfsserver is not succeeded
+        - mode == 'online'
+
+    - name: ubuntu, reinstall nfs server online
+      apt:
+        name: nfs-kernel-server
+        state: present
+      when: 
+        - mode == 'online'
+        - install_nfsserver is not succeeded
+
+  when: 
+    - ansible_distribution == 'Ubuntu'
+    - inventory_hostname in groups["nfs-server"]
+  tags: nfs
+
+- name: ubuntu, install nfs client packages on nodes
+  block: 
+    - name: ubuntu, install nfs client packages online
+      apt:
+        name: nfs-common
+        state: present
+      register: install_nfs
+      ignore_errors: true
+      when: mode == 'online'
+
+    - name: ubuntu, exception handling for installing nfs-client failure
+      shell: rm -rf /var/lib/dpkg/info/nfs-*
+      when: 
+        - install_nfs is not succeeded
+        - mode == 'online'
+
+    - name: ubuntu, reinstall nfs client online
+      apt:
+        name: nfs-common
+        state: present
+      when: 
+        - mode == 'online'
+        - install_nfs is not succeeded
+  when:
+    - ansible_distribution == 'Ubuntu'
+    - inventory_hostname not in groups["nfs-server"]
+  tags: nfs
+
+- name: config nfs server
+  block:
+    - name: create a directory for nfs
+      file:
+        path: "{{ nfs_dir }}/k8s_nfs_pv"
+        state: directory
+        group: "{{ ansible_user_gid }}"
+        owner: "{{ ansible_user_uid }}"
+        mode: '0777'
+
+    - name: create /etc/exports on nfs server if thers is not
+      copy:
+        content: ""
+        dest: /etc/exports
+        force: no
+        group: root
+        owner: root
+        mode: '0744'
+
+    - name: update /etc/exports 
+      lineinfile:
+        path: /etc/exports
+        regexp: "{{ nfs_dir }}\\s+{{ hostvars[groups['kube-master'][0]]['inventory_hostname'] | regex_replace('(.\\..*\\..*)\\..*','\\1.0') }}/16(rw,sync,no_root_squash,no_all_squash)"
+        line: "{{ nfs_dir }}  {{ hostvars[groups['kube-master'][0]]['inventory_hostname'] | regex_replace('(.\\..*\\..*)\\..*','\\1.0') }}/16(rw,sync,no_root_squash,no_all_squash)"
+        state: present
+
+    - name: restart nfs server
+      systemd:
+        name: nfs-server
+        state: restarted
+        enabled: yes
+      ignore_errors: true
+
+    - name: restart nfs server by systemctl
+      shell: systemctl restart nfs-server
+      ignore_errors: true
+  when: inventory_hostname in groups["nfs-server"]
+  tags: nfs

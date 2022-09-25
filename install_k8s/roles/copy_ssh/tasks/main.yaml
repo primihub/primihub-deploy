@@ -1,4 +1,4 @@
 - name: ssh-copy
   authorized_key: user=root state=present  key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
-  become: yes
+  become: true
   tags: sshcopy

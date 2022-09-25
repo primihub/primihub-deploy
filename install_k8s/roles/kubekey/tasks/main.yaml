@@ -1,3 +1,11 @@
+- name: untar kubekey
+  shell: tar -zxvf kubekey-v2.2.1-linux-amd64.tar.gz
+  args:
+    chdir: "{{ role_path }}/files/"
+  tags: k8s
+  when:
+  - mode == "online"
+
 - name: render template
   template:
     src: kk-sample.yaml.j2
@@ -6,20 +14,13 @@
   when:
   - mode == "online"
 
-- name: untar
-  shell: tar -zxvf kubekey-v2.2.1-linux-amd64.tar.gz
-  args:
-    chdir: "{{ role_path }}/files/"
-  tags: k8s
-  when:
-  - mode == "online"
 
 - name: online install
   shell: ./kk create cluster -f kk-sample.yaml -y
   args:
     chdir: "{{ role_path }}/files/"
-  environment:
-    OPEN_EBS_LOC: /data/openebs
+  # environment:
+  #   OPEN_EBS_LOC: /data/openebs
   tags: k8s
   when:
   - mode == "online"

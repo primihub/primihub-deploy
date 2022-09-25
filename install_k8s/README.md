@@ -18,6 +18,10 @@ ansible安装参考步骤
     sudo apt update
     sudo apt-add-repository ppa:ansible/ansible
     sudo apt install ansible sshpass
+
 ```
 
 
+
+## 默认使用/mnt作为storageclass的路径,默认使用master节点nfs-server;
+## 默认使用/data/docker作为docker的工作目录

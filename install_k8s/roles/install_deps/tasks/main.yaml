@@ -1,7 +1,7 @@
 - block:
     - name: apt update action,  ubuntu
       shell: apt update
-    - name: install , ubuntu
+    - name: install deps, ubuntu
       shell: apt install -y  socat conntrack ebtables ipset chrony
     - name: enable chrony , ubuntu
       shell: systemctl enable --now chrony
@@ -9,7 +9,11 @@
       shell: timedatectl set-timezone Asia/Shanghai
     - name: install software-properties-common
       shell: apt install software-properties-common
-
+    - name: add resolve.conf
+      lineinfile:
+        path: /etc/resolv.conf
+        line: nameserver 8.8.8.8
+        state: prsesnt
   tags: install-deps
   when:
   - ansible_distribution == 'Ubuntu'

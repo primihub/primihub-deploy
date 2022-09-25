@@ -1,0 +1,28 @@
+- name: render nfs provisioner
+  template:
+    src: nfs-provisioner.yaml.j2
+    dest: "{{ role_path }}/nfs-provisioner.yaml"
+  tags: nfs
+  when:
+  - mode == "online"
+
+- name: install nfs provisioner
+  shell: kubectl apply -f nfs-provisioner.yaml
+  args:
+    chdir: "{{ role_path }}/"
+  tags: nfs
+  when:
+  - mode == "online"
+
+- name: 
+
+- name: set default sc
+  shell: 
+    cmd: |
+      kubectl patch storageclass managed-nfs-storage  -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+  args:
+    executable: /bin/bash
+  tags: nfs
+  when:
+  - mode == "online"
+
