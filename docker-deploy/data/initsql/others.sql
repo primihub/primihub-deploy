@@ -378,7 +378,7 @@ CREATE TABLE `tenant_info` (
 
 LOCK TABLES `tenant_info` WRITE;
 /*!40000 ALTER TABLE `tenant_info` DISABLE KEYS */;
-INSERT INTO `tenant_info` VALUES (3,'1','46b6b568-e6ae-45ca-baa1-819932fc8947','demo1','demo1','nacos',1655369938742,1655369938742),(4,'1','71843998-b60a-42ed-81d7-c3c9940d11c0','demo2','demo2','nacos',1655369947525,1655369947525),(5,'1','1812fdf8-9fce-4bd5-bc5e-08736f343fae','demo3','demo3','nacos',1656495327434,1656495327434);
+INSERT INTO `tenant_info` VALUES (3,'1','46b6b568-e6ae-45ca-baa1-819932fc8947','demo1','demo1','nacos',1655369938742,1655369938742),(4,'1','71843998-b60a-42ed-81d7-c3c9940d11c0','demo2','demo2','nacos',1655369947525,1655369947525),(5,'1','35674f9d-3369-42f6-9f30-c8de2535adc6','demo3','demo3','nacos',1656495327434,1656495327434);
 /*!40000 ALTER TABLE `tenant_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -671,3 +671,5 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2022-07-30 11:47:30
+
+GRANT ALL ON *.* TO 'primihub'@'%';
