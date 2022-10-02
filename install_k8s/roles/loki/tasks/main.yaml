@@ -1,6 +1,11 @@
+- name: create ns
+  shell: kubectl create ns logging
+  tags: loki
+  
 - name:  install the distributed loki
   shell: helm upgrade loki -n logging lokichart --install
   args:
     chdir: "{{ role_path }}/files/"
+  tags: loki
   when:
   - mode == "online"

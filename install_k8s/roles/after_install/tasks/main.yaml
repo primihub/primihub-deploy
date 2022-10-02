@@ -1,0 +1,6 @@
+- name: config apiserver by edit /etc/kubernetes/manifests/kube-apiserver.yaml
+  lineinfile:
+    dest: /etc/kubernetes/manifests/kube-apiserver.yaml
+    regexp: "    - --feature-gates=RotateKubeletServerCertificate=true,TTLAfterFinished=true,ExpandCSIVolumes=true"
+    line: "    - --feature-gates=RotateKubeletServerCertificate=true,TTLAfterFinished=true,ExpandCSIVolumes=true,RemoveSelfLink=false"
+  tags: after_install

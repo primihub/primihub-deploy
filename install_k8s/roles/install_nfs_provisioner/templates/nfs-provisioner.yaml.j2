@@ -31,12 +31,12 @@ spec:
             - name: NFS_SERVER
               value: {{ hostvars[groups['kube-master'][0]].inventory_hostname }}
             - name: NFS_PATH
-              value: /mnt/nfs
+              value: /mnt/k8s_nfs_pv
       volumes:
         - name: nfs-client-root
           nfs:
             server: {{ hostvars[groups['kube-master'][0]].inventory_hostname }}
-            path: /mnt/nfs
+            path: /mnt/k8s_nfs_pv
             
 ---
 apiVersion: storage.k8s.io/v1

@@ -24,3 +24,12 @@
   tags: k8s
   when:
   - mode == "online"
+
+
+# - name: delete cluster
+#   shell: ./kk delete cluster 
+#   args:
+#     chdir: "{{ role_path }}/files/"
+#   tags: del_k8s
+#   when:
+#   - mode == "online"

@@ -3,7 +3,7 @@
     name: "{{ hostvars[groups['kube-master'][0]]['inventory_hostname'] }}"
     groups: nfs-server
   when: groups["nfs-server"] is not defined or groups["nfs-server"]|length == 0
-  tags: nfs 
+  tags: nfs
 
 - debug:
     var: hostvars[groups['nfs-server'][0]]['inventory_hostname']

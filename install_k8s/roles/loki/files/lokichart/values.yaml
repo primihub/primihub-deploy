@@ -1,3 +1,3 @@
 grafana:
-  deploy: false
+  deploy: true
   nodeport: 30010
