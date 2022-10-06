@@ -19,8 +19,6 @@
   shell: ./kk create cluster -f kk-sample.yaml -y
   args:
     chdir: "{{ role_path }}/files/"
-  # environment:
-  #   OPEN_EBS_LOC: /data/openebs
   tags: kubekey
   when:
   - mode == "online"

@@ -18,7 +18,6 @@
   - hosts: kube-master
     become: yes
     roles:
-
       - kubekey
       - install_nfs_provisioner
       - loki
