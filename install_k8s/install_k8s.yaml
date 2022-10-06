@@ -13,11 +13,12 @@
       - install_deps
       - install_docker
       - config_docker
+      - install_config_nfs
   
   - hosts: kube-master
     become: yes
     roles:
-      - install_config_nfs
+
       - kubekey
       - install_nfs_provisioner
       - loki

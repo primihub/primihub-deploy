@@ -2,7 +2,7 @@
   shell: tar -zxvf kubekey-v2.2.1-linux-amd64.tar.gz
   args:
     chdir: "{{ role_path }}/files/"
-  tags: k8s
+  tags: kubekey
   when:
   - mode == "online"
 
@@ -10,7 +10,7 @@
   template:
     src: kk-sample.yaml.j2
     dest: "{{ role_path }}/files/kk-sample.yaml"
-  tags: k8s
+  tags: kubekey
   when:
   - mode == "online"
 
@@ -21,7 +21,7 @@
     chdir: "{{ role_path }}/files/"
   # environment:
   #   OPEN_EBS_LOC: /data/openebs
-  tags: k8s
+  tags: kubekey
   when:
   - mode == "online"
 
@@ -30,6 +30,6 @@
 #   shell: ./kk delete cluster 
 #   args:
 #     chdir: "{{ role_path }}/files/"
-#   tags: del_k8s
+#   tags: kubekey
 #   when:
 #   - mode == "online"
