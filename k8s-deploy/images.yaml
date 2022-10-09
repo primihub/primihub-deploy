@@ -2,7 +2,7 @@ primihub:
   image: registry.hub.docker.com/primihub/primihub-node:latest
 
 bootstrap:
-  image: registry.hub.docker.com/primihub/simple-bootstrap-node
+  image: registry.hub.docker.com/primihub/simple-bootstrap-node:latest
 
 platform:
   image: registry.hub.docker.com/primihub/primihub-web:latest
