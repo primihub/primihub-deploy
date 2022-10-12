@@ -13,10 +13,9 @@ spec:
       protocol: TCP
       port: 8080
       targetPort: 8080
-      nodePort: 30804
   selector:
     name: fusion
-  type: NodePort
+  type: ClusterIP
   # sessionAffinity: None
   # externalTrafficPolicy: Cluster
   # ipFamilies:

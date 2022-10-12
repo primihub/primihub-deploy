@@ -38,7 +38,7 @@ def deploy_primihub():
         helm_order = helm_str % (service, ns, service) + image_str
         print(helm_order)
         os.system(helm_order)
-        time.sleep(5)
+        time.sleep(10)
 
 
         print("ok")

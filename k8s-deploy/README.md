@@ -5,7 +5,7 @@
 
    * 拥有一个k8s集群，并可以连接到该集群, 如没有k8s集群可参考 [这个步骤](https://kuboard-spray.cn/guide/install-k8s.html#%E5%AE%89%E8%A3%85-kuboard-spray) 快速部署一个
 
-   * 在操作的节点安装了python3和pip3，可执行python3 --version和pip3 list进行检查
+   * 在操作的节点已经安装了python3和pip3，可执行python3 --version和pip3 list进行检查
 
    * 执行python3 primihub_require_check.py检查脚本
 
@@ -85,4 +85,28 @@ kubectl logs -n <namespace> <pod-name> -f --tail=100 查看对应pod-name的日�
 kubectl exec -it -n <namespace> <pod-name> bash 进入到对应容器中
 helm install <helm-name> -n <namespace>  charts/<chartname>chart  使用helm安装对应chart中的服务
 helm uninstall <helm-name> -n <namespace>  卸载使用helm安装的服务
+```
+
+### loki安装
+需要loki来查看日志时，grafana默认端口为30010,安装方式(因为loki组件中的promtail需要获取宿主机日志，所以需要您有集群的管理权限，需要能创建sa、role等资源)：
+```
+export NAMESPACE={namespace}
+./primihub_deploy.sh loki 
+```
+    
+grafana访问地址：
+```
+http://<your ip>:30010
+默认账号admin，密码admin
+
+模板ID可使用：13639，或导入logs-app_rev1.json模板文件
+```
+![import](./import.png)
+
+注意：loki默认只获取和展示本namespace的日志
+
+删除loki:
+```
+export NAMESPACE={namespace}
+./primihub_deploy.sh loki delete
 ```

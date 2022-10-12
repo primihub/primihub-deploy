@@ -16,6 +16,8 @@ spec:
     metadata:
       labels:
         name: gateway{{ $index }}
+      annotations:
+        "loki": "primihub"
     spec:
       containers:
         - name: gateway{{ $index }}

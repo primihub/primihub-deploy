@@ -1,0 +1,17 @@
+
+- name: check-ssh
+  stat:
+    path: /root/.ssh/id_rsa.pub
+  register: pub_result
+  become: true
+  tags: sshgen
+
+- name: ssh gen if pub not exists
+  openssh_keypair:
+    path: /root/.ssh/id_rsa
+    owner: root
+    group: root
+  when: not pub_result.stat.exists
+  become: true
+  tags: sshgen
+

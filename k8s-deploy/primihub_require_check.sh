@@ -40,7 +40,7 @@ echo "helm checking"
 helm version
 if [[ $? -ne 0 ]];then
     # curl -LO "https://get.helm.sh/helm-v3.9.1-darwin-arm64.tar.gz"
-    curl -LO "https://get.helm.sh/helm-v3.9.1-linux-amd64.tar.gz
+    curl -LO "https://get.helm.sh/helm-v3.9.1-linux-amd64.tar.gz"
     if [[ $? -ne 0 ]]; then
         echo "下载helm失败, 请自行安装"
         exit 1
@@ -106,10 +106,3 @@ fi
 
 echo "检查结束"
 
-
-# 0、拥有一个k8s集群
-# 1、本地安装kubectl，并确认拥有操作集群对应namespace的权限，测试方式：kubectl get all -n <namespace>
-# 2、本地已安装helm，版本3.1以上(mac上可以使用brew install helm命令进行安装或通过https://github.com/helm/helm/releases下载对应版本)
-# 3、集群管理员需确认集群存在默认的storageclass（执行kubectl get sc 获取的结果中，结果中含有'（default）'配置）
-# 4、本地安装Python3，且安装requirements里的所需模块
-# 5、修改images.yaml中的镜像（已指定默认镜像）
