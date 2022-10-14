@@ -577,6 +577,8 @@ CREATE TABLE `fusion_resource` (
   `resource_y_rows_count` int(11) DEFAULT NULL COMMENT '文件字段y值内容不为空和0的行数',
   `resource_y_ratio` decimal(10,2) DEFAULT NULL COMMENT '文件字段y值内容不为空的行数在总行的占比',
   `resource_tag` varchar(255) DEFAULT NULL COMMENT '资源标签 格式tag,tag',
+  `resource_hash_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源hash值',
+  `resource_state` tinyint NOT NULL DEFAULT '0' COMMENT '资源状态 0上线 1下线',
   `organ_id` varchar(64) DEFAULT NULL COMMENT '机构ID',
   `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
   `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
@@ -668,3 +670,6 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2022-07-30 11:47:30
+
+
+GRANT ALL ON *.* TO 'primihub'@'%';
