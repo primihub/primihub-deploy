@@ -16,7 +16,9 @@
 
 
 - name: online install
-  shell: ./kk create cluster -f kk-sample.yaml -y
+  shell: |
+    export KKZONE=cn 
+    ./kk create cluster -f kk-sample.yaml -y
   args:
     chdir: "{{ role_path }}/files/"
   tags: kubekey
