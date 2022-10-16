@@ -1,3 +1,2 @@
 #!/bin/bash
-
-./roles/kube-sphere/files/kkworkspaces/kk delete cluster 
+./roles/kubekey/files/kk delete cluster
