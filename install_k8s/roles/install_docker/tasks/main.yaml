@@ -1,3 +1,25 @@
+- name: install docker, centos
+  block:
+    - name: add docker yum repo, centos
+      get_url:
+        url: http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/aliyun-docker-ce.repo
+
+    - name: install docker-ce, centos
+      yum:
+        state: present
+        name: "{{ pkg }}"
+        allow_downgrade: yes
+      vars:
+        pkg:
+          - docker-ce-19.03.5
+          - docker-ce-cli-19.03.5
+          - containerd.io-1.2.10
+  tags: install-docker
+  when: 
+  - ansible_distribution == 'CentOS'
+  - mode == 'online'
+
 - name: exec apt update
   shell: apt update
   ignore_errors: true
@@ -5,7 +27,6 @@
   when:
   - ansible_distribution == 'Ubuntu'
   - mode == 'online'
-
 
 - block:
     - name: install deps online focal
@@ -33,7 +54,7 @@
       ignore_errors: true
 
     - name: exec intall docker  
-      shell: apt install -y --allow-downgrades docker-ce=5:19.03.15~3-0~ubuntu-bionic docker-ce-cli=5:19.03.15~3-0~ubuntu-bionic containerd.io
+      shell: apt install -y --allow-downgrades docker-ce=5:19.03.15~3-0~ubuntu-bionic docker-ce-cli=5:19.03.15~3-0~ubuntu-bionic containerd.io=1.2.10-2
   
   tags: install-docker
   when:
@@ -71,7 +92,7 @@
       ignore_errors: true
 
     - name: exec intall docker  
-      shell: apt install -y --allow-downgrades docker-ce=5:19.03.15~3-0~ubuntu-bionic docker-ce-cli=5:19.03.15~3-0~ubuntu-bionic containerd.io
+      shell: apt install -y --allow-downgrades docker-ce=5:19.03.15~3-0~ubuntu-bionic docker-ce-cli=5:19.03.15~3-0~ubuntu-bionic containerd.io=1.2.10-2
   
   tags: install-docker
   when:
@@ -105,7 +126,7 @@
       ignore_errors: true
 
     - name: exec intall docker  
-      shell: apt install -y --allow-downgrades docker-ce=5:19.03.15~3-0~ubuntu-bionic docker-ce-cli=5:19.03.15~3-0~ubuntu-bionic containerd.io
+      shell: apt install -y --allow-downgrades docker-ce=5:19.03.15~3-0~ubuntu-bionic docker-ce-cli=5:19.03.15~3-0~ubuntu-bionic containerd.io=1.2.10-2
   
   tags: install-docker
   when:

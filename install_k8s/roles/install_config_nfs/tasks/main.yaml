@@ -10,6 +10,40 @@
   run_once: true
   tags: nfs
 
+- name: centos, install nfs packages 
+  yum:
+   name: nfs-utils
+   state: present
+  when:
+    - ansible_distribution == 'CentOS'
+    - mode == 'online'
+  tags: nfs
+
+- name: centos, config rpcbind
+  block:
+    - name: config rpcbind.socket ListenStream
+      lineinfile:
+        path: /lib/systemd/system/rpcbind.socket
+        regexp: '^(ListenStream=\[::\]:111$)'
+        line: '#ListenStream=[::]:111$'
+    - name: config rpcbind.socket ListenDatagram
+      lineinfile:
+        path: /lib/systemd/system/rpcbind.socket
+        regexp: '^(ListenDatagram=\[::\]:111$)'
+        line: '#ListenDatagram=[::]:111$'
+  when:
+    - ansible_distribution == 'CentOS'
+  tags: nfs
+
+- name: centos, restart service rpcbind.socket
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: rpcbind.socket
+  when:
+    - ansible_distribution == 'CentOS'
+  tags: nfs
+
 - name: ubuntu, install nfs server packages on master
   block:
     - name: ubuntu, install nfs server packages online
