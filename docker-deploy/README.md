@@ -51,3 +51,5 @@ http://机器IP:30813
 默认用户密码都是 admin / 123456
 
 具体的联邦建模、隐私求交、匿踪查询等功能的操作步骤请参考 [快速试用管理平台](https://docs.primihub.com/docs/quick-start-platform)
+
+#### 如果需要Loki来查看日志，配置方式请参考[这里](./loki/readme.md)
