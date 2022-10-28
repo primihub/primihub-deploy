@@ -65,7 +65,7 @@ if [ $? -eq 0 ];
 then
     echo "docker-compose installed"
 else
-    curl -L "https://github.com/docker/compose/releases/download/v2.2.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
+    curl -L "https://github.com/docker/compose/releases/download/v2.6.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
     if [ $? -eq 0 ];
     then
         chmod +x /usr/bin/docker-compose
