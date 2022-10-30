@@ -6,6 +6,8 @@ services:
     restart: always
     env_file:
       - ./data/env/mysql.env
+    environment:
+    - TZ=Asia/Shanghai
     volumes:
       - ./data/mysql:/var/lib/mysql
       - ./data/initsql/:/docker-entrypoint-initdb.d/
@@ -69,6 +71,8 @@ services:
     volumes:
       - ./data/log/:/home/nacos/logs
       #- ./nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties
+    environment:
+    - TZ=Asia/Shanghai
     ports:
       - "8848:8848"
       - "9848:9848"
@@ -89,6 +93,8 @@ services:
       - "java -jar -Dfile.encoding=UTF-8 /applications/fusion.jar --spring.profiles.active=dc --server.port=8080"
     # ports:
     #   - "8080:8080"
+    environment:
+    - TZ=Asia/Shanghai
     depends_on:
       - gateway1
     networks:
@@ -105,6 +111,8 @@ services:
       - "/bin/sh"
       - "-c"
       - "java -jar -Dfile.encoding=UTF-8 /applications/application.jar --spring.profiles.active=dc1"
+    environment:
+    - TZ=Asia/Shanghai
     depends_on:
       - rabbitmq1
     networks:
@@ -121,6 +129,8 @@ services:
       - "/bin/sh"
       - "-c"
       - "java -jar -Dfile.encoding=UTF-8 /applications/application.jar --spring.profiles.active=dc2"
+    environment:
+    - TZ=Asia/Shanghai
     depends_on:
       - rabbitmq2
     networks:
@@ -137,6 +147,8 @@ services:
       - "/bin/sh"
       - "-c"
       - "java -jar -Dfile.encoding=UTF-8 /applications/application.jar --spring.profiles.active=dc3"
+    environment:
+    - TZ=Asia/Shanghai
     depends_on:
       - rabbitmq3
     networks:
@@ -151,6 +163,8 @@ services:
       - "/bin/sh"
       - "-c"
       - "java -jar -Dfile.encoding=UTF-8 /applications/gateway.jar --spring.profiles.active=dc1 --server.port=8080"
+    environment:
+    - TZ=Asia/Shanghai
     depends_on:
       - application1
     networks:
@@ -165,6 +179,8 @@ services:
       - "/bin/sh"
       - "-c"
       - "java -jar -Dfile.encoding=UTF-8 /applications/gateway.jar --spring.profiles.active=dc2 --server.port=8080"
+    environment:
+    - TZ=Asia/Shanghai
     depends_on:
       - application2
     networks:
@@ -179,6 +195,8 @@ services:
       - "/bin/sh"
       - "-c"
       - "java -jar -Dfile.encoding=UTF-8 /applications/gateway.jar --spring.profiles.active=dc3 --server.port=8080"
+    environment:
+    - TZ=Asia/Shanghai
     depends_on:
       - application3
     networks:
@@ -246,6 +264,8 @@ services:
       - "/bin/bash"
       - "-c"
       - "./primihub-node --service_port=50050  --node_id=node0 --config=/app/config/primihub_node0.yaml"
+    environment:
+    - TZ=Asia/Shanghai
     depends_on:
       - simple-bootstrap-node
     networks:
@@ -269,6 +289,8 @@ services:
       - "/bin/bash"
       - "-c"
       - "./primihub-node --service_port=50051 --node_id=node1 --config=/app/config/primihub_node1.yaml"
+    environment:
+    - TZ=Asia/Shanghai
     depends_on:
       - simple-bootstrap-node
     networks:
@@ -292,6 +314,8 @@ services:
       - "/bin/bash"
       - "-c"
       - "./primihub-node --service_port=50052 --node_id=node2 --config=/app/config/primihub_node2.yaml"
+    environment:
+    - TZ=Asia/Shanghai
     depends_on:
       - simple-bootstrap-node
     networks:
