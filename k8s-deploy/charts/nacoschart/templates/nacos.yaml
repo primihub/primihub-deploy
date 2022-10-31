@@ -24,7 +24,7 @@ spec:
           command: ['sh', '-c', 'until telnet mysql 3306; do echo waiting for mysql; sleep 1; done;']
       containers:
         - name: nacos
-          image: 'nacos/nacos-server:v2.0.4'
+          image: 'registry.cn-beijing.aliyuncs.com/primihub/nacos-server:v2.0.4'
           ports:
             - name: tcp1
               containerPort: 8848

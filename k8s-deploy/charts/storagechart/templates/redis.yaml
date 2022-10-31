@@ -28,7 +28,7 @@ spec:
             defaultMode: 420
       containers:
         - name: redis
-          image: 'redis:5'
+          image: 'registry.cn-beijing.aliyuncs.com/primihub/redis:7'
           command:
             - redis-server
           args:

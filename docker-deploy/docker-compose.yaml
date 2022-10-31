@@ -1,7 +1,7 @@
 version: '3'
 services:
   mysql:
-    image: nacos/nacos-mysql:5.7
+    image: $MYSQL_IMAGE
     container_name: mysql
     restart: always
     env_file:
@@ -9,6 +9,7 @@ services:
     environment:
     - TZ=Asia/Shanghai
     volumes:
+      - ./config/my.cnf:/etc/my.cnf
       - ./data/mysql:/var/lib/mysql
       - ./data/initsql/:/docker-entrypoint-initdb.d/
     ports:
@@ -18,7 +19,7 @@ services:
         ipv4_address: 172.28.1.14
 
   redis:
-    image: redis:7
+    image: $REDIS_IMAGE
     container_name: redis
     restart: always
     volumes:
@@ -33,7 +34,7 @@ services:
         ipv4_address: 172.28.1.15
 
   rabbitmq1:
-    image: rabbitmq:3.6.15-management
+    image: $RABBITMQ_IMAGE
     container_name: rabbitmq1
     restart: always
     depends_on:
@@ -43,7 +44,7 @@ services:
         ipv4_address: 172.28.1.16
 
   rabbitmq2:
-    image: rabbitmq:3.6.15-management
+    image: $RABBITMQ_IMAGE
     container_name: rabbitmq2
     restart: always
     depends_on:
@@ -53,7 +54,7 @@ services:
         ipv4_address: 172.28.1.17
 
   rabbitmq3:
-    image: rabbitmq:3.6.15-management
+    image: $RABBITMQ_IMAGE
     container_name: rabbitmq3
     restart: always
     depends_on:
@@ -63,7 +64,7 @@ services:
         ipv4_address: 172.28.1.18
   
   nacos:
-    image: nacos/nacos-server:v2.0.4
+    image: $NACOS_IMAGE
     container_name: nacos-server
     restart: always
     env_file:
@@ -205,7 +206,7 @@ services:
 
   nginx1:
     image: $PRIMIHUB_WEB_MANAGE
-    container_name: primihub-web1
+    container_name: manage-web1
     restart: always
     volumes:
       - "./config/default1.conf:/etc/nginx/conf.d/default.conf"
@@ -220,7 +221,7 @@ services:
 
   nginx2:
     image: $PRIMIHUB_WEB_MANAGE
-    container_name: primihub-web2
+    container_name: manage-web2
     restart: always
     volumes:
       - "./config/default2.conf:/etc/nginx/conf.d/default.conf"
@@ -235,7 +236,7 @@ services:
 
   nginx3:
     image: $PRIMIHUB_WEB_MANAGE
-    container_name: primihub-web3
+    container_name: manage-web3
     restart: always
     volumes:
       - "./config/default3.conf:/etc/nginx/conf.d/default.conf"
