@@ -40,7 +40,7 @@ spec:
         #     path: $NFS_PATH/mysql
       containers:
         - name: mysql
-          image: 'registry.cn-beijing.aliyuncs.com/primihub/mysql:5.7'
+          image: {{ $.Values.mysql.image }}
           ports:
             - name: tcp
               containerPort: 3306

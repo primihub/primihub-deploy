@@ -1,17 +1,29 @@
 primihub: 
-  image: registry.hub.docker.com/primihub/primihub-node:1.4.5
+  image: registry.hub.docker.com/primihub/primihub-node:1.5.0
 
 bootstrap:
   image: registry.hub.docker.com/primihub/simple-bootstrap-node:latest
 
 platform:
-  image: registry.hub.docker.com/primihub/primihub-web:1.4.5
+  image: registry.hub.docker.com/primihub/primihub-web:1.5.0
 
 gateway:
-  image: registry.hub.docker.com/primihub/primihub-platform:1.4.5
+  image: registry.hub.docker.com/primihub/primihub-platform:1.5.0
 
 fusion:
-  image: registry.hub.docker.com/primihub/primihub-fusion:1.4.5
+  image: registry.hub.docker.com/primihub/primihub-fusion:1.5.0
 
 application:
-  image: registry.hub.docker.com/primihub/primihub-platform:1.4.5
+  image: registry.hub.docker.com/primihub/primihub-platform:1.5.0
+
+mysql:
+  image: registry.cn-beijing.aliyuncs.com/primihub/mysql:5.7
+
+redis:
+  image: registry.cn-beijing.aliyuncs.com/primihub/redis:7
+
+nacos:
+  image: registry.cn-beijing.aliyuncs.com/primihub/nacos-server:v2.0.4
+
+rabbitmq:
+  image: registry.cn-beijing.aliyuncs.com/primihub/rabbitmq:3.6.15-management

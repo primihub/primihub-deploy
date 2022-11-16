@@ -28,7 +28,7 @@ spec:
             defaultMode: 420
       containers:
         - name: redis
-          image: 'registry.cn-beijing.aliyuncs.com/primihub/redis:7'
+          image: {{ $.Values.redis.image }}
           command:
             - redis-server
           args:
