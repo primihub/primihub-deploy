@@ -3,11 +3,17 @@ version: 1.0
 node: "node1"
 location: "YOUR_HOST_IP"
 grpc_port: 50050
+use_tls: 0
 
 redis_meta_service:
   redis_addr: "REDIS_HOST_IP:6379"
   use_redis: True
   redis_password: "primihub"
+
+certificate:
+  root_ca: "/tmp/cert/ca.crt"
+  key: "/tmp/cert/node1.key"
+  cert: "/tmp/cert/node1.crt"
 
 datasets:
   # ABY3 LR test case datasets

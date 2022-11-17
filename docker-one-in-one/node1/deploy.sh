@@ -88,14 +88,14 @@ echo "-----------------------------------"
 echo "请确认第一台主机IP是否为：" $1
 
 
-sed -i "s/YOUR_HOST_IP/$YOUR_HOST_IP/g" config/weiyan_node1.yaml
+sed -i "s/YOUR_HOST_IP/$YOUR_HOST_IP/g" config/node1.yaml
 
 if [ $? -eq 0 ];
 then
     echo "修改 node 配置文件成功"
 fi
 
-sed -i "s/REDIS_HOST_IP/$1/g" config/weiyan_node1.yaml
+sed -i "s/REDIS_HOST_IP/$1/g" config/node1.yaml
 
 if [ $? -eq 0 ];
 then

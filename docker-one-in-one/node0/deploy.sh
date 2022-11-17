@@ -81,14 +81,14 @@ docker tag registry.cn-beijing.aliyuncs.com/primihub/mysql:5.7 mysql:5.7
 YOUR_HOST_IP=`hostname -I | awk '{print $1}'`
 echo "请确认你的主机IP是否为：" $YOUR_HOST_IP
 
-sed -i "s/YOUR_HOST_IP/$YOUR_HOST_IP/g" config/weiyan_node0.yaml
+sed -i "s/YOUR_HOST_IP/$YOUR_HOST_IP/g" config/node0.yaml
 
 if [ $? -eq 0 ];
 then
     echo "修改 node 配置文件成功"
 fi
 
-sed -i "s/REDIS_HOST_IP/$YOUR_HOST_IP/g" config/weiyan_node0.yaml
+sed -i "s/REDIS_HOST_IP/$YOUR_HOST_IP/g" config/node0.yaml
 
 if [ $? -eq 0 ];
 then
