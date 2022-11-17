@@ -8,7 +8,7 @@
 docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
 ```
 
-然后配置手机所有docker容器的日志，一定主要将下面的 `YOUR_IP` 替换成你机器的内网IP
+然后配置收集所有docker容器的日志，一定主要将下面的 `YOUR_IP` 替换成你机器的内网IP
 ```shell
 # vim /etc/docker/daemon.json  添加以下内容
 {
