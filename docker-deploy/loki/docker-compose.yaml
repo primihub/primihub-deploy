@@ -6,24 +6,38 @@ services:
     container_name: loki
     restart: always
     environment:
-    - TZ=Asia/Shanghai
-    - LANG=zh_CN.UTF-8
+      - TZ=Asia/Shanghai
+      - LANG=zh_CN.UTF-8
     ports:
-    - 3100:3100
+      - 3100:3100
     networks:
-    - loki
+      - loki
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - loki
 
   grafana:
     image: grafana/grafana:master
     container_name: grafana
     restart: always
     environment:
-    - TZ=Asia/Shanghai
-    - LANG=zh_CN.UTF-8
+      - TZ=Asia/Shanghai
+      - LANG=zh_CN.UTF-8
     ports:
-    - 3000:3000
+      - 3000:3000
     networks:
-    - loki
+      - loki
 
 networks:
   loki:
