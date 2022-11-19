@@ -46,3 +46,17 @@ docker-compose up -d
 5. 最后打开Dashboards，效果如下
 
 ![grafana](./images.png)
+
+
+#### 添加被监控主机
+
+```
+docker run -d -p 9100:9100 \
+  -v "/proc:/host/proc:ro" \
+  -v "/sys:/host/sys:ro" \
+  -v "/:/rootfs:ro" \
+  --net="host" \
+  --restart=always \
+  --name node-exporter \
+  prom/node-exporter
+```
