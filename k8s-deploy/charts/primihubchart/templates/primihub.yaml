@@ -87,6 +87,19 @@ spec:
             - name: primihub-pvc
               mountPath: /data
           imagePullPolicy: IfNotPresent
+          lifecycle:
+            postStart:
+              exec:
+                command: 
+                - /bin/bash
+                - -c
+                - sleep 5 && echo "${POD_IP}  primihubnode"  >> /etc/hosts
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
         - name: node1
           image: {{ $.Values.primihub.image }}
           command:
@@ -103,6 +116,19 @@ spec:
             - name: primihub-pvc
               mountPath: /data
           imagePullPolicy: IfNotPresent
+          lifecycle:
+            postStart:
+              exec:
+                command: 
+                - /bin/bash
+                - -c
+                - sleep 5 && echo "${POD_IP}  primihubnode"  >> /etc/hosts
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
         - name: node2
           image: {{ $.Values.primihub.image }}
           command:
@@ -119,6 +145,20 @@ spec:
             - name: primihub-pvc
               mountPath: /data
           imagePullPolicy: IfNotPresent
+          lifecycle:
+            postStart:
+              exec:
+                command: 
+                - /bin/bash
+                - -c
+                - sleep 5 && echo "${POD_IP}  primihubnode"  >> /etc/hosts
+                # - while true; do if [[ `ps -ef|grep node|grep -v color|wc -l` -eq 1 ]];then echo "${POD_IP}  primihubnode"  >> /etc/hosts ; break; else sleep 1; echo "wait"; fi; done
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
