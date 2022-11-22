@@ -259,7 +259,7 @@ services:
     #   - "10120:12120"
     #   - "10121:12121"
     volumes:
-    #  - ./config:/app/config
+      - ./config:/app/config
       - ./data:/data
     entrypoint:
       - "/bin/bash"
@@ -284,7 +284,7 @@ services:
     #   - "11120:12120"
     #   - "11121:12121"
     volumes:
-    #  - ./config:/app/config
+      - ./config:/app/config
       - ./data:/data
     entrypoint:
       - "/bin/bash"
@@ -309,7 +309,7 @@ services:
     #   - "12120:12120"
     #   - "12121:12121"
     volumes:
-    #  - ./config:/app/config
+      - ./config:/app/config
       - ./data:/data
     entrypoint:
       - "/bin/bash"
