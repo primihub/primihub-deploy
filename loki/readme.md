@@ -48,7 +48,7 @@ docker-compose up -d
 ![grafana](./images.png)
 
 
-#### 添加被监控主机
+#### 添加被监控主机，在需要监控的主机上执行以前命令，修改prometheus.yml配置中的IP地址
 
 ```
 docker run -d -p 9100:9100 \
