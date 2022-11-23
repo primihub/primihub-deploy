@@ -10,8 +10,8 @@ services:
       - ./config/my.cnf:/etc/my.cnf
       - ./data/mysql:/var/lib/mysql
       - ./data/initsql/:/docker-entrypoint-initdb.d/
-    ports:
-      - "3306:3306"
+    # ports:
+    #   - "3306:3306"
     networks:
       weiyan_net:
 
