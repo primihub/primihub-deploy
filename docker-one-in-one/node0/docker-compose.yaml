@@ -123,7 +123,7 @@ services:
       - "10120:12120"
       - "10121:12121"
     volumes:
-      - ./config:/app/config
+      - ./config/node0.yaml:/app/config/node0.yaml
       - ./data:/data
     entrypoint:
       - "/bin/bash"
