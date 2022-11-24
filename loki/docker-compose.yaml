@@ -8,8 +8,10 @@ services:
     environment:
       - TZ=Asia/Shanghai
       - LANG=zh_CN.UTF-8
+    volumes:
+      - ./data:/data
     ports:
-      - 3100:3100
+      - 31000:3100
     networks:
       - loki
 
@@ -35,7 +37,7 @@ services:
       - TZ=Asia/Shanghai
       - LANG=zh_CN.UTF-8
     ports:
-      - 3000:3000
+      - 30000:3000
     networks:
       - loki
 
