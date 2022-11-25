@@ -13,7 +13,7 @@ services:
     # ports:
     #   - "3306:3306"
     networks:
-      weiyan_net:
+      primihub_net:
 
   redis:
     image: $REDIS_IMAGE
@@ -27,7 +27,7 @@ services:
     ports:
       - "6379:6379"
     networks:
-      weiyan_net:
+      primihub_net:
 
   rabbitmq:
     image: $RABBITMQ_IMAGE
@@ -36,7 +36,7 @@ services:
     depends_on:
       - redis
     networks:
-      weiyan_net:
+      primihub_net:
   
   nacos:
     image: $NACOS_IMAGE
@@ -53,7 +53,7 @@ services:
     depends_on:
       - node
     networks:
-      weiyan_net:
+      primihub_net:
 
   fusion:
     image: $FUSION
@@ -68,7 +68,7 @@ services:
     depends_on:
       - gateway
     networks:
-      weiyan_net:
+      primihub_net:
   
   application:
     image: $PLATFORM
@@ -83,7 +83,7 @@ services:
     depends_on:
       - rabbitmq
     networks:
-      weiyan_net:
+      primihub_net:
 
   gateway:
     image: $PLATFORM
@@ -96,7 +96,7 @@ services:
     depends_on:
       - application
     networks:
-      weiyan_net:
+      primihub_net:
 
   nginx:
     image: $WEB_MANAGE
@@ -110,7 +110,7 @@ services:
     depends_on:
       - gateway
     networks:
-      weiyan_net:
+      primihub_net:
 
   node:
     network_mode: "host"
@@ -133,5 +133,5 @@ services:
       - redis
 
 networks:
-  weiyan_net:
+  primihub_net:
     driver: bridge
