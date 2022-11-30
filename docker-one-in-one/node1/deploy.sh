@@ -68,15 +68,6 @@ ubuntu(){
 #     docker pull $i
 # done
 
-# docker tag registry.cn-beijing.aliyuncs.com/primihub/primihub-fusion:weiyan3.0 fusion:weiyan3.0
-# docker tag registry.cn-beijing.aliyuncs.com/primihub/primihub-platform:weiyan3.0 platform:weiyan3.0
-# docker tag registry.cn-beijing.aliyuncs.com/primihub/primihub-web:weiyan3.0 web:weiyan3.0
-# docker tag registry.cn-beijing.aliyuncs.com/primihub/primihub-node:weiyan3.0 node:weiyan3.0
-# docker tag registry.cn-beijing.aliyuncs.com/primihub/nacos-server:v2.0.4 nacos-server:v2.0.4
-# docker tag registry.cn-beijing.aliyuncs.com/primihub/rabbitmq:3.6.15-management rabbitmq:3.6.15-management
-# docker tag registry.cn-beijing.aliyuncs.com/primihub/redis:7 redis:7
-# docker tag registry.cn-beijing.aliyuncs.com/primihub/mysql:5.7 mysql:5.7
-
 if [ $# != 1 ] ; then
 echo "请传递参数 REDIS_HOST_IP ，即第一个节点的IP地址"
 exit 1;

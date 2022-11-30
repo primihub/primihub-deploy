@@ -11,7 +11,7 @@ services:
     volumes:
       - ./data:/data
     ports:
-      - 31000:3100
+      - 3100:3100
     networks:
       - loki
 

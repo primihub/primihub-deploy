@@ -79,6 +79,9 @@ spec:
             - '--node_id=node0'
             - '--service_port=50050'
             - '--config=/data/primihub_node0.yaml'
+          env:
+            - name: TZ
+              value: Asia/Shanghai
           ports:
             - name: node0
               containerPort: 50050
@@ -108,6 +111,9 @@ spec:
             - '--node_id=node1'
             - '--service_port=50051'
             - '--config=/data/primihub_node1.yaml'
+          env:
+            - name: TZ
+              value: Asia/Shanghai
           ports:
             - name: node1
               containerPort: 50051
@@ -137,6 +143,9 @@ spec:
             - '--node_id=node2'
             - '--service_port=50052'
             - '--config=/data/primihub_node2.yaml'
+          env:
+            - name: TZ
+              value: Asia/Shanghai
           ports:
             - name: node2
               containerPort: 50052
