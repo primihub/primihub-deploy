@@ -6,6 +6,8 @@ services:
     restart: always
     env_file:
       - ./data/env/mysql.env
+    environment:
+      - TZ=Asia/Shanghai
     volumes:
       - ./config/my.cnf:/etc/my.cnf
       - ./data/mysql:/var/lib/mysql
@@ -59,6 +61,8 @@ services:
     image: $FUSION
     container_name: fusion
     restart: always
+    environment:
+      - TZ=Asia/Shanghai
     entrypoint: 
       - "/bin/sh"
       - "-c"
@@ -76,6 +80,8 @@ services:
     restart: always
     volumes:
       - "./data:/data"
+    environment:
+      - TZ=Asia/Shanghai
     entrypoint: 
       - "/bin/sh"
       - "-c"
@@ -89,6 +95,8 @@ services:
     image: $PLATFORM
     container_name: gateway
     restart: always
+    environment:
+      - TZ=Asia/Shanghai
     entrypoint: 
       - "/bin/sh"
       - "-c"
@@ -125,6 +133,8 @@ services:
     volumes:
       - ./config/node0.yaml:/app/config/node0.yaml
       - ./data:/data
+    environment:
+      - TZ=Asia/Shanghai
     entrypoint:
       - "/bin/bash"
       - "-c"

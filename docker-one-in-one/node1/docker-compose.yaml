@@ -6,6 +6,8 @@ services:
     restart: always
     env_file:
       - ./data/env/mysql.env
+    environment:
+      - TZ=Asia/Shanghai
     volumes:
       - ./config/my.cnf:/etc/my.cnf
       - ./data/mysql:/var/lib/mysql
@@ -61,6 +63,8 @@ services:
     restart: always
     volumes:
       - "./data:/data"
+    environment:
+      - TZ=Asia/Shanghai
     entrypoint: 
       - "/bin/sh"
       - "-c"
@@ -74,6 +78,8 @@ services:
     image: $PLATFORM
     container_name: gateway
     restart: always
+    environment:
+      - TZ=Asia/Shanghai
     entrypoint: 
       - "/bin/sh"
       - "-c"
@@ -110,6 +116,8 @@ services:
     volumes:
       - ./config/node1.yaml:/app/config/node1.yaml
       - ./data:/data
+    environment:
+      - TZ=Asia/Shanghai
     entrypoint:
       - "/bin/bash"
       - "-c"
@@ -118,5 +126,5 @@ services:
       - redis
 
 networks:
-  pri mi hu b:
+  primihub_net:
     driver: bridge
