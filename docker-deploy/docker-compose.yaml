@@ -337,6 +337,21 @@ services:
       primihub_net:
         ipv4_address: 172.28.1.13
 
+  loki:
+    image: grafana/loki
+    container_name: loki
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+      - LANG=zh_CN.UTF-8
+    volumes:
+      - ./data:/data
+    ports:
+      - 3100:3100
+    networks:
+      primihub_net:
+        ipv4_address: 172.28.1.30
+
 networks:
   primihub_net:
     driver: bridge

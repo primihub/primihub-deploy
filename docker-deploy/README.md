@@ -8,9 +8,6 @@
 * 系统支持`CentOS 7`和`Ubuntu 18.04+` (推荐使用`Ubuntu`)
 * `docker-compose` 版本大于2.2
 
-#### 如果需要开启在页面上显示日志的功能，需要在启动前前安安装loki
-安装步骤请参考[这里](./loki/readme.md)
-
 #### 执行deploy.sh脚本，完成部署
 ```bash
 bash deploy.sh
@@ -42,6 +39,31 @@ rabbitmq3           "docker-entrypoint.s…"   rabbitmq3               running  
 redis               "docker-entrypoint.s…"   redis                   running             6379/tcp
 ```
 
+#### 如果需要开启在页面上显示日志的功能，需要在启动前前安安装loki
+使用 `Loki` 来收集容器日志时，需要先安装 `loki` 的 `docker plugin`
+
+```shell
+docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
+```
+
+然后配置收集所有docker容器的日志
+```shell
+# vim /etc/docker/daemon.json  添加以下内容
+{
+  "log-driver": "loki",
+  "log-opts": {
+    "loki-url": "http://172.28.1.30:3100/loki/api/v1/push",
+    "max-size": "50m",
+    "max-file": "10"
+  }
+}
+```
+
+配置好之后重启docker服务
+```
+systemctl restart docker
+```
+
 #### 说明
 
 docker-compose.yaml 文件中的nginx1、nginx2、nginx3 模拟 3 个机构的管理后台，启动完成后在浏览器分别访问
@@ -55,5 +77,3 @@ http://机器IP:30813
 默认用户密码都是 admin / 123456
 
 具体的联邦建模、隐私求交、匿踪查询等功能的操作步骤请参考 [快速试用管理平台](https://docs.primihub.com/docs/quick-start-platform)
-
-#### 如果需要Loki来查看日志，配置方式请参考[这里](./loki/readme.md)
