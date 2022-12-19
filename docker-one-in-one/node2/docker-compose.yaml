@@ -114,7 +114,7 @@ services:
       - "10120:12120"
       - "10121:12121"
     volumes:
-      - ./config/node2.yaml:/app//node2.yaml
+      - ./config/node2.yaml:/app/config/node2.yaml
       - ./data:/data
     environment:
       - TZ=Asia/Shanghai
