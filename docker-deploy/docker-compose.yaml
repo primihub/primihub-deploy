@@ -27,8 +27,6 @@ services:
       - "./config/redis.conf:/usr/local/etc/redis/redis.conf"
     command:
       "redis-server /usr/local/etc/redis/redis.conf"
-    depends_on:
-      - nacos
     networks:
       primihub_net:
         ipv4_address: 172.28.1.15
@@ -268,7 +266,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - simple-bootstrap-node
+      - redis
     networks:
       primihub_net:
         ipv4_address: 172.28.1.10
@@ -293,7 +291,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - simple-bootstrap-node
+      - redis
     networks:
       primihub_net:
         ipv4_address: 172.28.1.11
@@ -318,27 +316,27 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - simple-bootstrap-node
+      - redis
     networks:
       primihub_net:
         ipv4_address: 172.28.1.12
 
-  simple-bootstrap-node:
-    image: primihub/simple-bootstrap-node:1.0
-    container_name: bootstrap-node
-    restart: "always"
-    # ports:
-    #   - "4001:4001"
-    entrypoint: 
-      - "/app/simple-bootstrap-node"
-    depends_on:
-      - mysql
-    networks:
-      primihub_net:
-        ipv4_address: 172.28.1.13
+  # simple-bootstrap-node:
+  #   image: primihub/simple-bootstrap-node:1.0
+  #   container_name: bootstrap-node
+  #   restart: "always"
+  #   # ports:
+  #   #   - "4001:4001"
+  #   entrypoint: 
+  #     - "/app/simple-bootstrap-node"
+  #   depends_on:
+  #     - mysql
+  #   networks:
+  #     primihub_net:
+  #       ipv4_address: 172.28.1.13
 
   loki:
-    image: grafana/loki
+    image: $LOKI_IMAGE
     container_name: loki
     restart: always
     environment:
