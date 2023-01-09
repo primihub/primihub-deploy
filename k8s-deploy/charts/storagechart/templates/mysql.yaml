@@ -40,7 +40,7 @@ spec:
         #     path: $NFS_PATH/mysql
       containers:
         - name: mysql
-          image: 'mysql:5.7'
+          image: {{ $.Values.mysql.image }}
           ports:
             - name: tcp
               containerPort: 3306

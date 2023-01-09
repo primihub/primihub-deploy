@@ -34,6 +34,7 @@ spec:
             - '-Dfile.encoding=UTF-8'
             - /applications/application.jar
             - '--server.port=8080'
+            - '--spring.profiles.active=demo{{ $index }}'
             - '--spring.rabbitmq.host=rabbitmq{{ $index }}'
             - '--spring.cloud.nacos.discovery.server-addr=nacos:8848'
             - '--nacos.config.server-addr=nacos:8848'

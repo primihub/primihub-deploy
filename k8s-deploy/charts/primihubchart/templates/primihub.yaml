@@ -79,6 +79,9 @@ spec:
             - '--node_id=node0'
             - '--service_port=50050'
             - '--config=/data/primihub_node0.yaml'
+          env:
+            - name: TZ
+              value: Asia/Shanghai
           ports:
             - name: node0
               containerPort: 50050
@@ -87,6 +90,19 @@ spec:
             - name: primihub-pvc
               mountPath: /data
           imagePullPolicy: IfNotPresent
+          lifecycle:
+            postStart:
+              exec:
+                command: 
+                - /bin/bash
+                - -c
+                - sleep 5 && echo "${POD_IP}  primihubnode"  >> /etc/hosts
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
         - name: node1
           image: {{ $.Values.primihub.image }}
           command:
@@ -95,6 +111,9 @@ spec:
             - '--node_id=node1'
             - '--service_port=50051'
             - '--config=/data/primihub_node1.yaml'
+          env:
+            - name: TZ
+              value: Asia/Shanghai
           ports:
             - name: node1
               containerPort: 50051
@@ -103,6 +122,19 @@ spec:
             - name: primihub-pvc
               mountPath: /data
           imagePullPolicy: IfNotPresent
+          lifecycle:
+            postStart:
+              exec:
+                command: 
+                - /bin/bash
+                - -c
+                - sleep 5 && echo "${POD_IP}  primihubnode"  >> /etc/hosts
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
         - name: node2
           image: {{ $.Values.primihub.image }}
           command:
@@ -111,6 +143,9 @@ spec:
             - '--node_id=node2'
             - '--service_port=50052'
             - '--config=/data/primihub_node2.yaml'
+          env:
+            - name: TZ
+              value: Asia/Shanghai
           ports:
             - name: node2
               containerPort: 50052
@@ -119,6 +154,20 @@ spec:
             - name: primihub-pvc
               mountPath: /data
           imagePullPolicy: IfNotPresent
+          lifecycle:
+            postStart:
+              exec:
+                command: 
+                - /bin/bash
+                - -c
+                - sleep 5 && echo "${POD_IP}  primihubnode"  >> /etc/hosts
+                # - while true; do if [[ `ps -ef|grep node|grep -v color|wc -l` -eq 1 ]];then echo "${POD_IP}  primihubnode"  >> /etc/hosts ; break; else sleep 1; echo "wait"; fi; done
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst

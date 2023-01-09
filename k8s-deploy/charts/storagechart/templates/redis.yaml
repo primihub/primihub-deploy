@@ -28,7 +28,7 @@ spec:
             defaultMode: 420
       containers:
         - name: redis
-          image: 'redis:5'
+          image: {{ $.Values.redis.image }}
           command:
             - redis-server
           args:
