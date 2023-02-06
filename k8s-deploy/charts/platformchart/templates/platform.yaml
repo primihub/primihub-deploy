@@ -25,17 +25,22 @@ spec:
               - key: default.conf
                 path: default.conf
             defaultMode: 420
+        - name: platform-pvc-{{ $index }}
+          persistentVolumeClaim:
+            claimName: primihub-volume
       containers:
         - name: platform{{ $index }}
           image: {{ $.Values.platform.image }}
           ports:
-            - name: nginx1
+            - name: nginx
               containerPort: 80
               protocol: TCP
           volumeMounts:
             - name: volume-nginx{{ $index }}-conf
               mountPath: /etc/nginx/conf.d/default.conf
               subPath: default.conf
+            - name: platform-pvc-{{ $index }}
+              mountPath: /data
           imagePullPolicy: IfNotPresent
       restartPolicy: Always
   strategy:
