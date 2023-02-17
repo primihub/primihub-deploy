@@ -40,13 +40,23 @@ ubuntu(){
 
 if [ $(uname -s) == "Linux" ];
 then
-  grep "Ubuntu" /etc/issue >> /dev/null
-  if [ $? -eq 0 ];
-  then
-      ubuntu
-  else
-      centos
-  fi
+#   grep "Ubuntu" /etc/issue >> /dev/null
+#   if [ $? -eq 0 ];
+#   then
+#       ubuntu
+#   else
+#       centos
+#   fi
+    which docker > /dev/null
+    if [ $? -eq 0 ];
+    then
+        echo "docker installed"
+    else
+        curl -s https://primihub.oss-cn-beijing.aliyuncs.com/dev/docker20.10.tar.gz | tar zxf -
+        cd docker20.10
+        bash install_docker.sh
+        echo "docker install succeed !"
+    fi
 elif [ $(uname -s) == "Darwin" ]; then
   which docker-compose > /dev/null
   if [ $? != 0 ];
@@ -60,21 +70,21 @@ else
   exit 1
 fi
 
-docker-compose version
-if [ $? -eq 0 ];
-then
-    echo "docker-compose installed"
-else
-    curl -L "https://github.com/docker/compose/releases/download/v2.6.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
-    if [ $? -eq 0 ];
-    then
-        chmod +x /usr/bin/docker-compose
-        echo "docker-compose install succeed !"
-    else
-        echo "Download docker-compose failed!"
-        exit
-    fi
-fi
+# docker-compose version
+# if [ $? -eq 0 ];
+# then
+#     echo "docker-compose installed"
+# else
+#     curl -L "https://github.com/docker/compose/releases/download/v2.6.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
+#     if [ $? -eq 0 ];
+#     then
+#         chmod +x /usr/bin/docker-compose
+#         echo "docker-compose install succeed !"
+#     else
+#         echo "Download docker-compose failed!"
+#         exit
+#     fi
+# fi
 
 # Pull all the necessary images to avoid pulling multiple times
 for i in `cat .env | cut -d '=' -f 2`
