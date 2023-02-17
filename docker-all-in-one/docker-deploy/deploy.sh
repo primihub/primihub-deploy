@@ -70,21 +70,22 @@ else
   exit 1
 fi
 
-# docker-compose version
-# if [ $? -eq 0 ];
-# then
-#     echo "docker-compose installed"
-# else
-#     curl -L "https://github.com/docker/compose/releases/download/v2.6.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
-#     if [ $? -eq 0 ];
-#     then
-#         chmod +x /usr/bin/docker-compose
-#         echo "docker-compose install succeed !"
-#     else
-#         echo "Download docker-compose failed!"
-#         exit
-#     fi
-# fi
+docker-compose version
+if [ $? -eq 0 ];
+then
+    echo "docker-compose installed"
+else
+    # curl -L "https://github.com/docker/compose/releases/download/v2.6.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
+    curl -L https://primihub.oss-cn-beijing.aliyuncs.com/dev/docker-compose-linux-x86_64 -o /usr/bin/docker-compose
+    if [ $? -eq 0 ];
+    then
+        chmod +x /usr/bin/docker-compose
+        echo "docker-compose install succeed !"
+    else
+        echo "Download docker-compose failed!"
+        exit
+    fi
+fi
 
 # Pull all the necessary images to avoid pulling multiple times
 for i in `cat .env | cut -d '=' -f 2`
