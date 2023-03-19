@@ -104,6 +104,7 @@ services:
       primihub_net:
 
   node:
+    shm_size: '6gb'
     network_mode: "host"
     image: $NODE
     container_name: node
@@ -111,8 +112,6 @@ services:
     ports:
       - "50050:50050"
       - "6666:6666"
-      - "10120:12120"
-      - "10121:12121"
     volumes:
       - ./config/node2.yaml:/app/config/node2.yaml
       - ./data:/data
