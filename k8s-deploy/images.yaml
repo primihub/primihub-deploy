@@ -1,20 +1,20 @@
 primihub: 
-  image: registry.cn-beijing.aliyuncs.com/primihub/primihub-node:1.6.4
+  image: primihub/primihub-node:1.6.5
 
 bootstrap:
-  image: registry.cn-beijing.aliyuncs.com/primihub/simple-bootstrap-node:latest
+  image: primihub/simple-bootstrap-node:latest
 
 platform:
-  image: registry.cn-beijing.aliyuncs.com/primihub/primihub-web:1.6.4
+  image: primihub/primihub-web:1.6.5
 
 gateway:
-  image: registry.cn-beijing.aliyuncs.com/primihub/primihub-platform:1.6.4
+  image: primihub/primihub-platform:1.6.5
 
 fusion:
-  image: registry.cn-beijing.aliyuncs.com/primihub/primihub-fusion:1.6.4
+  image: primihub/primihub-fusion:1.6.5
 
 application:
-  image: registry.cn-beijing.aliyuncs.com/primihub/primihub-platform:1.6.4
+  image: primihub/primihub-platform:1.6.5
 
 mysql:
   image: registry.cn-beijing.aliyuncs.com/primihub/mysql:5.7
