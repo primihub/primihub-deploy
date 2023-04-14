@@ -244,6 +244,8 @@ CREATE TABLE `fusion_organ` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `global_id` varchar(64) NOT NULL COMMENT '唯一id',
   `global_name` varchar(64) NOT NULL COMMENT '机构名称',
+  `public_key` varchar(1000) DEFAULT NULL COMMENT '机构公钥',
+  `private_key` varchar(1000) DEFAULT NULL COMMENT '机构私钥',
   `pin_code_md` varchar(64) NOT NULL COMMENT 'pin码md5',
   `gateway_address` varchar(255) NOT NULL COMMENT '网关地址',
   `register_time` datetime(3) NOT NULL COMMENT '注册时间',
