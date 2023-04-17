@@ -27,6 +27,8 @@ services:
       - "./config/redis.conf:/usr/local/etc/redis/redis.conf"
     command:
       "redis-server /usr/local/etc/redis/redis.conf"
+    depends_on:
+      - mysql
     networks:
       primihub_net:
         ipv4_address: 172.28.1.15
@@ -46,7 +48,7 @@ services:
     container_name: rabbitmq2
     restart: always
     depends_on:
-      - redis
+      - rabbitmq1
     networks:
       primihub_net:
         ipv4_address: 172.28.1.17
@@ -56,7 +58,7 @@ services:
     container_name: rabbitmq3
     restart: always
     depends_on:
-      - redis
+      - rabbitmq2
     networks:
       primihub_net:
         ipv4_address: 172.28.1.18
@@ -77,7 +79,7 @@ services:
       - "9848:9848"
       - "9555:9555"
     depends_on:
-      - node0
+      - node2
     networks:
       primihub_net:
         ipv4_address: 172.28.1.19
@@ -95,7 +97,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - gateway1
+      - nacos
     networks:
       primihub_net:
         ipv4_address: 172.28.1.20
@@ -113,7 +115,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - rabbitmq1
+      - fusion
     networks:
       primihub_net:
         ipv4_address: 172.28.1.21
@@ -131,7 +133,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - rabbitmq2
+      - fusion
     networks:
       primihub_net:
         ipv4_address: 172.28.1.22
@@ -149,7 +151,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - rabbitmq3
+      - fusion
     networks:
       primihub_net:
         ipv4_address: 172.28.1.23
@@ -265,7 +267,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - redis
+      - rabbitmq3
     networks:
       primihub_net:
         ipv4_address: 172.28.1.10
@@ -289,7 +291,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - redis
+      - node0
     networks:
       primihub_net:
         ipv4_address: 172.28.1.11
@@ -313,7 +315,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - redis
+      - node1
     networks:
       primihub_net:
         ipv4_address: 172.28.1.12

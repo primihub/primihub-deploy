@@ -19,21 +19,29 @@ datasets:
   # ABY3 LR test case datasets
   - description: "train_party_0"
     model: "csv"
-    source: "/tmp/train_party_0.csv" 
+    source: "/tmp/train_party_0.csv"
   - description: "test_party_0"
     model: "csv"
     source: "/tmp/test_party_0.csv"
   - description: "breast_0"
     model: "csv"
     source: "/tmp/FL/wisconsin.data"
-  
+
   # MNIST test case datasets
   - description: "test_party_0_self"
     model: "csv"
-    source: "/tmp/falcon/dataset/MNIST/input_0" 
+    source: "/tmp/falcon/dataset/MNIST/input_0"
   - description: "test_party_0_next"
     model: "csv"
-    source: "/tmp/falcon/dataset/MNIST/input_1" 
+    source: "/tmp/falcon/dataset/MNIST/input_1"
+
+  # FL homo lr test case datasets
+  - description: "homo_lr_data"
+    model: "csv"
+    source: "/tmp/FL/homo_lr/breast_cancer.csv"
+  - description: "train_homo_lr"
+    model: "csv"
+    source: "/tmp/FL/homo_lr/train_breast_cancer.csv"
 
 localkv: 
   model: "leveldb"
