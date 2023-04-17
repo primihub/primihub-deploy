@@ -3,7 +3,7 @@ version: 1.0
 node: "node0"
 location: "YOUR_HOST_IP"
 grpc_port: 50050
-use_tls: 0
+use_tls: false
 
 redis_meta_service:
   redis_addr: "REDIS_HOST_IP:6379"

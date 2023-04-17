@@ -87,7 +87,7 @@ services:
       - "-c"
       - "java -jar -Dfile.encoding=UTF-8 /applications/application.jar --spring.profiles.active=dc1 --spring.rabbitmq.host=rabbitmq"
     depends_on:
-      - rabbitmq
+      - nacos
     networks:
       primihub_net:
 
@@ -139,7 +139,7 @@ services:
       - "-c"
       - "./primihub-node --service_port=50050  --node_id=node0 --config=/app/config/node0.yaml"
     depends_on:
-      - redis
+      - rabbitmq
 
   loki:
     image: $LOKI_IMAGE
@@ -154,7 +154,7 @@ services:
       - 3100:3100
     networks:
       primihub_net:
-      
+
 networks:
   primihub_net:
     driver: bridge
