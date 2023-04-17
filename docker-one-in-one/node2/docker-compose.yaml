@@ -124,6 +124,20 @@ services:
     depends_on:
       - redis
 
+  loki:
+    image: $LOKI_IMAGE
+    container_name: loki
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+      - LANG=zh_CN.UTF-8
+    volumes:
+      - ./data:/data
+    ports:
+      - 3100:3100
+    networks:
+      primihub_net:
+      
 networks:
   primihub_net:
     driver: bridge
