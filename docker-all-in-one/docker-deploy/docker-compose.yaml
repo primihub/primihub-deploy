@@ -14,6 +14,11 @@ services:
       - ./data/initsql/:/docker-entrypoint-initdb.d/
     ports:
       - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
     networks:
       primihub_net:
         ipv4_address: 172.28.1.14
@@ -27,8 +32,6 @@ services:
       - "./config/redis.conf:/usr/local/etc/redis/redis.conf"
     command:
       "redis-server /usr/local/etc/redis/redis.conf"
-    depends_on:
-      - mysql
     networks:
       primihub_net:
         ipv4_address: 172.28.1.15
@@ -37,8 +40,6 @@ services:
     image: $RABBITMQ_IMAGE
     container_name: rabbitmq1
     restart: always
-    depends_on:
-      - redis
     networks:
       primihub_net:
         ipv4_address: 172.28.1.16
@@ -47,8 +48,6 @@ services:
     image: $RABBITMQ_IMAGE
     container_name: rabbitmq2
     restart: always
-    depends_on:
-      - rabbitmq1
     networks:
       primihub_net:
         ipv4_address: 172.28.1.17
@@ -57,8 +56,6 @@ services:
     image: $RABBITMQ_IMAGE
     container_name: rabbitmq3
     restart: always
-    depends_on:
-      - rabbitmq2
     networks:
       primihub_net:
         ipv4_address: 172.28.1.18
@@ -66,7 +63,7 @@ services:
   nacos:
     image: $NACOS_IMAGE
     container_name: nacos-server
-    restart: always
+    restart: on-failure
     env_file:
       - ./data/env/nacos-mysql.env
     volumes:
@@ -77,9 +74,15 @@ services:
     ports:
       - "8848:8848"
       - "9848:9848"
-      - "9555:9555"
+      # - "9555:9555"
     depends_on:
-      - node2
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail -s http://localhost:8848/nacos"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
     networks:
       primihub_net:
         ipv4_address: 172.28.1.19
@@ -96,8 +99,6 @@ services:
     #   - "8080:8080"
     environment:
       - TZ=Asia/Shanghai
-    depends_on:
-      - nacos
     networks:
       primihub_net:
         ipv4_address: 172.28.1.20
@@ -115,7 +116,13 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - fusion
+      nacos:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -O - -q http://localhost:8090/runFeign"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
     networks:
       primihub_net:
         ipv4_address: 172.28.1.21
@@ -133,7 +140,13 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - fusion
+      nacos:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -O - -q http://localhost:8090/runFeign"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
     networks:
       primihub_net:
         ipv4_address: 172.28.1.22
@@ -151,7 +164,13 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - fusion
+      nacos:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -O - -q http://localhost:8090/runFeign"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
     networks:
       primihub_net:
         ipv4_address: 172.28.1.23
@@ -167,7 +186,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - application1
+      - nacos
     networks:
       primihub_net:
         ipv4_address: 172.28.1.24
@@ -183,7 +202,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - application2
+      - nacos
     networks:
       primihub_net:
         ipv4_address: 172.28.1.25
@@ -199,7 +218,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - application3
+      - nacos
     networks:
       primihub_net:
         ipv4_address: 172.28.1.26
@@ -267,7 +286,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - rabbitmq3
+      - redis
     networks:
       primihub_net:
         ipv4_address: 172.28.1.10
@@ -291,7 +310,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - node0
+      - redis
     networks:
       primihub_net:
         ipv4_address: 172.28.1.11
@@ -315,7 +334,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - node1
+      - redis
     networks:
       primihub_net:
         ipv4_address: 172.28.1.12
