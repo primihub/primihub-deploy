@@ -35,30 +35,6 @@ services:
     networks:
       primihub_net:
         ipv4_address: 172.28.1.15
-
-  rabbitmq1:
-    image: $RABBITMQ_IMAGE
-    container_name: rabbitmq1
-    restart: always
-    networks:
-      primihub_net:
-        ipv4_address: 172.28.1.16
-
-  rabbitmq2:
-    image: $RABBITMQ_IMAGE
-    container_name: rabbitmq2
-    restart: always
-    networks:
-      primihub_net:
-        ipv4_address: 172.28.1.17
-
-  rabbitmq3:
-    image: $RABBITMQ_IMAGE
-    container_name: rabbitmq3
-    restart: always
-    networks:
-      primihub_net:
-        ipv4_address: 172.28.1.18
   
   nacos:
     image: $NACOS_IMAGE
@@ -83,6 +59,30 @@ services:
       interval: 10s
       timeout: 10s
       retries: 3
+    networks:
+      primihub_net:
+        ipv4_address: 172.28.1.16
+
+  rabbitmq1:
+    image: $RABBITMQ_IMAGE
+    container_name: rabbitmq1
+    restart: always
+    networks:
+      primihub_net:
+        ipv4_address: 172.28.1.17
+
+  rabbitmq2:
+    image: $RABBITMQ_IMAGE
+    container_name: rabbitmq2
+    restart: always
+    networks:
+      primihub_net:
+        ipv4_address: 172.28.1.18
+
+  rabbitmq3:
+    image: $RABBITMQ_IMAGE
+    container_name: rabbitmq3
+    restart: always
     networks:
       primihub_net:
         ipv4_address: 172.28.1.19
@@ -186,7 +186,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - nacos
+      - application1
     networks:
       primihub_net:
         ipv4_address: 172.28.1.24
@@ -202,7 +202,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - nacos
+      - application2
     networks:
       primihub_net:
         ipv4_address: 172.28.1.25
@@ -218,7 +218,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - nacos
+      - application3
     networks:
       primihub_net:
         ipv4_address: 172.28.1.26
@@ -275,7 +275,7 @@ services:
     restart: "always"
     ports:
       - "50050:50050"
-      - "6666:6666"
+      # - "6666:6666"
     volumes:
       - ./config/primihub_node0.yaml:/app/config/primihub_node0.yaml
       - ./data:/data
@@ -299,7 +299,7 @@ services:
     restart: "always"
     ports:
       - "50051:50051"
-      - "6667:6667"
+      # - "6667:6667"
     volumes:
       - ./config/primihub_node1.yaml:/app/config/primihub_node1.yaml
       - ./data:/data
@@ -323,7 +323,7 @@ services:
     restart: "always"
     ports:
       - "50052:50052"
-      - "6668:6668"
+      # - "6668:6668"
     volumes:
       - ./config/primihub_node2.yaml:/app/config/primihub_node2.yaml
       - ./data:/data
