@@ -14,6 +14,11 @@ services:
       - ./data/initsql/:/docker-entrypoint-initdb.d/
     # ports:
     #   - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
     networks:
       primihub_net:
 
@@ -35,8 +40,6 @@ services:
     image: $RABBITMQ_IMAGE
     container_name: rabbitmq
     restart: always
-    depends_on:
-      - redis
     networks:
       primihub_net:
   
@@ -53,7 +56,13 @@ services:
       # - "9848:9848"
       # - "9555:9555"
     depends_on:
-      - node
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail -s http://localhost:8848/nacos"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
     networks:
       primihub_net:
 
@@ -69,8 +78,6 @@ services:
       - "java -jar -Dfile.encoding=UTF-8 /applications/fusion.jar --spring.profiles.active=dc --server.port=8080 --spring.datasource.druid.url='jdbc:mysql://mysql:3306/fusion?characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL&allowMultiQueries=true&serverTimezone=Asia/Shanghai&useSSL=false'"
     ports:
       - "8080:8080"
-    depends_on:
-      - gateway
     networks:
       primihub_net:
   
@@ -87,7 +94,13 @@ services:
       - "-c"
       - "java -jar -Dfile.encoding=UTF-8 /applications/application.jar --spring.profiles.active=dc1 --spring.rabbitmq.host=rabbitmq"
     depends_on:
-      - nacos
+      nacos:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -O - -q http://localhost:8090/runFeign"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
     networks:
       primihub_net:
 
@@ -128,7 +141,7 @@ services:
     restart: "always"
     ports:
       - "50050:50050"
-      - "6666:6666"
+      # - "6666:6666"
     volumes:
       - ./config/node0.yaml:/app/config/node0.yaml
       - ./data:/data
@@ -139,7 +152,7 @@ services:
       - "-c"
       - "./primihub-node --service_port=50050  --node_id=node0 --config=/app/config/node0.yaml"
     depends_on:
-      - rabbitmq
+      - redis
 
   loki:
     image: $LOKI_IMAGE
