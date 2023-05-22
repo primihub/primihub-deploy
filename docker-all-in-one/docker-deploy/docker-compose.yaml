@@ -87,14 +87,61 @@ services:
       primihub_net:
         ipv4_address: 172.28.1.19
 
-  fusion:
+  fusion1:
     image: $PRIMIHUB_FUSION
-    container_name: fusion
+    container_name: fusion1
     restart: always
     entrypoint: 
       - "/bin/sh"
       - "-c"
-      - "java -jar -Dfile.encoding=UTF-8 /applications/fusion.jar --spring.profiles.active=dc --server.port=8080"
+      - | 
+       java -jar -Dfile.encoding=UTF-8 /applications/fusion.jar --server.port=8080 \
+       --spring.cloud.nacos.discovery.server-addr=nacos:8848 \
+       --spring.cloud.nacos.discovery.namespace=demo1 \
+       --spring.cloud.nacos.config.server-addr=nacos:8848 \
+       --spring.cloud.nacos.config.namespace=demo1
+    # ports:
+    #   - "8080:8080"
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      primihub_net:
+        ipv4_address: 172.28.1.20
+
+  fusion2:
+    image: $PRIMIHUB_FUSION
+    container_name: fusion2
+    restart: always
+    entrypoint: 
+      - "/bin/sh"
+      - "-c"
+      - | 
+       java -jar -Dfile.encoding=UTF-8 /applications/fusion.jar --server.port=8080 \
+       --spring.cloud.nacos.discovery.server-addr=nacos:8848 \
+       --spring.cloud.nacos.discovery.namespace=demo2 \
+       --spring.cloud.nacos.config.server-addr=nacos:8848 \
+       --spring.cloud.nacos.config.namespace=demo2
+    # ports:
+    #   - "8080:8080"
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      primihub_net:
+        ipv4_address: 172.28.1.20
+
+  fusion3:
+    image: $PRIMIHUB_FUSION
+    container_name: fusion3
+    restart: always
+    entrypoint: 
+      - "/bin/sh"
+      - "-c"
+      - | 
+       java -jar -Dfile.encoding=UTF-8 /applications/fusion.jar --server.port=8080 \
+       --spring.cloud.nacos.discovery.server-addr=nacos:8848 \
+       --spring.cloud.nacos.discovery.namespace=demo3 \
+       --spring.cloud.nacos.config.server-addr=nacos:8848 \
+       --spring.cloud.nacos.config.namespace=demo3
     # ports:
     #   - "8080:8080"
     environment:
@@ -112,7 +159,13 @@ services:
     entrypoint: 
       - "/bin/sh"
       - "-c"
-      - "java -jar -Dfile.encoding=UTF-8 /applications/application.jar --spring.profiles.active=dc1"
+      - | 
+       java -jar -Dfile.encoding=UTF-8 /applications/application.jar \
+       --spring.rabbitmq.host=rabbitmq1 \
+       --spring.cloud.nacos.discovery.server-addr=nacos:8848 \
+       --nacos.config.server-addr=nacos:8848 \
+       --spring.cloud.nacos.discovery.namespace=demo1 \
+       --nacos.config.namespace=demo1
     environment:
       - TZ=Asia/Shanghai
     depends_on:
@@ -136,7 +189,13 @@ services:
     entrypoint: 
       - "/bin/sh"
       - "-c"
-      - "java -jar -Dfile.encoding=UTF-8 /applications/application.jar --spring.profiles.active=dc2"
+      - | 
+       java -jar -Dfile.encoding=UTF-8 /applications/application.jar \
+       --spring.rabbitmq.host=rabbitmq2 \
+       --spring.cloud.nacos.discovery.server-addr=nacos:8848 \
+       --nacos.config.server-addr=nacos:8848 \
+       --spring.cloud.nacos.discovery.namespace=demo2 \
+       --nacos.config.namespace=demo2
     environment:
       - TZ=Asia/Shanghai
     depends_on:
@@ -160,7 +219,13 @@ services:
     entrypoint: 
       - "/bin/sh"
       - "-c"
-      - "java -jar -Dfile.encoding=UTF-8 /applications/application.jar --spring.profiles.active=dc3"
+      - | 
+       java -jar -Dfile.encoding=UTF-8 /applications/application.jar \
+       --spring.rabbitmq.host=rabbitmq3 \
+       --spring.cloud.nacos.discovery.server-addr=nacos:8848 \
+       --nacos.config.server-addr=nacos:8848 \
+       --spring.cloud.nacos.discovery.namespace=demo3 \
+       --nacos.config.namespace=demo3
     environment:
       - TZ=Asia/Shanghai
     depends_on:
@@ -182,7 +247,12 @@ services:
     entrypoint: 
       - "/bin/sh"
       - "-c"
-      - "java -jar -Dfile.encoding=UTF-8 /applications/gateway.jar --spring.profiles.active=dc1 --server.port=8080"
+      - | 
+       java -jar -Dfile.encoding=UTF-8 /applications/gateway.jar --server.port=8080 \
+       --spring.cloud.nacos.discovery.server-addr=nacos:8848 \
+       --nacos.config.server-addr=nacos:8848 \
+       --spring.cloud.nacos.discovery.namespace=demo1 \
+       --nacos.config.namespace=demo1
     environment:
       - TZ=Asia/Shanghai
     depends_on:
@@ -198,7 +268,12 @@ services:
     entrypoint: 
       - "/bin/sh"
       - "-c"
-      - "java -jar -Dfile.encoding=UTF-8 /applications/gateway.jar --spring.profiles.active=dc2 --server.port=8080"
+      - | 
+       java -jar -Dfile.encoding=UTF-8 /applications/gateway.jar --server.port=8080 \
+       --spring.cloud.nacos.discovery.server-addr=nacos:8848 \
+       --nacos.config.server-addr=nacos:8848 \
+       --spring.cloud.nacos.discovery.namespace=demo2 \
+       --nacos.config.namespace=demo2
     environment:
       - TZ=Asia/Shanghai
     depends_on:
@@ -214,7 +289,12 @@ services:
     entrypoint: 
       - "/bin/sh"
       - "-c"
-      - "java -jar -Dfile.encoding=UTF-8 /applications/gateway.jar --spring.profiles.active=dc3 --server.port=8080"
+      - | 
+       java -jar -Dfile.encoding=UTF-8 /applications/gateway.jar --server.port=8080 \
+       --spring.cloud.nacos.discovery.server-addr=nacos:8848 \
+       --nacos.config.server-addr=nacos:8848 \
+       --spring.cloud.nacos.discovery.namespace=demo3 \
+       --nacos.config.namespace=demo3
     environment:
       - TZ=Asia/Shanghai
     depends_on:

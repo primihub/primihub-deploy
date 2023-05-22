@@ -39,7 +39,7 @@ rabbitmq3           "docker-entrypoint.s…"   rabbitmq3               running  
 redis               "docker-entrypoint.s…"   redis                   running             6379/tcp
 ```
 
-#### 如果需要开启在页面上显示日志的功能，需要在启动前前安安装loki
+#### 如果需要开启在页面上显示日志的功能，需要在启动前安装loki
 使用 `Loki` 来收集容器日志时，需要先安装 `loki` 的 `docker plugin`
 
 ```shell
@@ -52,7 +52,7 @@ docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all
 {
   "log-driver": "loki",
   "log-opts": {
-    "loki-url": "http://172.28.1.30:3100/loki/api/v1/push",
+    "loki-url": "http://本机IP:3100/loki/api/v1/push",
     "max-size": "50m",
     "max-file": "10"
   }
