@@ -19,8 +19,6 @@ services:
       interval: 5s
       timeout: 10s
       retries: 5
-    networks:
-      primihub_net:
 
   redis:
     image: $REDIS_IMAGE
@@ -31,15 +29,13 @@ services:
       - "./config/redis.conf:/usr/local/etc/redis/redis.conf"
     command:
       "redis-server /usr/local/etc/redis/redis.conf"
-    networks:
-      primihub_net:
+    # ports:
+    #   - "6379:6379"
 
   rabbitmq:
     image: $RABBITMQ_IMAGE
     container_name: rabbitmq
     restart: always
-    networks:
-      primihub_net:
   
   nacos:
     image: $NACOS_IMAGE
@@ -61,8 +57,33 @@ services:
       interval: 10s
       timeout: 10s
       retries: 3
-    networks:
-      primihub_net:
+
+  meta:
+    image: $FUSION
+    container_name: fusion
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+    entrypoint: 
+      - "/bin/sh"
+      - "-c"
+      - "java -jar -Dfile.encoding=UTF-8 /applications/fusion.jar \
+        --server.port=8080 \
+        --grpc.server.port=9099 \
+        --spring.cloud.nacos.discovery.server-addr=nacos:8848 \
+        --spring.cloud.nacos.discovery.namespace=node \
+        --spring.cloud.nacos.config.server-addr=nacos:8848 \
+        --spring.cloud.nacos.config.namespace=node"
+    ports:
+      - "9099:9099"
+    depends_on:
+      nacos:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -O - -q http://localhost:8080/fusion/healthConnection"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
   
   application:
     image: $PLATFORM
@@ -75,7 +96,12 @@ services:
     entrypoint: 
       - "/bin/sh"
       - "-c"
-      - "java -jar -Dfile.encoding=UTF-8 /applications/application.jar --spring.profiles.active=dc1 --spring.rabbitmq.host=rabbitmq"
+      - "java -jar -Dfile.encoding=UTF-8 /applications/application.jar \
+        --spring.rabbitmq.host=rabbitmq \
+        --spring.cloud.nacos.discovery.server-addr=nacos:8848 \
+        --nacos.config.server-addr=nacos:8848 \
+        --spring.cloud.nacos.discovery.namespace=node \
+        --nacos.config.namespace=node"
     depends_on:
       nacos:
         condition: service_healthy
@@ -84,8 +110,6 @@ services:
       interval: 10s
       timeout: 10s
       retries: 3
-    networks:
-      primihub_net:
 
   gateway:
     image: $PLATFORM
@@ -96,11 +120,14 @@ services:
     entrypoint: 
       - "/bin/sh"
       - "-c"
-      - "java -jar -Dfile.encoding=UTF-8 /applications/gateway.jar --spring.profiles.active=dc1 --server.port=8080"
+      - "java -jar -Dfile.encoding=UTF-8 /applications/gateway.jar \
+        --server.port=8080 \
+        --spring.cloud.nacos.discovery.server-addr=nacos:8848 \
+        --nacos.config.server-addr=nacos:8848 \
+        --spring.cloud.nacos.discovery.namespace=node \
+        --nacos.config.namespace=node"
     depends_on:
       - application
-    networks:
-      primihub_net:
 
   nginx:
     image: $WEB_MANAGE
@@ -113,8 +140,6 @@ services:
       - "30080:80"
     depends_on:
       - gateway
-    networks:
-      primihub_net:
 
   node:
     shm_size: '6gb'
@@ -124,18 +149,18 @@ services:
     restart: "always"
     ports:
       - "50050:50050"
-      # - "6666:6666"
     volumes:
-      - ./config/node2.yaml:/app/config/node2.yaml
+      - ./config/node0.yaml:/app/config/node0.yaml
       - ./data:/data
     environment:
       - TZ=Asia/Shanghai
     entrypoint:
       - "/bin/bash"
       - "-c"
-      - "./primihub-node --service_port=50050  --node_id=node2 --config=/app/config/node2.yaml"
+      - "./primihub-node --service_port=50050  --node_id=node0 --config=/app/config/node0.yaml"
     depends_on:
-      - redis
+      meta:
+        condition: service_healthy
 
   loki:
     image: $LOKI_IMAGE
@@ -148,9 +173,6 @@ services:
       - ./data:/data
     ports:
       - 3100:3100
-    networks:
-      primihub_net:
 
 networks:
   primihub_net:
-    driver: bridge

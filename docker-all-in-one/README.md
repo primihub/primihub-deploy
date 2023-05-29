@@ -4,7 +4,7 @@
 
 #### 部署要求
 
-* 机器配置最低4核8G，磁盘40G，支持`avx`指令集，可通过`lscpu | grep avx`验证
+* 机器配置最低4核16G，磁盘40G，支持`avx`指令集，可通过`lscpu | grep avx`验证
 * 系统支持`CentOS 7`和`Ubuntu 18.04+` (推荐使用`Ubuntu`)
 * `docker-compose` 版本大于2.2
 

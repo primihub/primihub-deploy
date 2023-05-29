@@ -95,15 +95,15 @@ done
 
 # 替换 `nacos` 配置中的 `Loki` 地址
 
-# LOKI_IP=`hostname -I | awk '{print $1}'`
-# echo "请确认你的主机IP是否为：" $LOKI_IP
+LOKI_IP=`hostname -I | awk '{print $1}'`
+echo "请确认你的主机IP是否为：" $LOKI_IP
 
-# sed -i "s/LOKI_IP/$LOKI_IP/g" data/initsql/others.sql
+sed -i "s/YOUR_HOST_IP/$LOKI_IP/g" data/initsql/others.sql
 
-# if [ $? -eq 0 ];
-# then
-#     echo "修改 nacos 配置文件中的 LOKI_IP 成功"
-# fi
+if [ $? -eq 0 ];
+then
+    echo "修改 nacos 配置文件中的 LOKI_IP 成功"
+fi
 
 # Finally, start the application
 docker-compose up -d
