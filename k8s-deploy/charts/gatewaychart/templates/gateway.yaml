@@ -35,16 +35,9 @@ spec:
             - '--server.port=8080'
             - '--spring.cloud.nacos.discovery.server-addr=nacos:8848'
             - '--nacos.config.server-addr=nacos:8848'
-            {{ if eq $index 1 }}
-            - '--spring.cloud.nacos.discovery.namespace=46b6b568-e6ae-45ca-baa1-819932fc8947'
-            - '--nacos.config.namespace=46b6b568-e6ae-45ca-baa1-819932fc8947'
-            {{ else if eq $index 2 }}
-            - '--spring.cloud.nacos.discovery.namespace=71843998-b60a-42ed-81d7-c3c9940d11c0'
-            - '--nacos.config.namespace=71843998-b60a-42ed-81d7-c3c9940d11c0'
-            {{ else if eq $index 3 }}
-            - '--spring.cloud.nacos.discovery.namespace=35674f9d-3369-42f6-9f30-c8de2535adc6'
-            - '--nacos.config.namespace=35674f9d-3369-42f6-9f30-c8de2535adc6'
-            {{ end }}
+            - '--spring.cloud.nacos.discovery.namespace=demo{{ $index }}'
+            - '--nacos.config.namespace=demo{{ $index }}'
+
           imagePullPolicy: IfNotPresent
       restartPolicy: Always
   strategy:

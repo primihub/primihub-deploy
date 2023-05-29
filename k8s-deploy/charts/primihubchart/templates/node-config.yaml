@@ -9,6 +9,7 @@ data:
     node: "node0"
     location: "172.28.1.10"
     grpc_port: 50050
+    use_tls: false
 
     datasets:
       # ABY3 LR test case datasets
@@ -48,6 +49,7 @@ data:
     node: "node1"
     location: "172.28.1.11"
     grpc_port: 50051
+    use_tls: false
 
     datasets:
       # ABY3 LR test case datasets
@@ -102,11 +104,26 @@ data:
         model: "csv"
         source: "/tmp/FL/hetero_xgb/test/test_breast_cancer_host.csv"
 
+    localkv:
+      model: "leveldb"
+      path: "/data/localdb1"
+
+    p2p:
+      bootstrap_nodes:
+        - "/ip4/172.28.1.13/tcp/4001/ipfs/QmP2C45o2vZfy1JXWFZDUEzrQCigMtd4r3nesvArV8dFKd"
+        - "/ip4/172.28.1.13/tcp/4001/ipfs/QmdSyhb8eR9dDSR5jjnRoTDBwpBCSAjT7WueKJ9cQArYoA"
+      multi_addr: "/ip4/172.28.1.11/tcp/8887"
+      dht_get_value_timeout:  120
+
+    notify_server: 0.0.0.0:6667
+
   primihub_node2.yaml: |-
     version: 1.0
     node: "node2"
     location: "172.28.1.12"
     grpc_port: 50052
+    use_tls: false
+    
     datasets:
       # ABY3 LR test case datasets
       - description: "train_party_2"

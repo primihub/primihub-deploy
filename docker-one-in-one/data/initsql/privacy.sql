@@ -1,7 +1,7 @@
 
-CREATE DATABASE IF NOT EXISTS `privacy_demo3` Character SET utf8 COLLATE utf8_bin;;
+CREATE DATABASE IF NOT EXISTS `privacy` Character SET utf8 COLLATE utf8_general_ci;
 
-USE `privacy_demo3`;
+USE `privacy`;
 
 DROP TABLE IF EXISTS `data_model`;
 CREATE TABLE `data_model` (
@@ -23,7 +23,7 @@ CREATE TABLE `data_model` (
                               `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                               `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                               PRIMARY KEY (`model_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='模型表';
+) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='模型表';
 
 DROP TABLE IF EXISTS `data_source`;
 CREATE TABLE `data_source` (
@@ -39,7 +39,7 @@ CREATE TABLE `data_source` (
                                `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                                `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='资源数据库';
+) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='资源数据库';
 
 DROP TABLE IF EXISTS `data_component_draft`;
 CREATE TABLE `data_component_draft` (
@@ -52,7 +52,7 @@ CREATE TABLE `data_component_draft` (
                                         `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                                         `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                         PRIMARY KEY (`draft_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='组件草稿表';
+) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='组件草稿表';
 
 DROP TABLE IF EXISTS `data_model_component`;
 CREATE TABLE `data_model_component` (
@@ -67,7 +67,7 @@ CREATE TABLE `data_model_component` (
                                         `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                                         `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                         PRIMARY KEY (`mc_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='组件模型关系表';
+) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='组件模型关系表';
 
 DROP TABLE IF EXISTS `data_component`;
 CREATE TABLE `data_component` (
@@ -92,7 +92,7 @@ CREATE TABLE `data_component` (
                                   `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                                   `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                   PRIMARY KEY (`component_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='组件表';
+) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='组件表';
 
 DROP TABLE IF EXISTS `data_model_quota`;
 CREATE TABLE `data_model_quota` (
@@ -111,7 +111,7 @@ CREATE TABLE `data_model_quota` (
                                     `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                                     `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                     PRIMARY KEY (`quota_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='模板指标入参';
+) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='模板指标入参';
 
 DROP TABLE IF EXISTS `data_model_task`;
 CREATE TABLE `data_model_task` (
@@ -125,7 +125,7 @@ CREATE TABLE `data_model_task` (
                                    `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                                    `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                    PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='模型任务表';
+) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='模型任务表';
 
 DROP TABLE IF EXISTS `data_mr`;
 CREATE TABLE `data_mr`  (
@@ -141,7 +141,7 @@ CREATE TABLE `data_mr`  (
                             `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                             `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                             PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '模型资源表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '模型资源表' ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `data_project`;
 CREATE TABLE `data_project` (
@@ -162,7 +162,7 @@ CREATE TABLE `data_project` (
                                 PRIMARY KEY (`id`) USING BTREE,
                                 UNIQUE INDEX `project_id_ix`(`project_id`) USING BTREE,
                                 INDEX `created_organ_id_ix`(`created_organ_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci  COMMENT='项目表' ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci  COMMENT='项目表' ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `data_project_organ`;
 CREATE TABLE `data_project_organ` (
@@ -181,7 +181,7 @@ CREATE TABLE `data_project_organ` (
                                       `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                       PRIMARY KEY (`id`) USING BTREE,
                                       INDEX `project_id_ix`(`project_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT='项目资源授权审核表' ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT='项目资源授权审核表' ROW_FORMAT = Dynamic;
 
 
 DROP TABLE IF EXISTS `data_project_resource`;
@@ -202,7 +202,7 @@ CREATE TABLE `data_project_resource` (
                                          `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                          PRIMARY KEY (`id`) USING BTREE,
                                          INDEX `project_id_ix`(`project_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT='项目资源关系表' ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT='项目资源关系表' ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `data_psi`;
 CREATE TABLE `data_psi`  (
@@ -227,7 +227,7 @@ CREATE TABLE `data_psi`  (
                              `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                              `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                              PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `data_psi_resource`;
 CREATE TABLE `data_psi_resource`  (
@@ -242,7 +242,7 @@ CREATE TABLE `data_psi_resource`  (
                                       `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                                       `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                       PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `data_psi_task`;
 CREATE TABLE `data_psi_task`  (
@@ -259,7 +259,7 @@ CREATE TABLE `data_psi_task`  (
                                   `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                                   `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `data_pir_task`;
 CREATE TABLE `data_pir_task` (
@@ -274,7 +274,7 @@ CREATE TABLE `data_pir_task` (
                                  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                                  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'pir 任务表' ROW_FORMAT = DYNAMIC;
+) ENGINE=InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'pir 任务表' ROW_FORMAT = DYNAMIC;
 
 DROP TABLE IF EXISTS `data_resource`;
 CREATE TABLE `data_resource`  (
@@ -307,7 +307,7 @@ CREATE TABLE `data_resource`  (
                                   `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                                   `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                   PRIMARY KEY (`resource_id`) USING BTREE
-) ENGINE = InnoDB  CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '资源表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '资源表' ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `data_resource_tag`;
 CREATE TABLE `data_resource_tag`  (
@@ -317,7 +317,7 @@ CREATE TABLE `data_resource_tag`  (
                                       `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                                       `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                       PRIMARY KEY (`tag_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '标签表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '标签表' ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `data_rt`;
 CREATE TABLE `data_rt`  (
@@ -328,7 +328,7 @@ CREATE TABLE `data_rt`  (
                             `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                             `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                             PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '资源标签关系表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '资源标签关系表' ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `data_file_field`;
 CREATE TABLE `data_file_field` (
@@ -346,7 +346,7 @@ CREATE TABLE `data_file_field` (
                                    `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                                    `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                    PRIMARY KEY (`field_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE = utf8_general_ci COMMENT = '资源字段表' ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '资源字段表' ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `data_mpc_task`;
 CREATE TABLE `data_mpc_task` (
@@ -362,7 +362,7 @@ CREATE TABLE `data_mpc_task` (
                                  `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                                  `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                  PRIMARY KEY (`task_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8  COMMENT = 'mpc任务表' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci  COMMENT = 'mpc任务表' ROW_FORMAT=DYNAMIC;
 
 DROP TABLE IF EXISTS `data_script`;
 CREATE TABLE `data_script`  (
@@ -379,7 +379,7 @@ CREATE TABLE `data_script`  (
                                 `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                                 `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                 PRIMARY KEY (`script_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `data_task`;
 CREATE TABLE `data_task` (
@@ -400,7 +400,7 @@ CREATE TABLE `data_task` (
                              `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                              `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                              PRIMARY KEY (`task_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='数据任务表';
+) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='数据任务表';
 
 DROP TABLE IF EXISTS `data_reasoning`;
 CREATE TABLE `data_reasoning` (
@@ -418,7 +418,7 @@ CREATE TABLE `data_reasoning` (
                                   `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                                   `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='推理表';
+) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='推理表';
 
 DROP TABLE IF EXISTS `data_reasoning_resource`;
 CREATE TABLE `data_reasoning_resource` (
@@ -432,7 +432,7 @@ CREATE TABLE `data_reasoning_resource` (
                                            `create_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                                            `update_date` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
                                            PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='推理资源表';
+) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='推理资源表';
 
 DROP TABLE IF EXISTS `sys_auth`;
 CREATE TABLE `sys_auth`  (
@@ -453,7 +453,7 @@ CREATE TABLE `sys_auth`  (
                              `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                              `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
                              PRIMARY KEY (`auth_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1001 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1001 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '权限表' ROW_FORMAT = DYNAMIC;
 
 INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1001, '项目管理', 'Project', 1, 0, 1001, '1001', '', 'own', 1, 0, 1, 1, 0, '2022-09-14 08:41:41.172', '2022-09-14 08:41:41.178');
 INSERT INTO `sys_auth` (`auth_id`, `auth_name`, `auth_code`, `auth_type`, `p_auth_id`, `r_auth_id`, `full_path`, `auth_url`, `data_auth_code`, `auth_index`, `auth_depth`, `is_show`, `is_editable`, `is_del`, `c_time`, `u_time`) VALUES (1002, '项目列表', 'ProjectList', 2, 1001, 1001, '1001,1002', '/project/getProjectList', 'own', 1, 1, 1, 1, 0, '2022-09-14 08:41:41.181', '2022-09-14 08:41:41.182');
@@ -528,7 +528,7 @@ CREATE TABLE `sys_ra`  (
                            `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                            `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
                            PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色权限表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色权限表' ROW_FORMAT = DYNAMIC;
 
 INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1000, 1, 1001, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
 INSERT INTO `sys_ra` (`id`, `role_id`, `auth_id`, `is_del`, `c_time`, `u_time`) VALUES (1001, 1, 1002, 0, '2022-07-19 08:51:05.228', '2022-07-19 08:51:05.228');
@@ -644,7 +644,7 @@ CREATE TABLE `sys_role`  (
                              `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                              `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
                              PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
 
 INSERT INTO `sys_role` VALUES (1, '超级管理员', 0, 0, '2022-03-25 17:08:52.100', '2022-03-25 17:43:29.970');
 INSERT INTO `sys_role` VALUES (1000, '业务权限', 1, 0, '2022-04-27 17:50:02.139', '2022-04-27 17:50:02.139');
@@ -658,7 +658,7 @@ CREATE TABLE `sys_ur`  (
                            `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                            `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
                            PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户角色关系表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户角色关系表' ROW_FORMAT = DYNAMIC;
 
 INSERT INTO `sys_ur` VALUES (1, 1, 1, 0, '2022-03-25 17:55:53.090', '2022-03-25 18:03:28.371');
 
@@ -679,7 +679,7 @@ CREATE TABLE `sys_user`  (
                              PRIMARY KEY (`user_id`) USING BTREE,
                              UNIQUE INDEX `ix_unique_user_account`(`user_account`) USING BTREE COMMENT '账户名称唯一索引',
                              KEY `ix_index_auth_uuid` (`auth_uuid`)
-) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
 
 INSERT INTO `sys_user` VALUES (1, 'admin', 'a0f34ffac5a82245e4fca2e21f358a42', 'admin', '1', 0, 1, 0, '2022-03-25 17:55:53.048', '2022-07-18 17:13:02.377','' ,1);
 
@@ -697,7 +697,7 @@ CREATE TABLE `sys_file`  (
                              `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
                              `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
                              PRIMARY KEY (`file_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文件表' ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `data_fusion_copy_task`;
 CREATE TABLE `data_fusion_copy_task` (
@@ -716,7 +716,7 @@ CREATE TABLE `data_fusion_copy_task` (
                                          KEY `target_offset_ix` (`target_offset`) USING BTREE,
                                          KEY `c_time_ix` (`c_time`) USING BTREE,
                                          KEY `u_time_ix` (`u_time`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 DROP TABLE IF EXISTS `data_resource_visibility_auth`;
 CREATE TABLE `data_resource_visibility_auth`  (
@@ -731,7 +731,7 @@ CREATE TABLE `data_resource_visibility_auth`  (
                                                   PRIMARY KEY (`id`) USING BTREE,
                                                   INDEX `resource_id_ix`(`resource_id`) USING BTREE,
                                                   INDEX `organ_global_id_ix`(`organ_global_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `data_visiting_users`;
 CREATE TABLE `data_visiting_users` (
@@ -771,6 +771,118 @@ CREATE TABLE `data_visiting_users` (
                                        `create_date` DATETIME ( 3 ) NOT NULL DEFAULT CURRENT_TIMESTAMP ( 3 ) COMMENT '创建时间',
                                        `update_date` DATETIME ( 3 ) NOT NULL DEFAULT CURRENT_TIMESTAMP ( 3 ) ON UPDATE CURRENT_TIMESTAMP ( 3 ) COMMENT '修改时间',
                                        PRIMARY KEY ( `id` )
-) ENGINE = INNODB DEFAULT CHARSET = utf8 ROW_FORMAT = DYNAMIC COMMENT = '应用市场来访用户';
+) ENGINE = INNODB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC COMMENT = '应用市场来访用户';
+
+CREATE DATABASE IF NOT EXISTS `fusion` Character SET utf8 COLLATE utf8_bin;
+
+use fusion;
+
+DROP TABLE IF EXISTS `fusion_resource`;
+CREATE TABLE `fusion_resource`  (
+                                    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+                                    `resource_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源ID',
+                                    `resource_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源名称',
+                                    `resource_desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源描述',
+                                    `resource_type` tinyint(4) NULL DEFAULT NULL COMMENT '资源类型 上传...',
+                                    `resource_auth_type` tinyint(4) NULL DEFAULT NULL COMMENT '授权类型（公开，私有，可见性）',
+                                    `resource_rows_count` int(11) NULL DEFAULT NULL COMMENT '资源行数',
+                                    `resource_column_count` int(11) NULL DEFAULT NULL COMMENT '资源列数',
+                                    `resource_column_name_list` text NULL COMMENT '字段列表',
+                                    `resource_contains_y` tinyint(4) NULL DEFAULT NULL COMMENT '资源字段中是否包含y字段 0否 1是',
+                                    `resource_y_rows_count` int(11) NULL DEFAULT NULL COMMENT '文件字段y值内容不为空和0的行数',
+                                    `resource_y_ratio` decimal(10, 2) NULL DEFAULT NULL COMMENT '文件字段y值内容不为空的行数在总行的占比',
+                                    `resource_tag` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源标签 格式tag,tag',
+                                    `organ_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '机构ID',
+                                    `resource_hash_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源hash值',
+                                    `resource_state` tinyint NOT NULL DEFAULT '0' COMMENT '资源状态 0上线 1下线',
+                                    `user_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户名称',
+                                    `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
+                                    `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                    `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+                                    PRIMARY KEY (`id`) USING BTREE,
+                                    UNIQUE INDEX `resource_id_ix`(`resource_id`) USING BTREE,
+                                    INDEX `organ_id_ix`(`organ_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+
+DROP TABLE IF EXISTS `fusion_resource_tag`;
+CREATE TABLE `fusion_resource_tag`  (
+                                        `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+                                        `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标签名称',
+                                        `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
+                                        `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                        `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+                                        PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+
+DROP TABLE IF EXISTS `fusion_resource_visibility_auth`;
+CREATE TABLE `fusion_resource_visibility_auth`  (
+                                                    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                                    `resource_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '资源id',
+                                                    `organ_global_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '机构id',
+                                                    `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
+                                                    `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                                    `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+                                                    PRIMARY KEY (`id`) USING BTREE,
+                                                    INDEX `resource_id_ix`(`resource_id`) USING BTREE,
+                                                    INDEX `organ_global_id_ix`(`organ_global_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+DROP TABLE IF EXISTS `fusion_resource_field`;
+CREATE TABLE `fusion_resource_field` (
+                                         `field_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '字段id',
+                                         `resource_id` bigint(20) DEFAULT NULL COMMENT '资源id',
+                                         `field_name` varchar(255) DEFAULT NULL COMMENT '字段名称',
+                                         `field_as` varchar(255) DEFAULT NULL COMMENT '字段别名',
+                                         `field_type` int(11) DEFAULT '0' COMMENT '字段类型 默认0 string',
+                                         `field_desc` varchar(255) DEFAULT NULL COMMENT '字段描述',
+                                         `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                                         `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                         `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+                                         PRIMARY KEY (`field_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+DROP TABLE IF EXISTS `fusion_organ_resource_auth`;
+CREATE TABLE `fusion_organ_resource_auth`  (
+                                               `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                               `resource_id` bigint(20) NOT NULL COMMENT '资源id',
+                                               `organ_id` bigint(20) NOT NULL COMMENT '机构id',
+                                               `project_id` varchar(255) DEFAULT NULL COMMENT '项目ID',
+                                               `audit_status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '审核状态',
+                                               `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
+                                               `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                               `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+                                               PRIMARY KEY (`id`) USING BTREE,
+                                               INDEX `resource_id_ix`(`resource_id`) USING BTREE,
+                                               INDEX `organ_id_ix`(`organ_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+
+DROP TABLE IF EXISTS `data_set`;
+CREATE TABLE `data_set` (
+                                        `id` varchar(255) NOT NULL COMMENT '主键',
+                                        `access_info` varchar(255) COMMENT '访问信息',
+                                        `driver` varchar(255) NOT NULL COMMENT '资源类型',
+                                        `address` varchar(255) COMMENT '资源地址',
+                                        `visibility` varchar(255) NOT NULL COMMENT '可见性',
+                                        `available` varchar(255) NOT NULL COMMENT '可获得',
+                                        `holder` tinyint(4) DEFAULT '0' COMMENT '是否持有 0持有 1不持有',
+                                        `fields` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '字段列表',
+                                        `is_del` tinyint(4) DEFAULT '0' COMMENT '是否删除',
+                                        `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                        `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+                                        PRIMARY KEY (`id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+
+DROP TABLE IF EXISTS `fusion_organ`;
+CREATE TABLE `fusion_organ`  (
+                                 `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+                                 `global_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '唯一id',
+                                 `global_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '机构名称',
+                                 `register_time` datetime(3) NOT NULL COMMENT '注册时间',
+                                 `is_del` tinyint(4) NOT NULL COMMENT '是否删除',
+                                 `c_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+                                 `u_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+                                 PRIMARY KEY (`id`) USING BTREE,
+                                 INDEX `global_id_ix`(`global_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 GRANT ALL ON *.* TO 'primihub'@'%';

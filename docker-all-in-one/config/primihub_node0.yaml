@@ -1,0 +1,57 @@
+version: 1.0
+
+node: "node0"
+location: "primihub-node0"
+use_tls: false
+
+grpc_port: 50050
+
+#certificate:
+#  root_ca: "data/cert/ca.crt"
+#  key: "data/cert/node0.key"
+#  cert: "data/cert/node0.crt"
+
+meta_service:
+  mode: "grpc"
+  ip: "primihub-meta0"
+  port: 9099
+  use_tls: false
+
+datasets:
+  # ABY3 LR test case datasets
+  - description: "train_party_0"
+    model: "csv"
+    source: "/tmp/train_party_0.csv"
+  - description: "test_party_0"
+    model: "csv"
+    source: "/tmp/test_party_0.csv"
+  - description: "breast_0"
+    model: "csv"
+    source: "/tmp/FL/wisconsin.data"
+
+  # MNIST test case datasets
+  - description: "test_party_0_self"
+    model: "csv"
+    source: "/tmp/falcon/dataset/MNIST/input_0"
+  - description: "test_party_0_next"
+    model: "csv"
+    source: "/tmp/falcon/dataset/MNIST/input_1"
+
+  # FL homo lr test case datasets
+  - description: "homo_lr_data"
+    model: "csv"
+    source: "/tmp/FL/homo_lr/breast_cancer.csv"
+  - description: "train_homo_lr"
+    model: "csv"
+    source: "/tmp/FL/homo_lr/train_breast_cancer.csv"
+
+  # FL homo nn multiclass test case datasets
+  - description: "train_homo_nn_multiclass"
+    model: "csv"
+    source: "/tmp/FL/homo_nn/train/train_mobile_price.csv"
+
+  # FL homo regression test case datasets
+  - description: "train_homo_regression"
+    model: "csv"
+    source: "/tmp/FL/homo_regression/train/train_boston_house.csv"
+
