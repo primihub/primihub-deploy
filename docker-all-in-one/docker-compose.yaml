@@ -115,13 +115,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      nacos:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "wget -O - -q http://localhost:8080/fusion/healthConnection"]
-      interval: 15s
-      timeout: 3s
-      retries: 3
+      - meta0
 
   meta2:
     image: $PRIMIHUB_FUSION
@@ -142,13 +136,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      nacos:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "wget -O - -q http://localhost:8080/fusion/healthConnection"]
-      interval: 15s
-      timeout: 3s
-      retries: 3
+      - meta0
   
   application0:
     image: $PRIMIHUB_PLATFORM
@@ -194,13 +182,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      nacos:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "wget -O - -q http://localhost:8090/runFeign"]
-      interval: 10s
-      timeout: 10s
-      retries: 3
+      - application0
 
   application2:
     image: $PRIMIHUB_PLATFORM
@@ -220,13 +202,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      nacos:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "wget -O - -q http://localhost:8090/runFeign"]
-      interval: 10s
-      timeout: 10s
-      retries: 3
+      - application0
 
   gateway0:
     image: $PRIMIHUB_PLATFORM
@@ -355,8 +331,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      meta1:
-        condition: service_healthy
+      - meta1
 
   node2:
     shm_size: '6gb'
@@ -375,8 +350,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      meta2:
-        condition: service_healthy
+      - meta2
 
   loki:
     image: $LOKI_IMAGE
