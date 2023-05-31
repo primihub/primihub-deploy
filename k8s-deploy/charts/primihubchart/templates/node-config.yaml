@@ -6,87 +6,106 @@ metadata:
 data:
   primihub_node0.yaml: |-
     version: 1.0
+
     node: "node0"
-    location: "172.28.1.10"
+    location: "primihubnode"
     grpc_port: 50050
     use_tls: false
+
+    meta_service:
+      mode: "grpc"
+      ip: "fusion1"
+      port: 9099
+      use_tls: false
 
     datasets:
       # ABY3 LR test case datasets
       - description: "train_party_0"
         model: "csv"
-        source: "/tmp/train_party_0.csv" 
+        source: "/tmp/train_party_0.csv"
       - description: "test_party_0"
         model: "csv"
         source: "/tmp/test_party_0.csv"
       - description: "breast_0"
         model: "csv"
         source: "/tmp/FL/wisconsin.data"
-      
+
       # MNIST test case datasets
       - description: "test_party_0_self"
         model: "csv"
-        source: "/tmp/falcon/dataset/MNIST/input_0" 
+        source: "/tmp/falcon/dataset/MNIST/input_0"
       - description: "test_party_0_next"
         model: "csv"
-        source: "/tmp/falcon/dataset/MNIST/input_1" 
+        source: "/tmp/falcon/dataset/MNIST/input_1"
 
-    localkv: 
-      model: "leveldb"
-      path: "/data/localdb0"
+      # FL homo lr test case datasets
+      - description: "homo_lr_data"
+        model: "csv"
+        source: "/tmp/FL/homo_lr/breast_cancer.csv"
+      - description: "train_homo_lr"
+        model: "csv"
+        source: "/tmp/FL/homo_lr/train_breast_cancer.csv"
 
-    p2p:
-      bootstrap_nodes:
-        - "/ip4/172.28.1.13/tcp/4001/ipfs/QmP2C45o2vZfy1JXWFZDUEzrQCigMtd4r3nesvArV8dFKd"
-        - "/ip4/172.28.1.13/tcp/4001/ipfs/QmdSyhb8eR9dDSR5jjnRoTDBwpBCSAjT7WueKJ9cQArYoA"
-      multi_addr: "/ip4/172.28.1.10/tcp/8886"
-      dht_get_value_timeout: 60
+      # FL homo nn multiclass test case datasets
+      - description: "train_homo_nn_multiclass"
+        model: "csv"
+        source: "/tmp/FL/homo_nn/train/train_mobile_price.csv"
 
-    notify_server: 0.0.0.0:6666
+      # FL homo regression test case datasets
+      - description: "train_homo_regression"
+        model: "csv"
+        source: "/tmp/FL/homo_regression/train/train_boston_house.csv"
 
   primihub_node1.yaml: |-
     version: 1.0
+
     node: "node1"
-    location: "172.28.1.11"
+    location: "primihubnode"
     grpc_port: 50051
     use_tls: false
+
+    meta_service:
+      mode: "grpc"
+      ip: "fusion2"
+      port: 9099
+      use_tls: false
 
     datasets:
       # ABY3 LR test case datasets
       - description: "train_party_1"
         model: "csv"
-        source: "/tmp/train_party_1.csv" 
+        source: "/tmp/train_party_1.csv"
       - description: "test_party_1"
         model: "csv"
         source: "/tmp/test_party_1.csv"
-      
+
       # MNIST test case datasets
       - description: "test_party_1_self"
         model: "csv"
-        source: "/tmp/falcon/dataset/MNIST/input_1" 
+        source: "/tmp/falcon/dataset/MNIST/input_1"
       - description: "test_party_1_next"
         model: "csv"
-        source: "/tmp/falcon/dataset/MNIST/input_2" 
-      
+        source: "/tmp/falcon/dataset/MNIST/input_2"
+
       # PIR test case dataset
       - description: "pir_server_data"
         model: "csv"
-        source: "/tmp/pir_server.csv" 
+        source: "/tmp/pir_server.csv"
 
       # keyword PIR test case dataset
       - description: "keyword_pir_server_data"
         model: "csv"
         source: "/tmp/keyword_pir_server.csv"
-      
+
       # PSI test case dataset
       - description: "psi_server_data"
         model: "csv"
-        source: "/tmp/server_e.csv" 
-      
+        source: "/tmp/server_e.csv"
+
       #  FL xgb test case datasets
       - description: "label_dataset"
         model: "csv"
-        source: "/tmp/FL/wisconsin_host.data"   
+        source: "/tmp/FL/wisconsin_host.data"
       - description: "test_dataset"
         model: "csv"
         source: "/tmp/FL/wisconsin_test.data"
@@ -100,55 +119,120 @@ data:
       - description: "train_hetero_xgb_host"
         model: "csv"
         source: "/tmp/FL/hetero_xgb/train/train_breast_cancer_host.csv"
+
       - description: "test_hetero_xgb_host"
         model: "csv"
         source: "/tmp/FL/hetero_xgb/test/test_breast_cancer_host.csv"
 
-    localkv:
-      model: "leveldb"
-      path: "/data/localdb1"
+      # FL homo lr test case datasets
+      - description: "train_homo_lr_host"
+        model: "csv"
+        source: "/tmp/FL/homo_lr/train/train_breast_cancer_host.csv"
+      - description: "test_homo_lr"
+        model: "csv"
+        source: "/tmp/FL/homo_lr/test_breast_cancer.csv"
 
-    p2p:
-      bootstrap_nodes:
-        - "/ip4/172.28.1.13/tcp/4001/ipfs/QmP2C45o2vZfy1JXWFZDUEzrQCigMtd4r3nesvArV8dFKd"
-        - "/ip4/172.28.1.13/tcp/4001/ipfs/QmdSyhb8eR9dDSR5jjnRoTDBwpBCSAjT7WueKJ9cQArYoA"
-      multi_addr: "/ip4/172.28.1.11/tcp/8887"
-      dht_get_value_timeout:  120
+      # FL homo nn multiclass test case datasets
+      - description: "train_homo_nn_multiclass_host"
+        model: "csv"
+        source: "/tmp/FL/homo_nn/train/train_mobile_price_host.csv"
+      - description: "test_homo_nn_multiclass_host"
+        model: "csv"
+        source: "/tmp/FL/homo_nn/test/test_mobile_price_host.csv"
 
-    notify_server: 0.0.0.0:6667
+      # FL homo regression test case datasets
+      - description: "train_homo_regression_host"
+        model: "csv"
+        source: "/tmp/FL/homo_regression/train/train_boston_house_host.csv"
+      - description: "test_homo_regression_host"
+        model: "csv"
+        source: "/tmp/FL/homo_regression/test/test_boston_house_host.csv"
+
+      # FL image test case datasets
+      - description: "train_mnist_host"
+        model: "image"
+        image_dir: "/tmp/FL/mnist/train/train_mnist_host.zip"
+        annotations_file: "/tmp/FL/mnist/train/train_mnist_host_annotations.csv"
+      - description: "test_mnist_host"
+        model: "image"
+        image_dir: "/tmp/FL/mnist/test/test_mnist_host.zip"
+        annotations_file: "/tmp/FL/mnist/test/test_mnist_host_annotations.csv"
 
   primihub_node2.yaml: |-
     version: 1.0
+
     node: "node2"
-    location: "172.28.1.12"
+    location: "primihubnode"
     grpc_port: 50052
     use_tls: false
-    
+
+    meta_service:
+      mode: "grpc"
+      ip: "fusion3"
+      port: 9099
+      use_tls: false
+
+    certificate:
+      root_ca: "/tmp/cert/ca.crt"
+      key: "/tmp/cert/node2.key"
+      cert: "/tmp/cert/node2.crt"
+
     datasets:
       # ABY3 LR test case datasets
       - description: "train_party_2"
         model: "csv"
-        source: "/tmp/train_party_2.csv" 
+        source: "/tmp/train_party_2.csv"
       - description: "test_party_2"
         model: "csv"
         source: "/tmp/test_party_2.csv"
-      
+
       # MNIST test case datasets
       - description: "test_party_2_self"
         model: "csv"
-        source: "/tmp/falcon/dataset/MNIST/input_2" 
+        source: "/tmp/falcon/dataset/MNIST/input_2"
       - description: "test_party_2_next"
         model: "csv"
-        source: "/tmp/falcon/dataset/MNIST/input_0" 
-      
+        source: "/tmp/falcon/dataset/MNIST/input_0"
+
       #  FL xgb test case datasets
       - description: "guest_dataset"
         model: "csv"
-        source: "/tmp/FL/wisconsin_guest.data" 
+        source: "/tmp/FL/wisconsin_guest.data"
       - description: "breast_2"
         model: "csv"
         source: "/tmp/FL/wisconsin.data"
-      
+
+      # FL homo lr test case datasets
+      - description: "train_homo_lr_guest"
+        model: "csv"
+        source: "/tmp/FL/homo_lr/train/train_breast_cancer_guest.csv"
+
+      # FL homo nn multiclass test case datasets
+      - description: "train_homo_nn_multiclass_guest"
+        model: "csv"
+        source: "/tmp/FL/homo_nn/train/train_mobile_price_guest.csv"
+      - description: "test_homo_nn_multiclass_guest"
+        model: "csv"
+        source: "/tmp/FL/homo_nn/test/test_mobile_price_guest.csv"
+
+      # FL homo regression test case datasets
+      - description: "train_homo_regression_guest"
+        model: "csv"
+        source: "/tmp/FL/homo_regression/train/train_boston_house_guest.csv"
+      - description: "test_homo_regression_guest"
+        model: "csv"
+        source: "/tmp/FL/homo_regression/test/test_boston_house_guest.csv"
+
+      # FL image test case datasets
+      - description: "train_mnist_guest"
+        model: "image"
+        image_dir: "/tmp/FL/mnist/train/train_mnist_guest.zip"
+        annotations_file: "/tmp/FL/mnist/train/train_mnist_guest_annotations.csv"
+      - description: "test_mnist_guest"
+        model: "image"
+        image_dir: "/tmp/FL/mnist/test/test_mnist_guest.zip"
+        annotations_file: "/tmp/FL/mnist/test/test_mnist_guest_annotations.csv"
+
       # PSI test caset datasets
       - description: "psi_client_data"
         model: "csv"
@@ -161,17 +245,3 @@ data:
       - description: "test_hetero_xgb_guest"
         model: "csv"
         source: "/tmp/FL/hetero_xgb/test/test_breast_cancer_guest.csv"
-
-
-    localkv: 
-      model: "leveldb"
-      path: "/data/localdb2"
-
-    p2p:
-      bootstrap_nodes:
-        - "/ip4/172.28.1.13/tcp/4001/ipfs/QmP2C45o2vZfy1JXWFZDUEzrQCigMtd4r3nesvArV8dFKd"
-        - "/ip4/172.28.1.13/tcp/4001/ipfs/QmdSyhb8eR9dDSR5jjnRoTDBwpBCSAjT7WueKJ9cQArYoA"
-      multi_addr: "/ip4/172.28.1.13/tcp/8888"
-      dht_get_value_timeout: 60
-
-    notify_server: 0.0.0.0:6668

@@ -1,20 +1,17 @@
 primihub: 
-  image: primihub/primihub-node:1.6.5
-
-bootstrap:
-  image: primihub/simple-bootstrap-node:latest
+  image: primihub/primihub-node:1.6.6
 
 platform:
-  image: primihub/primihub-web:1.6.5
+  image: primihub/primihub-web:1.6.6
 
 gateway:
-  image: primihub/primihub-platform:1.6.5
+  image: primihub/primihub-platform:1.6.6
 
 fusion:
-  image: primihub/primihub-fusion:1.6.5
+  image: primihub/primihub-fusion:1.6.6
 
 application:
-  image: primihub/primihub-platform:1.6.5
+  image: primihub/primihub-platform:1.6.6
 
 mysql:
   image: registry.cn-beijing.aliyuncs.com/primihub/mysql:5.7

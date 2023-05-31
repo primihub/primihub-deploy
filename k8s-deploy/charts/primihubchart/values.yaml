@@ -1,7 +1,3 @@
-
-bootstrap:
-  image: registry.hub.docker.com/primihub/simple-bootstrap-node
-
 primihub:
-  image: registry.hub.docker.com/primihub/primihub-node
+  image: primihub/primihub-node
 

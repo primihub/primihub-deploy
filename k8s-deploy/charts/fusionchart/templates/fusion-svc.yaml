@@ -1,20 +1,22 @@
+{{- range $tmpindex, $app := until ( int $.Values.fusion.num )}} 
+{{- $index := add $tmpindex 1 -}}
 kind: Service
 apiVersion: v1
 metadata:
-  name: fusion
+  name: fusion{{ $index }}
   namespace: {{ $.Release.Namespace }}
   labels:
-    name: fusion
+    name: fusion{{ $index }}
   annotations:
-    workload: fusion
+    workload: fusion{{ $index }}
 spec:
   ports:
-    - name: fusion
+    - name: fusion{{ $index }}
       protocol: TCP
       port: 8080
       targetPort: 8080
   selector:
-    name: fusion
+    name: fusion{{ $index }}
   type: ClusterIP
   # sessionAffinity: None
   # externalTrafficPolicy: Cluster
@@ -22,3 +24,5 @@ spec:
   #   - IPv4
   # ipFamilyPolicy: SingleStack
   # internalTrafficPolicy: Cluster
+---
+{{- end }}
