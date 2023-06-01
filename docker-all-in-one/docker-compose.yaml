@@ -307,7 +307,7 @@ services:
       - gateway2
 
   node0:
-    shm_size: '6gb'  # ray's request,more than RAM 30% 
+    # shm_size: '6gb'  # ray's request,more than RAM 30% 
     image: $PRIMIHUB_NODE
     container_name: primihub-node0
     restart: "always"
@@ -327,7 +327,7 @@ services:
         condition: service_healthy
 
   node1:
-    shm_size: '6gb'
+    # shm_size: '6gb'
     image: $PRIMIHUB_NODE
     container_name: primihub-node1
     restart: "always"
@@ -347,7 +347,7 @@ services:
         condition: service_healthy
 
   node2:
-    shm_size: '6gb'
+    # shm_size: '6gb'
     image: $PRIMIHUB_NODE
     container_name: primihub-node2
     restart: "always"
