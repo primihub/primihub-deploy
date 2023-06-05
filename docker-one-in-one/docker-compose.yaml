@@ -157,7 +157,7 @@ services:
     entrypoint:
       - "/bin/bash"
       - "-c"
-      - "./primihub-node --service_port=50050  --node_id=node0 --config=/app/config/node0.yaml"
+      - "./primihub-node --config=/app/config/node0.yaml"
     depends_on:
       meta:
         condition: service_healthy

@@ -314,12 +314,12 @@ services:
     ports:
       - "50050:50050"
     volumes:
-      # - ./config/primihub_node0.yaml:/app/config/primihub_node0.yaml
+      # - ./config:/app/config
       - ./data:/data
     entrypoint:
       - "/bin/bash"
       - "-c"
-      - "./primihub-node --service_port=50050  --node_id=node0 --config=/app/config/primihub_node0.yaml"
+      - "./primihub-node --config=/app/config/primihub_node0.yaml"
     environment:
       - TZ=Asia/Shanghai
     depends_on:
@@ -334,12 +334,12 @@ services:
     ports:
       - "50051:50051"
     volumes:
-      # - ./config/primihub_node1.yaml:/app/config/primihub_node1.yaml
+      # - ./config:/app/config
       - ./data:/data
     entrypoint:
       - "/bin/bash"
       - "-c"
-      - "./primihub-node --service_port=50051 --node_id=node1 --config=/app/config/primihub_node1.yaml"
+      - "./primihub-node --config=/app/config/primihub_node1.yaml"
     environment:
       - TZ=Asia/Shanghai
     depends_on:
@@ -354,12 +354,12 @@ services:
     ports:
       - "50052:50052"
     volumes:
-      # - ./config/primihub_node2.yaml:/app/config/primihub_node2.yaml
+      # - ./config:/app/config
       - ./data:/data
     entrypoint:
       - "/bin/bash"
       - "-c"
-      - "./primihub-node --service_port=50052 --node_id=node2 --config=/app/config/primihub_node2.yaml"
+      - "./primihub-node --config=/app/config/primihub_node2.yaml"
     environment:
       - TZ=Asia/Shanghai
     depends_on:
