@@ -319,7 +319,8 @@ services:
     entrypoint:
       - "/bin/bash"
       - "-c"
-      - "./primihub-node --config=/app/config/primihub_node0.yaml"
+      - "GLOG_logtostderr=1 GLOG_v=2 ./primihub-node --config=/app/config/primihub_node0.yaml"
+    # GLOG_v 0->7,the larger the value the more detailed the log
     environment:
       - TZ=Asia/Shanghai
     depends_on:
@@ -339,7 +340,7 @@ services:
     entrypoint:
       - "/bin/bash"
       - "-c"
-      - "./primihub-node --config=/app/config/primihub_node1.yaml"
+      - "GLOG_logtostderr=1 GLOG_v=2 ./primihub-node --config=/app/config/primihub_node1.yaml"
     environment:
       - TZ=Asia/Shanghai
     depends_on:
@@ -359,7 +360,7 @@ services:
     entrypoint:
       - "/bin/bash"
       - "-c"
-      - "./primihub-node --config=/app/config/primihub_node2.yaml"
+      - "GLOG_logtostderr=1 GLOG_v=2 ./primihub-node --config=/app/config/primihub_node2.yaml"
     environment:
       - TZ=Asia/Shanghai
     depends_on:
