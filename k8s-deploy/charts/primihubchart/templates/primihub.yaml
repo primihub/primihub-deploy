@@ -22,55 +22,17 @@ spec:
         - name: primihub-pvc
           persistentVolumeClaim:
             claimName: primihub-volume
-        - name: update-pod
-          configMap:
-            name: update-pod-config
         - name: node-config
           configMap:
             name: node-configmap
-      initContainers:
-        - name: initcontainer
-          image: busybox
-          command:
-            - /bin/sh
-          args:
-            - "-c"
-            - |
-                cp -f /root/node/* /data
-                chmod +x /data/update_pod_ip.sh
-                echo "chmod done!"
-                /data/update_pod_ip.sh
-                echo "update pod ip done!!!!"
-          env:
-            - name: POD_IP
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: status.podIP
-          resources: {}
-          volumeMounts:
-            - name: primihub-pvc
-              mountPath: /data
-            - name: update-pod
-              mountPath: /root/node/update_pod_ip.sh
-              subPath: update_pod_ip.sh
-            - name: node-config
-              mountPath: /root/node/primihub_node0.yaml
-              subPath: primihub_node0.yaml
-            - name: node-config
-              mountPath: /root/node/primihub_node1.yaml
-              subPath: primihub_node1.yaml
-            - name: node-config
-              mountPath: /root/node/primihub_node2.yaml
-              subPath: primihub_node2.yaml
-          imagePullPolicy: IfNotPresent
+            items:
+              - key: primihub_node0.yaml
+                path: primihub_node0.yaml
+              - key: primihub_node1.yaml
+                path: primihub_node1.yaml
+              - key: primihub_node2.yaml
+                path: primihub_node2.yaml
       containers:
-        - name: bootstrap-node
-          image: {{ $.Values.bootstrap.image }}
-          ports:
-            - containerPort: 4001
-              protocol: TCP
-          imagePullPolicy: IfNotPresent
         - name: node0
           image: {{ $.Values.primihub.image }}
           command:
@@ -89,20 +51,23 @@ spec:
           volumeMounts:
             - name: primihub-pvc
               mountPath: /data
+            - name: node-config
+              mountPath: /data/primihub_node0.yaml
+              subPath: primihub_node0.yaml
           imagePullPolicy: IfNotPresent
-          lifecycle:
-            postStart:
-              exec:
-                command: 
-                - /bin/bash
-                - -c
-                - sleep 5 && echo "${POD_IP}  primihubnode"  >> /etc/hosts
-          env:
-            - name: POD_IP
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: status.podIP
+          # lifecycle:
+          #   postStart:
+          #     exec:
+          #       command: 
+          #       - /bin/bash
+          #       - -c
+          #       - sleep 5 && echo "${POD_IP}  primihubnode"  >> /etc/hosts
+          # env:
+          #   - name: POD_IP
+          #     valueFrom:
+          #       fieldRef:
+          #         apiVersion: v1
+          #         fieldPath: status.podIP
         - name: node1
           image: {{ $.Values.primihub.image }}
           command:
@@ -121,20 +86,23 @@ spec:
           volumeMounts:
             - name: primihub-pvc
               mountPath: /data
+            - name: node-config
+              mountPath: /data/primihub_node1.yaml
+              subPath: primihub_node1.yaml
           imagePullPolicy: IfNotPresent
-          lifecycle:
-            postStart:
-              exec:
-                command: 
-                - /bin/bash
-                - -c
-                - sleep 5 && echo "${POD_IP}  primihubnode"  >> /etc/hosts
-          env:
-            - name: POD_IP
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: status.podIP
+          # lifecycle:
+          #   postStart:
+          #     exec:
+          #       command: 
+          #       - /bin/bash
+          #       - -c
+          #       - sleep 5 && echo "${POD_IP}  primihubnode"  >> /etc/hosts
+          # env:
+          #   - name: POD_IP
+          #     valueFrom:
+          #       fieldRef:
+          #         apiVersion: v1
+          #         fieldPath: status.podIP
         - name: node2
           image: {{ $.Values.primihub.image }}
           command:
@@ -153,21 +121,24 @@ spec:
           volumeMounts:
             - name: primihub-pvc
               mountPath: /data
+            - name: node-config
+              mountPath: /data/primihub_node2.yaml
+              subPath: primihub_node2.yaml
           imagePullPolicy: IfNotPresent
-          lifecycle:
-            postStart:
-              exec:
-                command: 
-                - /bin/bash
-                - -c
-                - sleep 5 && echo "${POD_IP}  primihubnode"  >> /etc/hosts
+          # lifecycle:
+          #   postStart:
+          #     exec:
+          #       command: 
+          #       - /bin/bash
+          #       - -c
+          #       - sleep 5 && echo "${POD_IP}  primihubnode"  >> /etc/hosts
                 # - while true; do if [[ `ps -ef|grep node|grep -v color|wc -l` -eq 1 ]];then echo "${POD_IP}  primihubnode"  >> /etc/hosts ; break; else sleep 1; echo "wait"; fi; done
-          env:
-            - name: POD_IP
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: status.podIP
+          # env:
+          #   - name: POD_IP
+          #     valueFrom:
+          #       fieldRef:
+          #         apiVersion: v1
+          #         fieldPath: status.podIP
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst

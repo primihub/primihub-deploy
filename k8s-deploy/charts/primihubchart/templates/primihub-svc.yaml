@@ -7,15 +7,15 @@ metadata:
     name: primihubnode
 spec:
   ports:
-    - name: kfnzba
+    - name: node0
       protocol: TCP
       port: 50050
       targetPort: 50050
-    - name: ffzxzh
+    - name: node1
       protocol: TCP
       port: 50051
       targetPort: 50051
-    - name: egn7z3
+    - name: node2
       protocol: TCP
       port: 50052
       targetPort: 50052

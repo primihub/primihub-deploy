@@ -6,7 +6,7 @@ metadata:
   name: application{{ $index }}
   namespace: {{ $.Release.Namespace }}
   labels:
-    name: application1
+    name: application{{ $index }}
   annotations: {}
 spec:
   ports:

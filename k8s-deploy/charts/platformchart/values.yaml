@@ -1,3 +1,3 @@
 platform:
   num: 3
-  image: registry.hub.docker.com/primihub/primihub-web:1.1.5
+  image: primihub/primihub-web

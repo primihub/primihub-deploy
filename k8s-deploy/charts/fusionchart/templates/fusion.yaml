@@ -1,24 +1,26 @@
+{{- range $tmpindex, $app := until ( int $.Values.fusion.num )}} 
+{{- $index := add $tmpindex 1 -}}
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: fusion
+  name: fusion{{ $index }}
   namespace: {{ $.Release.Namespace }}
   labels:
-    name: fusion
+    name: fusion{{ $index }}
   annotations:
-    workload: fusion
+    workload: fusion{{ $index }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: fusion
+      name: fusion{{ $index }}
   template:
     metadata:
       labels:
-        name: fusion
+        name: fusion{{ $index }}
     spec:
       containers:
-        - name: fusion
+        - name: fusion{{ $index }}
           image: {{ $.Values.fusion.image }}
           command:
             - java
@@ -26,12 +28,12 @@ spec:
             - '-jar'
             - '-Dfile.encoding=UTF-8'
             - /applications/fusion.jar
-            # - '--spring.profiles.active=demo'
             - '--server.port=8080'
-            - '--spring.datasource.druid.username=root'
-            - '--spring.datasource.druid.password=primihub@123'
-            - >-
-              --spring.datasource.druid.url=jdbc:mysql://mysql.{{ $.Release.Namespace }}:3306/fusion_demo?characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL&allowMultiQueries=true&serverTimezone=Asia/Shanghai&useSSL=false
+            - '--grpc.server.port=9099'
+            - '--spring.cloud.nacos.discovery.server-addr=nacos:8848'
+            - '--spring.cloud.nacos.discovery.namespace=demo{{ $index }}'
+            - '--spring.cloud.nacos.config.server-addr=nacos:8848'
+            - 'spring.cloud.nacos.config.namespace=demo{{ $index }}'
           imagePullPolicy: IfNotPresent
       restartPolicy: Always
   strategy:
@@ -41,3 +43,6 @@ spec:
       maxSurge: 50%
   revisionHistoryLimit: 10
   progressDeadlineSeconds: 10
+
+---
+{{- end }}

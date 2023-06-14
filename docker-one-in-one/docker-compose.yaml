@@ -59,8 +59,8 @@ services:
       retries: 3
 
   meta:
-    image: $FUSION
-    container_name: fusion
+    image: $PRIMIHUB_FUSION
+    container_name: meta
     restart: always
     environment:
       - TZ=Asia/Shanghai
@@ -86,7 +86,7 @@ services:
       retries: 3
   
   application:
-    image: $PLATFORM
+    image: $PRIMIHUB_PLATFORM
     container_name: application
     restart: always
     volumes:
@@ -112,7 +112,7 @@ services:
       retries: 3
 
   gateway:
-    image: $PLATFORM
+    image: $PRIMIHUB_PLATFORM
     container_name: gateway
     restart: always
     environment:
@@ -130,7 +130,7 @@ services:
       - application
 
   nginx:
-    image: $WEB_MANAGE
+    image: $PRIMIHUB_WEB_MANAGE
     container_name: manage-web
     restart: always
     volumes:
@@ -143,8 +143,8 @@ services:
 
   node:
     shm_size: '6gb'
-    network_mode: "host"
-    image: $NODE
+    # network_mode: "host"
+    image: $PRIMIHUB_NODE
     container_name: node
     restart: "always"
     ports:
@@ -157,7 +157,7 @@ services:
     entrypoint:
       - "/bin/bash"
       - "-c"
-      - "./primihub-node --service_port=50050  --node_id=node0 --config=/app/config/node0.yaml"
+      - "./primihub-node --config=/app/config/node0.yaml"
     depends_on:
       meta:
         condition: service_healthy

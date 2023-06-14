@@ -194,13 +194,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      nacos:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "wget -O - -q http://localhost:8090/runFeign"]
-      interval: 10s
-      timeout: 10s
-      retries: 3
+      - application0
 
   application2:
     image: $PRIMIHUB_PLATFORM
@@ -220,13 +214,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      nacos:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "wget -O - -q http://localhost:8090/runFeign"]
-      interval: 10s
-      timeout: 10s
-      retries: 3
+      - application0
 
   gateway0:
     image: $PRIMIHUB_PLATFORM
@@ -319,19 +307,20 @@ services:
       - gateway2
 
   node0:
-    shm_size: '6gb'  # ray's request,more than RAM 30% 
+    # shm_size: '6gb'  # ray's request,more than RAM 30% 
     image: $PRIMIHUB_NODE
     container_name: primihub-node0
     restart: "always"
     ports:
       - "50050:50050"
     volumes:
-      # - ./config/primihub_node0.yaml:/app/config/primihub_node0.yaml
+      # - ./config:/app/config
       - ./data:/data
     entrypoint:
       - "/bin/bash"
       - "-c"
-      - "./primihub-node --service_port=50050  --node_id=node0 --config=/app/config/primihub_node0.yaml"
+      - "GLOG_logtostderr=1 GLOG_v=2 ./primihub-node --config=/app/config/primihub_node0.yaml"
+    # GLOG_v 0->7,the larger the value the more detailed the log
     environment:
       - TZ=Asia/Shanghai
     depends_on:
@@ -339,19 +328,19 @@ services:
         condition: service_healthy
 
   node1:
-    shm_size: '6gb'
+    # shm_size: '6gb'
     image: $PRIMIHUB_NODE
     container_name: primihub-node1
     restart: "always"
     ports:
       - "50051:50051"
     volumes:
-      # - ./config/primihub_node1.yaml:/app/config/primihub_node1.yaml
+      # - ./config:/app/config
       - ./data:/data
     entrypoint:
       - "/bin/bash"
       - "-c"
-      - "./primihub-node --service_port=50051 --node_id=node1 --config=/app/config/primihub_node1.yaml"
+      - "GLOG_logtostderr=1 GLOG_v=2 ./primihub-node --config=/app/config/primihub_node1.yaml"
     environment:
       - TZ=Asia/Shanghai
     depends_on:
@@ -359,19 +348,19 @@ services:
         condition: service_healthy
 
   node2:
-    shm_size: '6gb'
+    # shm_size: '6gb'
     image: $PRIMIHUB_NODE
     container_name: primihub-node2
     restart: "always"
     ports:
       - "50052:50052"
     volumes:
-      # - ./config/primihub_node2.yaml:/app/config/primihub_node2.yaml
+      # - ./config:/app/config
       - ./data:/data
     entrypoint:
       - "/bin/bash"
       - "-c"
-      - "./primihub-node --service_port=50052 --node_id=node2 --config=/app/config/primihub_node2.yaml"
+      - "GLOG_logtostderr=1 GLOG_v=2 ./primihub-node --config=/app/config/primihub_node2.yaml"
     environment:
       - TZ=Asia/Shanghai
     depends_on:
