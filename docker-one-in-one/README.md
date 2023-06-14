@@ -5,7 +5,7 @@
 
 ## 部署步骤
 
-1. 安装docker和docker-compose（在3台机器上都执行）
+1. 安装docker和docker-compose（在3台机器上都执行）(已安装则跳过)
 
 ```shell
 
@@ -31,23 +31,6 @@ Client:
 # docker-compose version
 Docker Compose version v2.6.0
 ```
-
-<!-- 2. 加载docker镜像 （在三台机器上都执行）
-
-```shell
-# 下载镜像包
-wget https://primihub.oss-cn-beijing.aliyuncs.com/dev/
-
-# 解压
-tar zxf docker-images.tar.gz
-
-# 加载镜像
-cd docker-images
-for i in ./*.tar.gz ; do docker load -i $i; done
-
-# 验证 
-docker images 
-``` -->
 
 2. 部署平台 
 ```shell
@@ -115,7 +98,7 @@ http://第三台机器的IP:30080
 
 默认用户密码都是 admin / 123456
 
-第一次登录后需要新建机构和加入群组，具体操作步骤请看 新建机构和设置中心节点说明文档。
+第一次登录后需要在节点管理里配置节点信息，具体操作步骤请看 [操作手册](https://m74hgjmt55.feishu.cn/file/boxcnXqmyAG9VpqjaCb7RP7Isjg)
 
 
 ### 停止服务
