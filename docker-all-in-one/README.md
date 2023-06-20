@@ -1,19 +1,19 @@
-# README
+# 部署说明
 
-### docker-compose部署
+## docker-compose单机部署
 
-#### 部署要求
+### 部署要求
 
-* 机器配置最低4核16G，磁盘40G，支持`avx`指令集，可通过`lscpu | grep avx`验证
+* 机器配置最低8核16G，磁盘40G，支持`avx`指令集，可通过`lscpu | grep avx`验证
 * 系统支持`CentOS 7`和`Ubuntu 18.04+` (推荐使用`Ubuntu`)
 * `docker-compose` 版本大于2.2
 
-#### 执行deploy.sh脚本，完成部署
+### 执行deploy.sh脚本，完成部署
 ```bash
 bash deploy.sh
 ```
 
-#### 查看部署结果
+### 查看部署结果
 ```
 # docker-compose ps -a
 NAME                COMMAND                  SERVICE             STATUS              PORTS
@@ -41,8 +41,8 @@ rabbitmq2           "docker-entrypoint.s…"   rabbitmq2           running      
 redis               "docker-entrypoint.s…"   redis               running             6379/tcp
 ```
 
-#### 如果需要开启在页面上显示日志的功能，需要在启动前安装loki
-使用 `Loki` 来收集容器日志时，需要先安装 `loki` 的 `docker plugin`
+### 安装loki插件（可选）
+如需开启在页面上显示日志的功能，则需要先安装 `loki` 的 `docker plugin`
 
 ```shell
 docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
@@ -54,7 +54,7 @@ docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all
 {
   "log-driver": "loki",
   "log-opts": {
-    "loki-url": "http://本机IP:3100/loki/api/v1/push",
+    "loki-url": "http://127.0.0.1:3100/loki/api/v1/push",
     "max-size": "50m",
     "max-file": "10"
   }
@@ -66,7 +66,7 @@ docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all
 systemctl restart docker
 ```
 
-#### 说明
+### 说明
 
 docker-compose.yaml 文件中的nginx1、nginx2、nginx3 模拟 3 个机构的管理后台，启动完成后在浏览器分别访问
 
@@ -79,3 +79,9 @@ http://机器IP:30813
 默认用户密码都是 admin / 123456
 
 具体的联邦建模、隐私求交、匿踪查询等功能的操作步骤请参考 [快速试用管理平台](https://docs.primihub.com/docs/quick-start-platform)
+### 停止服务
+
+在3台机器上都执行
+```shell
+docker-compose down
+```

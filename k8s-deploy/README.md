@@ -16,11 +16,11 @@
 
 * 指定你要部署的namespace名称，执行安装脚本完成部署
 ```bash
-    cd k8s-deploy
-    export NAMESPACE={namespace}
-    ./primihub_deploy.sh （或执行python3 deploy.py）
+cd k8s-deploy
+export NAMESPACE={namespace}
+./primihub_deploy.sh （或执行python3 deploy.py）
 ```
-    注意：目前脚本中指定了platform的nodeport端口，所以一个集群只能安装一套（多租户场景将再进行优化处理）
+注意：目前脚本中指定了platform的nodeport端口，所以一个集群只能安装一套（多租户场景将再进行优化处理）
     
 
 
@@ -53,11 +53,11 @@ redis-595ff4c87b-p4qjj          1/1     Running   0          19h
 所有服务状态均为Runing后在浏览器分别访问
 
 ```
-    http://k8s集群的任意一台机器的IP:30801
+http://k8s集群的任意一台机器的IP:30801
 
-    http://k8s集群的任意一台机器的IP:30802
+http://k8s集群的任意一台机器的IP:30802
 
-    http://k8s集群的任意一台机器的IP:30803
+http://k8s集群的任意一台机器的IP:30803
 ```
 注意：此处的端口是在 [这个文件](./charts/platformchart/templates/platform-svc.yaml) 的第三行指定，如遇端口冲突可自行修改为别的可用端口
 
