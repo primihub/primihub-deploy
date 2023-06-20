@@ -1,4 +1,4 @@
-# readme
+# README
 
 ## 安装
 
@@ -8,13 +8,13 @@
 docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
 ```
 
-然后配置收集所有docker容器的日志，一定要将下面的 `YOUR_IP` 替换成你机器的内网IP
+然后配置收集所有docker容器的日志
 ```shell
 # vim /etc/docker/daemon.json  添加以下内容
 {
   "log-driver": "loki",
   "log-opts": {
-    "loki-url": "http://YOUR_IP:3100/loki/api/v1/push",
+    "loki-url": "http://127.0.0.1:3100/loki/api/v1/push",
     "max-size": "50m",
     "max-file": "10"
   }
@@ -29,7 +29,6 @@ systemctl restart docker
 ```
 docker-compose up -d
 ```
-最后到上级目录启动项目
 
 ## 配置Grafana
 

@@ -3,50 +3,8 @@
 
 # First, install docker and docker-compose
 
-centos(){
-    # iptables -F
-    # systemctl stop firewalld
-    # systemctl disable firewalld
-    setenforce 0
-    sed -i s#SELINUX=enforcing#SELINUX=disabled#  /etc/selinux/config
-    docker version
-    if [ $? -eq 0 ];
-    then
-        echo "docker installed"
-    else
-        wget -O /etc/yum.repos.d/docker-ce.repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-        yum -y install docker-ce device-mapper-persistent-data lvm2
-        systemctl daemon-reload
-        systemctl start docker && systemctl enable docker
-        echo "docker install succeed !"
-    fi
-}
-
-ubuntu(){
-    docker version
-    if [ $? -eq 0 ];
-    then
-        echo "docker installed"
-    else
-        apt-get update
-        apt-get -y install apt-transport-https ca-certificates curl software-properties-common
-        curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
-        add-apt-repository "deb [arch=amd64] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable"
-        apt-get -y update
-        apt-get -y install docker-ce
-        echo "docker install succeed !"
-    fi
-}
-
 if [ $(uname -s) == "Linux" ];
 then
-#   grep "Ubuntu" /etc/issue >> /dev/null
-#   if [ $? -eq 0 ];
-#   then
-#       ubuntu
-#   else
-#       centos
-#   fi
     which docker > /dev/null
     if [ $? -eq 0 ];
     then
