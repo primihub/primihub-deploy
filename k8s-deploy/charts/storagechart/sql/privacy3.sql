@@ -736,9 +736,9 @@ CREATE TABLE `sys_organ`  (
                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '机构信息' ROW_FORMAT = Dynamic;
 
-CREATE DATABASE IF NOT EXISTS `fusion1` Character SET utf8 COLLATE utf8_bin;
+CREATE DATABASE IF NOT EXISTS `fusion3` Character SET utf8 COLLATE utf8_bin;
 
-use fusion1;
+use fusion3;
 
 DROP TABLE IF EXISTS `fusion_resource`;
 CREATE TABLE `fusion_resource`  (
