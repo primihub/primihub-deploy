@@ -27,6 +27,8 @@ spec:
           env:
             - name: NAMESPACE
               value: {{ $.Release.Namespace }}
+            - name: TZ
+              value: Asia/Shanghai
           command:
             - java
           args:

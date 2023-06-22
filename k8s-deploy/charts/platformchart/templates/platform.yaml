@@ -31,6 +31,9 @@ spec:
       containers:
         - name: platform{{ $index }}
           image: {{ $.Values.platform.image }}
+          env:
+            - name: TZ
+              value: Asia/Shanghai
           ports:
             - name: nginx
               containerPort: 80

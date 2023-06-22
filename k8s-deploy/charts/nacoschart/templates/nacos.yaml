@@ -25,6 +25,9 @@ spec:
       containers:
         - name: nacos
           image: {{ $.Values.nacos.image }}
+          env:
+            - name: TZ
+              value: Asia/Shanghai
           ports:
             - name: tcp1
               containerPort: 8848

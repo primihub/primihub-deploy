@@ -22,6 +22,9 @@ spec:
       containers:
         - name: fusion{{ $index }}
           image: {{ $.Values.fusion.image }}
+          env:
+            - name: TZ
+              value: Asia/Shanghai
           command:
             - java
           args:
