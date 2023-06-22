@@ -54,6 +54,8 @@ spec:
               value: primihub
             - name: MYSQL_PASSWORD
               value: primihub@123
+            - name: TZ
+              value: Asia/Shanghai
             
           resources: {}
           volumeMounts:
