@@ -59,7 +59,7 @@ services:
       retries: 3
 
   meta:
-    image: $PRIMIHUB_FUSION
+    image: $PRIMIHUB_META
     container_name: meta
     restart: always
     environment:
@@ -67,7 +67,7 @@ services:
     entrypoint: 
       - "/bin/sh"
       - "-c"
-      - "java -jar -Dfile.encoding=UTF-8 /applications/fusion.jar \
+      - "java -jar -Dfile.encoding=UTF-8 /applications/meta.jar \
         --server.port=8080 \
         --grpc.server.port=9099 \
         --spring.cloud.nacos.discovery.server-addr=nacos:8848 \

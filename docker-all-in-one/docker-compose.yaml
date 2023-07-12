@@ -70,13 +70,13 @@ services:
     restart: always
 
   meta0:
-    image: $PRIMIHUB_FUSION
+    image: $PRIMIHUB_META
     container_name: primihub-meta0
     restart: always
     entrypoint: 
       - "/bin/sh"
       - "-c"
-      - "java -jar -Dfile.encoding=UTF-8 /applications/fusion.jar \
+      - "java -jar -Dfile.encoding=UTF-8 /applications/meta.jar \
         --server.port=8080 \
         --grpc.server.port=9099 \
         --spring.cloud.nacos.discovery.server-addr=nacos:8848 \
@@ -97,13 +97,13 @@ services:
       retries: 3
 
   meta1:
-    image: $PRIMIHUB_FUSION
+    image: $PRIMIHUB_META
     container_name: primihub-meta1
     restart: always
     entrypoint: 
       - "/bin/sh"
       - "-c"
-      - "java -jar -Dfile.encoding=UTF-8 /applications/fusion.jar \
+      - "java -jar -Dfile.encoding=UTF-8 /applications/meta.jar \
         --server.port=8080 \
         --grpc.server.port=9099 \
         --spring.cloud.nacos.discovery.server-addr=nacos:8848 \
@@ -124,13 +124,13 @@ services:
       retries: 3
 
   meta2:
-    image: $PRIMIHUB_FUSION
+    image: $PRIMIHUB_META
     container_name: primihub-meta2
     restart: always
     entrypoint: 
       - "/bin/sh"
       - "-c"
-      - "java -jar -Dfile.encoding=UTF-8 /applications/fusion.jar \
+      - "java -jar -Dfile.encoding=UTF-8 /applications/meta.jar \
         --server.port=8080 \
         --grpc.server.port=9099 \
         --spring.cloud.nacos.discovery.server-addr=nacos:8848 \

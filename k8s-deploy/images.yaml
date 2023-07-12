@@ -8,7 +8,7 @@ gateway:
   image: registry.cn-beijing.aliyuncs.com/primihub/primihub-platform:1.6.8
 
 fusion:
-  image: registry.cn-beijing.aliyuncs.com/primihub/primihub-fusion:1.6.8
+  image: registry.cn-beijing.aliyuncs.com/primihub/primihub-meta:1.6.8
 
 application:
   image: registry.cn-beijing.aliyuncs.com/primihub/primihub-platform:1.6.8
