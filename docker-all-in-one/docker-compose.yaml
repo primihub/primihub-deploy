@@ -171,7 +171,7 @@ services:
       nacos:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget -O - -q http://localhost:8090/runFeign"]
+      test: ["CMD-SHELL", "wget -O - -q http://localhost:8090/healthConnection"]
       interval: 10s
       timeout: 10s
       retries: 3
