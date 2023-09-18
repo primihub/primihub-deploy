@@ -1,8 +1,0 @@
-{{- $confPath := default "sql/others.sql" -}}
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: sql-others-configmap
-  namespace: {{ .Release.Namespace }}
-data:
-  {{- (.Files.Glob $confPath).AsConfig | nindent 2 }}

@@ -1,8 +1,0 @@
-{{- $confPath := default "sql/privacy3.sql" -}}
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: sql-privacy3-configmap
-  namespace: {{ .Release.Namespace }}
-data:
-  {{- (.Files.Glob $confPath).AsConfig | nindent 2 }}

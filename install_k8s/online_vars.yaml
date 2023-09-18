@@ -1,3 +1,0 @@
-mode: online
-harbor_hostname: "127.0.0.1 harbor.primihub.com"
-harbor_registry: ""

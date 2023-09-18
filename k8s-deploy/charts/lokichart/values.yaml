@@ -1,7 +1,0 @@
-grafana:
-  deploy: true
-  nodeport: 30010
-
-loki:
-  namespace: true # 默认进行限制namespace
-
