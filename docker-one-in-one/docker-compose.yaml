@@ -80,6 +80,8 @@ services:
     restart: always
     environment:
       - TZ=Asia/Shanghai
+    ports:
+      - "80:8080"
     entrypoint: 
       - "/bin/sh"
       - "-c"
@@ -105,9 +107,9 @@ services:
         --server.port=8080 \
         --grpc.server.port=9099 \
         --spring.cloud.nacos.discovery.server-addr=nacos:8848 \
-        --spring.cloud.nacos.discovery.namespace=node \
+        --spring.cloud.nacos.discovery.namespace=pedestal \
         --spring.cloud.nacos.config.server-addr=nacos:8848 \
-        --spring.cloud.nacos.config.namespace=node"
+        --spring.cloud.nacos.config.namespace=pedestal"
     ports:
       - "9099:9099"
     depends_on:
@@ -118,6 +120,27 @@ services:
       interval: 15s
       timeout: 3s
       retries: 3
+
+node:
+    shm_size: '6gb'
+    # network_mode: "host"
+    image: $PRIMIHUB_NODE
+    container_name: node
+    restart: "always"
+    ports:
+      - "50050:50050"
+    volumes:
+      - ./config/node0.yaml:/app/config/node0.yaml
+      - ./data:/data
+    environment:
+      - TZ=Asia/Shanghai
+    entrypoint:
+      - "/bin/bash"
+      - "-c"
+      - "./primihub-node --config=/app/config/node0.yaml"
+    depends_on:
+      meta:
+        condition: service_healthy
 
 networks:
   interwork_net:

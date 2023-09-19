@@ -1,0 +1,58 @@
+version: 1.0
+
+node: "node0"
+location: "YOUR_HOST_IP"
+grpc_port: 50050
+use_tls: false
+
+# certificate:
+#   root_ca: "/tmp/cert/ca.crt"
+#   key: "/tmp/cert/node0.key"
+#   cert: "/tmp/cert/node0.crt"
+
+meta_service:
+  mode: "grpc"
+  ip: "YOUR_HOST_IP"
+  port: 9099
+  use_tls: false
+
+datasets:
+  # ABY3 LR test case datasets
+  - description: "train_party_0"
+    model: "csv"
+    source: "data/train_party_0.csv"
+  - description: "test_party_0"
+    model: "csv"
+    source: "data/test_party_0.csv"
+
+  # MNIST test case datasets
+  - description: "test_party_0_self"
+    model: "csv"
+    source: "data/falcon/dataset/MNIST/input_0"
+  - description: "test_party_0_next"
+    model: "csv"
+    source: "data/falcon/dataset/MNIST/input_1"
+
+  # FL fake dataset
+  - description: "fl_fake_data"
+    model: "csv"
+    source: "data/FL/fake.csv"
+
+  # PSI test case datasets for sqlite database
+  - description: "psi_client_data_db"
+    model: "sqlite"
+    table_name: "psi_client_data"
+    source: "data/client_e.db3"
+
+  # PSI test caset datasets
+  - description: "psi_client_data"
+    model: "csv"
+    source: "data/client_e.csv"
+
+  # MPC statistics & arithmetic
+  - description: "mpc_statistics_0"
+    model: "csv"
+    source: "data/mpc_test.csv"
+  - description: "mpc_arithmetic_0"
+    model: "csv"
+    source: "data/mpc_arithmetic_0.csv"
