@@ -92,5 +92,32 @@ services:
     depends_on:
       - interwork
 
+  meta:
+    image: $PRIMIHUB_META
+    container_name: meta
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+    entrypoint: 
+      - "/bin/sh"
+      - "-c"
+      - "java -jar -Dfile.encoding=UTF-8 /applications/meta.jar \
+        --server.port=8080 \
+        --grpc.server.port=9099 \
+        --spring.cloud.nacos.discovery.server-addr=nacos:8848 \
+        --spring.cloud.nacos.discovery.namespace=node \
+        --spring.cloud.nacos.config.server-addr=nacos:8848 \
+        --spring.cloud.nacos.config.namespace=node"
+    ports:
+      - "9099:9099"
+    depends_on:
+      nacos:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -O - -q http://localhost:8080/fusion/healthConnection"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+
 networks:
   interwork_net:
