@@ -12,6 +12,12 @@ data:
     grpc_port: 50050
     use_tls: false
 
+    proxy_server:
+      mode: "grpc"
+      ip:  "primihubnode"
+      port: 50050
+      use_tls: false
+
     meta_service:
       mode: "grpc"
       ip: "fusion1"
@@ -28,6 +34,12 @@ data:
     location: "primihubnode"
     grpc_port: 50051
     use_tls: false
+
+    proxy_server:
+      mode: "grpc"
+      ip:  "primihubnode"
+      port: 50051
+      use_tls: false
 
     meta_service:
       mode: "grpc"
@@ -46,6 +58,12 @@ data:
     location: "primihubnode"
     grpc_port: 50052
     use_tls: false
+
+    proxy_server:
+      mode: "grpc"
+      ip:  "primihubnode"
+      port: 50052
+      use_tls: false
 
     meta_service:
       mode: "grpc"

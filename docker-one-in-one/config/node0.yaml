@@ -10,6 +10,12 @@ use_tls: false
 #   key: "/tmp/cert/node0.key"
 #   cert: "/tmp/cert/node0.crt"
 
+proxy_server:
+  mode: "grpc"
+  ip:  "YOUR_HOST_IP"
+  port: 50050
+  use_tls: false
+
 meta_service:
   mode: "grpc"
   ip: "YOUR_HOST_IP"
