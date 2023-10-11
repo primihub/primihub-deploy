@@ -147,6 +147,10 @@ services:
     image: $PRIMIHUB_NODE
     container_name: node
     restart: "always"
+    # enable TEE
+    # devices:
+    #   - /dev/sgx/enclave
+    #   - /dev/sgx/provision
     ports:
       - "50050:50050"
     volumes:
