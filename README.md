@@ -1,4 +1,4 @@
-# Primihub Deploy Script
+# PrimiHub Deploy Script
 
 ### 配置要求
 
@@ -8,7 +8,7 @@
 
 ### 部署架构
 
-![PrimiHub](./k8s-deploy/primihub.jpg)
+![PrimiHub](./k8s-deploy/primihub.svg)
 
 * 使用 `docker-compose` 单机部署请参照 [这里](./docker-all-in-one/README.md)
 
