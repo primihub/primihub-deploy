@@ -16,6 +16,12 @@ meta_service:
   port: 9099
   use_tls: false
 
+proxy_server:
+  mode: "grpc"
+  ip: "YOUR_HOST_IP"
+  port: 50052
+  use_tls: false
+
 datasets:
   # ABY3 LR test case datasets
   - description: "train_party_2"
