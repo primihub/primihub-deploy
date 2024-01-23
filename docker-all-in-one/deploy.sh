@@ -56,7 +56,7 @@ done
 LOKI_IP=`hostname -I | awk '{print $1}'`
 echo "请确认你的主机IP是否为：" $LOKI_IP
 
-sed -i "s/YOUR_HOST_IP/$LOKI_IP/g" data/initsql/others.sql
+sed -i "s/YOUR_HOST_IP/$LOKI_IP/g" data/initsql/nacos_config.sql
 
 if [ $? -eq 0 ];
 then
