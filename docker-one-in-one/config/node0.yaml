@@ -5,6 +5,8 @@ location: "YOUR_HOST_IP"
 grpc_port: 50050
 use_tls: false
 
+disable_report: true
+
 # certificate:
 #   root_ca: "/tmp/cert/ca.crt"
 #   key: "/tmp/cert/node0.key"
@@ -31,14 +33,6 @@ datasets:
     model: "csv"
     source: "data/test_party_0.csv"
 
-  # MNIST test case datasets
-  - description: "test_party_0_self"
-    model: "csv"
-    source: "data/falcon/dataset/MNIST/input_0"
-  - description: "test_party_0_next"
-    model: "csv"
-    source: "data/falcon/dataset/MNIST/input_1"
-
   # FL fake dataset
   - description: "fl_fake_data"
     model: "csv"
@@ -62,3 +56,19 @@ datasets:
   - description: "mpc_arithmetic_0"
     model: "csv"
     source: "data/mpc_arithmetic_0.csv"
+
+  # no meaningful dataset, just used to represent this party
+  - description: "FAKE_DATA_PARTY_0"
+    model: "csv"
+    source: "data/FL/fake.csv"
+
+  # use mysql table as dataset
+  #- description: "psi_client"
+  #  model: "mysql"
+  #  host: "172.21.1.62"
+  #  port: 3306
+  #  username: "root"
+  #  password: "primihub"
+  #  database: "default"
+  #  dbName: "psi"
+  #  tableName: "psi_client"

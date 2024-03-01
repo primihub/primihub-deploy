@@ -4,6 +4,7 @@ node: "node2"
 location: "YOUR_HOST_IP"
 grpc_port: 50050
 use_tls: false
+disable_report: true
 
 # certificate:
 #   root_ca: "/tmp/cert/ca.crt"
@@ -30,14 +31,6 @@ datasets:
   - description: "test_party_2"
     model: "csv"
     source: "data/test_party_2.csv"
-
-  # MNIST test case datasets
-  - description: "test_party_2_self"
-    model: "csv"
-    source: "data/falcon/dataset/MNIST/input_2"
-  - description: "test_party_2_next"
-    model: "csv"
-    source: "data/falcon/dataset/MNIST/input_0"
 
   # FL binclass
   - description: "binclass_vfl_train_guest"
@@ -91,29 +84,6 @@ datasets:
     image_dir: "data/FL/mnist/test/client2.zip"
     annotations_file: "data/FL/mnist/test/client2_annotations.csv"
 
-  ## PSI test caset datasets
-  #- description: "psi_client_data"
-  #  model: "csv"
-  #  source: "data/client_e.csv"
-
-  # PSI test case datasets for sqlite database
-  #- description: "psi_client_data_db"
-  #  model: "sqlite"
-  #  table_name: "psi_client_data"
-  #  source: "data/client_e.db3"
-
-  - description: "train_hetero_xgb_guest"
-    model: "csv"
-    source: "data/FL/hetero_xgb/train/train_breast_cancer_guest.csv"
-
-  - description: "test_hetero_xgb_guest"
-    model: "csv"
-    source: "data/FL/hetero_xgb/test/test_breast_cancer_guest.csv"
-
-  - description: "iv_filter_guest"
-    model: "csv"
-    source: "data/FL/hetero_iv/iv_guest.csv"
-
   # FL preprocess
   - description: "preprocess_vfl_train_guest"
     model: "csv"
@@ -135,3 +105,8 @@ datasets:
   - description: "mpc_arithmetic_2"
     model: "csv"
     source: "data/mpc_arithmetic_2.csv"
+
+  # no meaningful dataset, just used to represent this party
+  - description: "FAKE_DATA_PARTY_2"
+    model: "csv"
+    source: "data/FL/fake.csv"
