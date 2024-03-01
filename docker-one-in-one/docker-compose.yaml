@@ -161,7 +161,7 @@ services:
     entrypoint:
       - "/bin/bash"
       - "-c"
-      - "GLOG_logtostderr=1 GLOG_v=3 ./primihub-node --config=/app/config/node0.yaml"
+      - "GLOG_logtostderr=1 GLOG_v=2 ./primihub-node --config=/app/config/node0.yaml"
     depends_on:
       meta:
         condition: service_healthy
