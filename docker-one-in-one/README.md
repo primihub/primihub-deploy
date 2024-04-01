@@ -80,7 +80,11 @@ docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all
   "log-opts": {
     "loki-url": "http://127.0.0.1:3100/loki/api/v1/push",
     "max-size": "50m",
-    "max-file": "10"
+    "max-file": "10",
+    "loki-retries": "2",
+    "loki-max-backoff": "800ms", 
+    "loki-timeout": "1s", 
+    "keep-file": true
   }
 }
 ```
