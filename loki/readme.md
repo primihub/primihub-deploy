@@ -10,7 +10,7 @@ docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all
 
 然后配置收集所有docker容器的日志
 ```shell
-# vim /etc/docker/daemon.json  添加以下内容
+# vim /etc/docker/daemon.json  添加以下内容，注意此行不要插入
 {
   "log-driver": "loki",
   "log-opts": {
