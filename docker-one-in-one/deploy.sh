@@ -12,7 +12,7 @@ then
     echo "修改 node 配置文件成功"
 fi
 
-sed -i "s/YOUR_HOST_IP/$YOUR_HOST_IP/g" data/initsql/others.sql
+sed -i "s/YOUR_HOST_IP/$YOUR_HOST_IP/g" data/initsql/nacos_config.sql
 
 if [ $? -eq 0 ];
 then
