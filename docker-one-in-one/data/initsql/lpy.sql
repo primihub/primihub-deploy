@@ -92,4 +92,22 @@ CREATE TABLE `data_core`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '核心数据表' ROW_FORMAT = DYNAMIC;
 
+DROP TABLE IF EXISTS `pir_result`;
+CREATE TABLE `pir_result`  (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `idNum` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `scoreModelType` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `score` double NULL DEFAULT NULL,
+  `pir_task_id` bigint NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+DROP TABLE IF EXISTS `psi_result`;
+CREATE TABLE `psi_result`  (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `idNum` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `psi_task_id` bigint NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
 GRANT ALL ON *.* TO 'primihub'@'%';
